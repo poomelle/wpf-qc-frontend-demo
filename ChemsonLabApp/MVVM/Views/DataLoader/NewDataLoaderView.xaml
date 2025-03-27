@@ -1,0 +1,253 @@
+﻿<ContentControl x:Class="ChemsonLabApp.MVVM.Views.DataLoader.NewDataLoaderView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.DataLoader"
+                xmlns:constants="clr-namespace:ChemsonLabApp.Constants"
+                xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
+                xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                mc:Ignorable="d">
+
+    <ContentControl.Resources>
+        <converters:TestTypeToBoolConverter x:Key="TestTypeToBoolConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <DataTemplate
+            x:Key="ImportDataLoaderTemplate">
+            <Border
+                Style="{StaticResource DataGridItemBorder}">
+                <Grid
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="0.6*"/>
+                        <ColumnDefinition Width="0.6*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Content="{Binding product.name}"/>
+                    <ComboBox
+                        Grid.Column="1"
+                        Style="{StaticResource DataGridComboBox}"
+                        ItemsSource="{Binding DataContext.InstrumentsNameList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                        SelectedItem="{Binding machine.name, Mode=TwoWay}"
+                        Width="60"
+                        HorizontalAlignment="Center"
+                        />
+                    <Label
+                        Grid.Column="2"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Content="{Binding testDate}"/>
+                    <Grid
+                        Grid.Column="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox
+                            Grid.Column="0"
+                            ItemsSource="{x:Static constants:Constants.TestTypes}"
+                            Style="{StaticResource DataGridComboBox}"
+                            SelectedItem="{Binding testType, Mode=TwoWay}"
+                            Margin="0 0 5 0"
+                            Width="50"
+                            Height="30"
+                            FontSize="10">
+                            <behavior:Interaction.Triggers>
+                                <behavior:EventTrigger EventName="SelectionChanged">
+                                    <behavior:InvokeCommandAction Command="{Binding DataContext.TestTypeChangedCommand, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                                                  CommandParameter="{Binding}"/>
+                                </behavior:EventTrigger>
+                            </behavior:Interaction.Triggers>
+                        </ComboBox>
+                        <TextBox
+                            Grid.Column="1"
+                            Text="{Binding batchName, Mode=TwoWay}"
+                            IsEnabled="{Binding testType, Converter={StaticResource TestTypeToBoolConverter}}"
+                            Width="80"
+                            Style="{StaticResource SmallInputTextBox}"/>
+                        <ComboBox
+                            Grid.Column="3"
+                            ItemsSource="{Binding DataContext.SuffixComboBox, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                            Style="{StaticResource DataGridComboBox}"
+                            SelectedItem="{Binding suffix, Mode=TwoWay}"
+                            IsEnabled="{Binding testType, Converter={StaticResource TestTypeToBoolConverter}}"
+                            Margin="0 0 5 0"
+                            Width="70"
+                            Height="30"
+                            FontSize="12">
+                            <behavior:Interaction.Triggers>
+                                <behavior:EventTrigger EventName="SelectionChanged">
+                                    <behavior:InvokeCommandAction Command="{Binding DataContext.SuffixChangedCommand, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                                                  CommandParameter="{Binding}"/>
+                                </behavior:EventTrigger>
+                            </behavior:Interaction.Triggers>
+                        </ComboBox>
+                    </Grid>
+                    <TextBox
+                        Grid.Column="4"
+                        Text="{Binding testNumber, Mode=TwoWay}"
+                        IsEnabled="{Binding testType, Converter={StaticResource TestTypeToBoolConverter}}"
+                        Width="30"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Style="{StaticResource SmallInputTextBox}"/>
+                    <TextBox
+                        Grid.Column="5"
+                        Text="{Binding sampleBy, Mode=TwoWay}"
+                        Width="70"
+                        Style="{StaticResource SmallInputTextBox}"/>
+                    <TextBox
+                        Grid.Column="6"
+                        Text="{Binding colour, Mode=TwoWay}"
+                        Style="{StaticResource MediumInputTextBox}"
+                        Background="LightGray"/>
+                    <Button
+                        Grid.Column="7"
+                        Style="{StaticResource GridRemoveButton}"
+                        Margin="10, 0 0 0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding DataContext.RemoveLoaderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                        CommandParameter="{Binding}">
+                        <Icons:PackIconMaterial
+                            Style="{StaticResource GridButtonIcon}"
+                            Kind="DeleteOutline"/>
+                    </Button>
+                </Grid>
+
+            </Border>
+        </DataTemplate>
+    </ContentControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Style="{StaticResource BaseButton}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="0, 10, 20, 20"
+                Content="Import"
+                Command="{Binding ImportMTFCommand}"/>
+            <Grid
+                Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Style="{StaticResource BaseButton}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="0, 10, 0, 20"
+                    Content="Re-Arrange"
+                    Command="{Binding ReBatchNumberCommand}"/>
+                <Button
+                    Grid.Column="1"
+                    Style="{StaticResource BaseButton}"
+                    Background="{StaticResource SaveGreen}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="0, 10, 20, 20"
+                    Content="Save"
+                    Command="{Binding DataLoaderSaveCommand}"/>
+            </Grid>
+        </Grid>
+        <Border
+            Grid.Row="1"
+            Style="{StaticResource DataGridBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    Content="Product"
+                    Style="{StaticResource SmallDataGridHeader}"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Left"/>
+                <Label
+                    Grid.Column="1"
+                    Content="Instrument"
+                    Style="{StaticResource SmallDataGridHeader}"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Left"/>
+                <Label
+                    Grid.Column="2"
+                    Content="Date"
+                    Style="{StaticResource SmallDataGridHeader}"/>
+                <StackPanel
+                    Grid.Column="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding isTwoX, Mode=TwoWay}">
+                    </CheckBox>
+                    <Label
+                        Content="x2"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Content="Batch"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Content="suffix"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                </StackPanel>
+                <Label
+                    Grid.Column="4"
+                    Content="Attempt"
+                    Style="{StaticResource SmallDataGridHeader}"/>
+                <Label
+                    Grid.Column="5"
+                    Content="Sample by"
+                    Style="{StaticResource SmallDataGridHeader}"/>
+                <Label
+                    Grid.Column="6"
+                    Content="Colour"
+                    Style="{StaticResource SmallDataGridHeader}"/>
+
+                <Label
+                    Grid.Column="7"
+                    Content="Remove"
+                    Margin="0 0 25 0"
+                    Style="{StaticResource SmallDataGridHeader}"/>
+            </Grid>
+        </Border>
+        <ListBox
+            Grid.Row="2"
+            Style="{StaticResource MainMenuListBox}"
+            ItemsSource="{Binding TestResults}"
+            ItemTemplate="{StaticResource ImportDataLoaderTemplate}"
+            HorizontalContentAlignment="Stretch"
+            ItemContainerStyle="{StaticResource DataGridListBoxItem}"/>
+    </Grid>
+</ContentControl>

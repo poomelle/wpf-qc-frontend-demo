@@ -1,0 +1,488 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks">
+
+    <!--#region Label Style -->
+    <Style
+        x:Key="BaseLabel"
+        TargetType="Label">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style
+        x:Key="MainHeaderLabel"
+        TargetType="Label"
+        BasedOn="{StaticResource BaseLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="FontSize" Value="32"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    <Style
+        x:Key="DataGridHeaderLabel"
+        TargetType="Label"
+        BasedOn="{StaticResource BaseLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+    <Style
+        x:Key="SmallDataGridHeader"
+        TargetType="Label"
+        BasedOn="{StaticResource DataGridHeaderLabel}">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    <Style
+        x:Key="DataGridLabel"
+        TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+    <Style
+        x:Key="SmallDataGridLabel"
+        TargetType="Label">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+
+    <Style
+        x:Key="InputItemLabel"
+        TargetType="Label">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+    </Style>
+
+    <Style
+        x:Key="EditViewLabel"
+        TargetType="Label">
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Background" Value="{StaticResource White}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Gray}"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="20,0,0,10"/>
+    </Style>
+    
+    
+    <!--#endregion-->
+
+    <!--#region Button Style -->
+    <Style
+         x:Key="MainMenuButton"
+         TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Height" Value="45"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate 
+                        TargetType="Button">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="5">
+                        <ContentPresenter 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger
+                Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource ChemsonBlue}"/>
+                <Setter Property="Foreground" Value="{StaticResource White}"/>
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="BaseButton"
+        TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource ChemsonBlue}"/>
+        <Setter Property="Foreground" Value="{StaticResource White}"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="120"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate 
+                        TargetType="Button">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="10">
+                        <ContentPresenter 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger
+                Property="IsMouseOver" Value="True">
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="GridEditButton"
+        TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource ChemsonBlue}"/>
+        <Setter Property="Foreground" Value="{StaticResource White}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="37"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="Button">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="5"
+                        Padding="5"
+                        BorderThickness="1"
+                        BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="GridRemoveButton"
+        TargetType="Button"
+        BasedOn="{StaticResource GridEditButton}">
+        <Setter Property="Background" Value="{StaticResource DeleteRed}"/>
+    </Style>
+
+    <Style
+        x:Key="GridSaveButton"
+        TargetType="Button"
+        BasedOn="{StaticResource GridEditButton}">
+        <Setter Property="Background" Value="{StaticResource SaveGreen}"/>
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region List Box Style -->
+    <Style
+        x:Key="MainMenuListBox"
+        TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style
+        x:Key="MainMenuListBoxItem"
+        TargetType="ListBoxItem">
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                        <ContentPresenter 
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger
+                Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource ChemsonBlue}"/>
+                <Setter Property="Foreground" Value="{StaticResource White}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="DataGridListBoxItem"
+        TargetType="ListBoxItem">
+        <Setter Property="Background" Value="{StaticResource White}"/>
+        <Setter Property="Margin" Value="0 3 20 3"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="10">
+                        <ContentPresenter 
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger
+                Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource lightblue}"/>
+                <Setter Property="Foreground" Value="{StaticResource Black}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    <!--#endregion-->
+
+    <!--#region Stack Panel Style -->
+
+    <Style
+        x:Key="MainMenuStackPanel"
+        TargetType="StackPanel">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="Height" Value="45"/>
+    </Style>
+        
+        
+    <!--#endregion-->
+
+    <!--#region Grid Style -->
+    <Style
+        x:Key="ContentGridStyle"
+        TargetType="Grid">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="10"/>
+    </Style>
+    
+    
+    <!--#endregion-->
+
+    <!--#region ComboBox Style -->
+    <Style
+        x:Key="BaseComboBoxStyle"
+        TargetType="ComboBox">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="IsEditable" Value="True"/>
+        <Setter Property="IsTextSearchCaseSensitive" Value="False"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="{StaticResource White}"/>
+        <Setter Property="Padding" Value="10"/>
+    </Style>
+
+    <Style
+        x:Key="DataGridComboBox" 
+        TargetType="ComboBox"
+        BasedOn="{StaticResource BaseComboBoxStyle}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="1"/>
+    </Style>
+
+    <Style
+        x:Key="InputComboBoxStyle"
+        TargetType="ComboBox"
+        BasedOn="{StaticResource BaseComboBoxStyle}">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="IsEditable" Value="True"/>
+    </Style>
+
+    <Style
+        x:Key="DashboardComboBoxStyle"
+        TargetType="ComboBox"
+        BasedOn="{StaticResource DataGridComboBox}">
+        <Setter Property="Width" Value="160"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Text Box Style -->
+    <Style
+        x:Key="SearchBarStyle"
+        TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource White}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="400"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style
+        x:Key="DataGridTextBox"
+        TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource White}"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+
+    <Style
+        x:Key="SmallDataGridTextBox"
+        TargetType="TextBox"
+        BasedOn="{StaticResource DataGridTextBox}">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Width" Value="75"/>
+    </Style>
+
+    <Style
+        x:Key="InputTextBoxWithRadioBtn"
+        TargetType="TextBox"
+        BasedOn="{StaticResource SearchBarStyle}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="5 5 5 10"/>
+    </Style>
+
+    <Style
+        x:Key="InputTextBox"
+        TargetType="TextBox"
+        BasedOn="{StaticResource SearchBarStyle}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="40 0 0 10"/>
+    </Style>
+
+    <Style
+        x:Key="MediumInputTextBox"
+        TargetType="TextBox"
+        BasedOn="{StaticResource InputTextBox}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <Style
+        x:Key="SmallInputTextBox"
+        TargetType="TextBox"
+        BasedOn="{StaticResource InputTextBox}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="50"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+    
+    <!--#endregion-->
+
+    <!--#region Border Style -->
+    <Style
+        x:Key="DataGridBorder"
+        TargetType="Border">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="{StaticResource AppBGColour}"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0 20 0 0"/>
+    </Style>
+
+    <Style
+        x:Key="DataGridItemBorder"
+        TargetType="Border">
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="10"/>
+    </Style>
+
+    <Style
+        x:Key="UserInputBorder"
+        TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource AppBGColour}"/>
+        <Setter Property="Margin" Value="20"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+    
+    
+    <!--#endregion-->
+
+    <!--#region Date Picker Style -->
+    <Style
+        x:Key="InputDatePicker"
+        TargetType="DatePicker">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="Margin" Value="40 0 0 10"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="Background" Value="{StaticResource White}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+
+
+
+    <!--#endregion-->
+
+
+
+    <Style
+        x:Key="HorizontalUnderline"
+        TargetType="Rectangle">
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Fill" Value="{StaticResource Gray}"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Margin" Value="5 0"/>
+    </Style>
+
+    <Style
+        x:Key="GridButtonIcon"
+        TargetType="Icons:PackIconMaterial">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+</ResourceDictionary>

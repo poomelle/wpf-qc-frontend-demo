@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Setting>
+  <IPAddress>http://CP-LAB01/api</IPAddress>
+  <COAPath>S:\\Lab\\Quality Certificates</COAPath>
+  <Username>TS</Username>
+  <Email>Tariq.Soni@akdenizchemson.com</Email>
+  <CompanyAddress>Akdeniz Chemson Additives Pacific Pty. Ltd.  3/2 Capicure Drive, Eastern Creek NSW, 2766, Australia</CompanyAddress>
+  <FormulationExcelFolder>S:\Production\Formulations Current\Product Master Files ACTIVE</FormulationExcelFolder>
+</Setting>

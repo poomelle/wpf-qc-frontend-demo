@@ -1,0 +1,192 @@
+﻿<ContentControl x:Class="ChemsonLabApp.MVVM.Views.Setting.SettingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Setting"
+        mc:Ignorable="d">
+
+    <Border
+        Margin="10"
+        BorderBrush="{StaticResource Black}"
+        BorderThickness="0.5"
+        CornerRadius="10">
+        <StackPanel
+            Orientation="Vertical">
+            <Border
+                Margin="10"
+                BorderBrush="{StaticResource Black}"
+                BorderThickness="0.5"
+                CornerRadius="10">
+                <Grid
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource DataGridHeaderLabel}"
+                        Content="Username:"/>
+                    <TextBox
+                        x:Name="UsernameTextBox"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource InputTextBox}"
+                        Text="{Binding Username}"
+                        IsEnabled="False"/>
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource BaseButton}"
+                        Content="Edit"
+                        Click="Username_Edit_Click"/>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource DataGridHeaderLabel}"
+                        Content="Email:"/>
+                    <TextBox
+                        x:Name="EmailTextBox"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource InputTextBox}"
+                        Text="{Binding Email}"
+                        IsEnabled="False"/>
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource BaseButton}"
+                        Content="Edit"
+                        Click="Email_Edit_Click"/>
+                </Grid>
+            </Border>
+            <Border
+                Margin="10"
+                BorderBrush="{StaticResource Black}"
+                BorderThickness="0.5"
+                CornerRadius="10">
+                <Grid
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource DataGridHeaderLabel}"
+                        Content="COA File Saving Path:"/>
+                    <TextBox
+                        x:Name="COAPathTextBox"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource InputTextBox}"
+                        Text="{Binding COAPath}"
+                        IsEnabled="False"/>
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource BaseButton}"
+                        Content="Edit"
+                        Click="COAPath_Edit_Click"/>
+
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource DataGridHeaderLabel}"
+                        FontSize="16"
+                        Content="Formulation Excel Path:"/>
+                    <TextBox
+                        x:Name="FormulationPdfPathTextBox"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource InputTextBox}"
+                        Text="{Binding FormulationActiveFolder}"
+                        IsEnabled="False"/>
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource BaseButton}"
+                        Content="Edit"
+                        Click="FormulationPdfPath_Edit_Click"/>
+                </Grid>
+            </Border>
+            <Border
+                Margin="10"
+                BorderBrush="{StaticResource Black}"
+                BorderThickness="0.5"
+                CornerRadius="10">
+                <Grid
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource DataGridHeaderLabel}"
+                        Content="IP Address:"/>
+                    <TextBox
+                        x:Name="IPAddressTextBox"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource InputTextBox}"
+                        Text="{Binding IPAddress}"
+                        IsEnabled="False"/>
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Orientation="Horizontal">
+                    <Button
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource BaseButton}"
+                        Content="Edit"
+                        Click="IPAddress_Edit_Click"/>
+                        <Label
+                            Style="{StaticResource DataGridHeaderLabel}"
+                            Content="*Seek permission before editing!"
+                            Foreground="{StaticResource DeleteRed}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                Margin="30">
+                <Button
+                    Style="{StaticResource BaseButton}"
+                    Content="Cancel"
+                    Margin="20"
+                    Command="{Binding OnCancelCommand}"/>
+                <Button
+                    Style="{StaticResource BaseButton}"
+                    Background="{StaticResource SaveGreen}"
+                    Content="Save"
+                    Margin="20"
+                    Command="{Binding OnSaveCommand}"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Border>
+</ContentControl>

@@ -1,0 +1,196 @@
+﻿<Window x:Class="ChemsonLabApp.MVVM.Views.Customer.AddCustomerOrderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Customer"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        Title="Add Customer Order" Height="600" Width="600">
+
+    <Grid
+        Background="{StaticResource AppBGColour}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Label
+            Padding="10"
+            Grid.Row="0"
+            Content="New Customer x Product"
+            FontWeight="Bold"
+            FontSize="24"
+            HorizontalAlignment="Center"
+            Margin="0 30 0 30"/>
+        <Rectangle
+            Height="1"
+            Width="auto"
+            Fill="{StaticResource Gray}"
+            VerticalAlignment="Bottom"
+            Margin="20 0"/>
+
+        <Grid
+            Grid.Row="1"
+            Margin="0 20 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <RadioButton
+                    x:Name="ExistingCustomer"
+                    GroupName="CustomerSelection"
+                    VerticalAlignment="Center"
+                    Margin="20"
+                    IsChecked="{Binding useExistingCustomer}"/>
+                <Label
+                    Content="Existing Customer"
+                    FontSize="14"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+            <ComboBox
+                Margin="40 0 40 0"
+                IsEnabled="{Binding ElementName=ExistingCustomer, Path=IsChecked}"
+                Grid.Column="1"
+                Style="{StaticResource InputComboBoxStyle}"
+                ItemsSource="{Binding Customers}"
+                SelectedItem="{Binding SelectedCustomer, Mode=OneWayToSource}"
+                DisplayMemberPath="name">
+            </ComboBox>
+        </Grid>
+        <Grid
+            Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <RadioButton
+                    x:Name="CreateNewCustomer"
+                    GroupName="CustomerSelection"
+                    VerticalAlignment="Center"
+                    Margin="20"/>
+                <Label
+                    Content="Create New Customer"
+                    FontSize="14"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Vertical"
+                Margin="20"
+                IsEnabled="{Binding ElementName=CreateNewCustomer, Path=IsChecked}">
+                <Grid
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="Name"
+                        Style="{StaticResource BaseLabel}"
+                        VerticalAlignment="Center"/>
+                    <TextBox
+                        Grid.Column="1"
+                        Text="{Binding NewCustomerName, Mode=TwoWay}"
+                        Style="{StaticResource MediumInputTextBox}"
+                        Width="200"
+                        Height="40"
+                        HorizontalAlignment="Left"/>
+                </Grid>
+                <Grid
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="Email"
+                        Style="{StaticResource BaseLabel}"
+                        VerticalAlignment="Center"/>
+                    <TextBox
+                        Grid.Column="1"
+                        Text="{Binding NewCustomerEmail, Mode=TwoWay}"
+                        Style="{StaticResource MediumInputTextBox}"
+                        Width="200"
+                        Height="40"
+                        HorizontalAlignment="Left"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Rectangle
+            Grid.Row="2"
+            Height="1"
+            Width="auto"
+            Fill="{StaticResource Gray}"
+            VerticalAlignment="Bottom"
+            Margin="20 0"/>
+
+        <Grid
+            Grid.Row="3"
+            Margin="0 20 0 20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <CheckBox
+                    x:Name="ProductSelection"
+                    VerticalAlignment="Center"
+                    Margin="20"
+                    IsChecked="{Binding isPairProduct, Mode=TwoWay}"/>
+                <Label
+                    Content="Product"
+                    FontSize="14"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+            <ComboBox
+                Margin="40 0 40 0"
+                IsEnabled="{Binding ElementName=ProductSelection, Path=IsChecked}"
+                Grid.Column="1"
+                Style="{StaticResource InputComboBoxStyle}"
+                ItemsSource="{Binding Products}"
+                SelectedItem="{Binding SelectedProduct, Mode=OneWayToSource}"
+                DisplayMemberPath="name">
+            </ComboBox>
+        </Grid>
+        <Rectangle
+            Grid.Row="3"
+            Height="1"
+            Width="auto"
+            Fill="{StaticResource Gray}"
+            VerticalAlignment="Bottom"
+            Margin="20 0"/>
+        <StackPanel
+            Grid.Row="4"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Margin="0 20">
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="Cancel"
+                Margin="20"
+                Click="CancelBtnClick"/>
+            <Button
+                Style="{StaticResource BaseButton}"
+                Background="{StaticResource SaveGreen}"
+                Content="Save"
+                Command="{Binding SaveCustomerOrderCommand}"
+                Click="CancelBtnClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

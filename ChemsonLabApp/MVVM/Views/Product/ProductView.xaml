@@ -1,0 +1,334 @@
+﻿<ContentControl x:Class="ChemsonLabApp.MVVM.Views.Product.ProductView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Product"
+                xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                xmlns:constants="clr-namespace:ChemsonLabApp.Constants"
+                xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
+                xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                mc:Ignorable="d">
+    
+    
+    
+    <ContentControl.Resources>
+        <converters:BoolToActiveConverter x:Key="BoolToActiveConverter"/>
+        <converters:InverseBoolConverter x:Key="inversebool"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <DataTemplate
+            x:Key="ProductDataGridTemplate">
+            <Border
+                Style="{StaticResource DataGridItemBorder}"
+                Visibility="{Binding show, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding name}"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBox
+                        Grid.Column="0"
+                        Text="{Binding name, Mode=TwoWay}"
+                        Style="{StaticResource SmallDataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Label
+                        Grid.Column="1"
+                        Content="{Binding status, Converter={StaticResource BoolToActiveConverter}}"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <ComboBox
+                        Grid.Column="1"
+                        ItemsSource="{x:Static constants:Constants.Status}"
+                        SelectedItem="{Binding status, Mode=TwoWay, Converter={StaticResource BoolToActiveConverter}}"
+                        Style="{StaticResource DataGridComboBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <Label
+                        Grid.Column="2"
+                        Content="{Binding bulkWeight}"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <TextBox
+                        Grid.Column="2"
+                        Text="{Binding bulkWeight, Mode=TwoWay}"
+                        Style="{StaticResource SmallDataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <Label
+                        Grid.Column="3"
+                        Content="{Binding paperBagWeight}"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <TextBox
+                        Grid.Column="3"
+                        Text="{Binding paperBagWeight, Mode=TwoWay}"
+                        Style="{StaticResource SmallDataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <Label
+                        Grid.Column="4"
+                        Content="{Binding paperBagNo}"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <TextBox
+                        Grid.Column="4"
+                        Text="{Binding paperBagNo, Mode=TwoWay}"
+                        Style="{StaticResource SmallDataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <Label
+                        Grid.Column="5"
+                        Content="{Binding batchWeight}"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+                    <TextBox
+                        Grid.Column="5"
+                        Text="{Binding batchWeight, Mode=TwoWay}"
+                        Style="{StaticResource SmallDataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        HorizontalAlignment="Center"/>
+
+                    <StackPanel
+                        Grid.Column="6"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                        <Button
+                            x:Name="EditToggleButton"
+                            Style="{StaticResource GridEditButton}"
+                            Margin="0 0 10 0"
+                            Command="{Binding DataContext.IsViewModeToggleCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="PencilOffOutline"/>
+                        </Button>
+                        <Button
+                            Style="{StaticResource GridSaveButton}"
+                            Margin="0 0 10 0"
+                            IsEnabled="{Binding isViewMode, Converter={StaticResource inversebool}}"
+                            Command="{Binding DataContext.UpdateProductCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="ContentSave"/>
+                        </Button>
+                        <Button
+                            Style="{StaticResource GridRemoveButton}"
+                            Command="{Binding DataContext.ShowDeleteProductView, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="DeleteOutline"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </ContentControl.Resources>
+
+    <Grid
+        Style="{StaticResource ContentGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.8*"/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal">
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="New Product"
+                Command="{Binding ShowAddNewProductView}"/>
+            <ComboBox
+                ItemsSource="{Binding ComboBoxProducts}"
+                SelectedItem="{Binding ComboBoxSelectedProduct}"
+                Margin="40,0,0,0"
+                Text="Select a Product"
+                Style="{StaticResource BaseComboBoxStyle}">
+            </ComboBox>
+            <ComboBox
+                ItemsSource="{Binding StatusComboBox}"
+                SelectedItem="{Binding ComboBoxSelectedStatus}"
+                Margin="40,0,0,0"
+                Text="Select a Status"
+                Style="{StaticResource BaseComboBoxStyle}">
+            </ComboBox>
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="Search"
+                Margin="40,0,0,0"
+                Command="{Binding ProductNameSearchCommand}"/>
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="Refresh"
+                Margin="40,0,0,0"
+                Command="{Binding ReloadDataCommand}"/>
+        </StackPanel>
+        <Border
+            Grid.Row="1"
+            Style="{StaticResource DataGridBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0"
+                    Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="Product"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="1"
+                        Content="Status"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="2"
+                        Content="Net Wt. Bulk Bag"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="3"
+                        Content="Net Wt. Paper Bag"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="4"
+                        Content="No. Paper Bag"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="5"
+                        Content="Batch Kg"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="6"
+                        Content="Operation"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                </Grid>
+                <ListBox
+                    Grid.Row="1"
+                    ItemsSource="{Binding Products}"
+                    ItemTemplate="{StaticResource ProductDataGridTemplate}"
+                    Style="{StaticResource MainMenuListBox}"
+                    HorizontalContentAlignment="Stretch"
+                    ItemContainerStyle="{StaticResource DataGridListBoxItem}">
+                </ListBox>
+                <TextBlock
+                    Grid.Row="1"
+                    Text="{Binding ErrorMessage}" 
+                    Foreground="{StaticResource Black}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <ProgressBar
+                    Width="100"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="1"
+                    IsIndeterminate="True" 
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Border>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!--<DataGrid 
+            x:Name="ProductDataGrid"
+            ItemsSource="{Binding Products}"
+            Style="{DynamicResource DataGridStyle1}" 
+            CellStyle="{DynamicResource DataGridCellStyle1}" 
+            ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+            RowStyle="{DynamicResource DataGridRowStyle1}"
+            Grid.Row="1"
+            Margin="0,20,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    x:Name="ProductNameColumn"
+                    Header="Product"
+                    CanUserResize="False"
+                    Width="*"
+                    Binding="{Binding name}"
+                    IsReadOnly="{Binding isViewMode, Mode=OneWay}"/>
+                <DataGridTextColumn
+                    x:Name="StatusColumn"
+                    Header="Status"
+                    CanUserResize="False"
+                    Width="*"
+                    Binding="{Binding status, Converter={StaticResource BoolToActiveConverter}}"
+                    IsReadOnly="{Binding isViewMode, Mode=OneWay}"/>
+                <DataGridTemplateColumn
+                    Header="Operations"
+                    IsReadOnly="True"
+                    Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="EditToggleButton"
+                                    Style="{StaticResource GridEditButton}"
+                                    Margin="0 0 10 0"
+                                    Click="EditToggleButtonClick"
+                                    Command="{Binding DataContext.IsViewModeToggleCommand}"
+                                    CommandParameter="{Binding}">
+                                    <Icons:PackIconMaterial
+                                        Style="{StaticResource GridButtonIcon}"
+                                        Kind="PencilOffOutline"/>
+                                </Button>
+                                <Button
+                                    Style="{StaticResource GridSaveButton}"
+                                    Margin="0 0 10 0"
+                                    IsEnabled="{Binding isViewMode, Converter={StaticResource inversebool}}">
+                                    <Icons:PackIconMaterial
+                                        Style="{StaticResource GridButtonIcon}"
+                                        Kind="ContentSave"/>
+                                </Button>
+                                <Button
+                                    Style="{StaticResource GridRemoveButton}"
+                                    Command="{Binding DataContext.ShowDeleteProductView, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
+                                    CommandParameter="{Binding}">
+                                    <Icons:PackIconMaterial
+                                        Style="{StaticResource GridButtonIcon}"
+                                        Kind="DeleteOutline"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>-->
+    </Grid>
+</ContentControl>

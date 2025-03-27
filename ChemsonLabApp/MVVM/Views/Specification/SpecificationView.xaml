@@ -1,0 +1,275 @@
+﻿<ContentControl x:Class="ChemsonLabApp.MVVM.Views.Specification.SpecificationView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Specification"
+                xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                xmlns:constants="clr-namespace:ChemsonLabApp.Constants"
+                xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
+                xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                mc:Ignorable="d">
+
+    <ContentControl.Resources>
+        <converters:BoolToActiveConverter x:Key="BoolToActiveConverter"/>
+        <converters:InverseBoolConverter x:Key="inversebool"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <DataTemplate
+            x:Key="SpecificationDataGridTemplate">
+            <Border
+                Style="{StaticResource DataGridItemBorder}"
+                Visibility="{Binding show, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding product.name}"
+                        Style="{StaticResource SmallDataGridLabel}"
+                        HorizontalContentAlignment="Left"/>
+                    <Label
+                        Grid.Column="1"
+                        Content="{Binding machine.name}"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Label
+                        Grid.Column="2"
+                        Content="{Binding temp}"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Label
+                        Grid.Column="3"
+                        Content="{Binding load}"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Label
+                        Grid.Column="4"
+                        Content="{Binding rpm}"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Label
+                        Grid.Column="5"
+                        Content="{Binding product.colour}"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Label
+                        Grid.Column="6"
+                        Content="{Binding product.updateDate}"
+                        ContentStringFormat="dd/MM/yy"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Label
+                        Grid.Column="7"
+                        Content="{Binding product.comment}"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Label
+                        Grid.Column="8"
+                        Content="{Binding product.dbDate}"
+                        ContentStringFormat="dd/MM/yy"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <Button
+                        Grid.Column="9"
+                        x:Name="ShowDetialButton"
+                        Style="{StaticResource GridEditButton}"
+                        Command="{Binding DataContext.ShowSpecificationDetailCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                        CommandParameter="{Binding}">
+                        <Icons:PackIconMaterial
+                            Style="{StaticResource GridButtonIcon}"
+                            Kind="PageNextOutline"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </ContentControl.Resources>
+    
+    <Grid
+        Style="{StaticResource ContentGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.8*"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <Button
+                        Style="{StaticResource BaseButton}"
+                        Content="New Specification"
+                        Command="{Binding ShowAddNewSpecificationView}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="0,0,40,0"/>
+                    <Button
+                        Style="{StaticResource BaseButton}"
+                        Content="Print"
+                        Command="{Binding ShowPrintSpecificationView}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Button
+                    Grid.Column="1"
+                    Style="{StaticResource BaseButton}"
+                    Content="Import Excel"
+                    Command="{Binding ImportSpecificationExcelFileCommand}"
+                    VerticalAlignment="Center"
+                    Margin="0 0 40 0"/>
+            </Grid>
+            <StackPanel
+                Grid.Row="1"
+                Orientation="Horizontal"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+                <ComboBox
+                    ItemsSource="{Binding Products}"
+                    DisplayMemberPath="name"
+                    SelectedItem="{Binding ComboBoxSelectedProduct}"
+                    Margin="0,0,20,0"
+                    Text="Select a Product"
+                    Style="{StaticResource BaseComboBoxStyle}">
+                </ComboBox>
+                <ComboBox
+                    ItemsSource="{Binding Instruments}"
+                    DisplayMemberPath="name"
+                    SelectedItem="{Binding ComboBoxSelectedInstrument}"
+                    Margin="0,0,20,0"
+                    Text="Select an Instrument"
+                    FontSize="12"
+                    Style="{StaticResource BaseComboBoxStyle}"
+                    Width="150">
+                </ComboBox>
+                <ComboBox
+                    ItemsSource="{Binding StatusComboBox}"
+                    SelectedItem="{Binding ComboBoxSelectedStatus}"
+                    Margin="0,0,40,0"
+                    Text="Select a Status"
+                    Style="{StaticResource BaseComboBoxStyle}"
+                    Width="150">
+                </ComboBox>
+                <Button
+                    Style="{StaticResource BaseButton}"
+                    Content="Search"
+                    Command="{Binding ProductNameSearchCommand}"
+                    Margin="0,0,40,0"/>
+                <Button
+                    Style="{StaticResource BaseButton}"
+                    Content="Refresh"
+                    Margin="0,0,0,0"
+                    Command="{Binding ReloadDataCommand}"/>
+            </StackPanel>
+        </Grid>
+        <Border
+            Grid.Row="1"
+            Style="{StaticResource DataGridBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0"
+                    Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="Product"
+                        Style="{StaticResource SmallDataGridHeader}"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Left"/>
+                    <Label
+                        Grid.Column="1"
+                        Content="Intrument"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="2"
+                        Content="Temp (°C)"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="3"
+                        Content="Load (g)"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="4"
+                        Content="RPM"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="5"
+                        Content="Colour"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="6"
+                        Content="Updated"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="7"
+                        Content="Comment"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="8"
+                        Content="DB Date"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="9"
+                        Content="Operation"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                </Grid>
+                <ListBox
+                    Grid.Row="1"
+                    Style="{StaticResource MainMenuListBox}"
+                    ItemsSource="{Binding Specifications}"
+                    ItemTemplate="{StaticResource SpecificationDataGridTemplate}"
+                    HorizontalContentAlignment="Stretch"
+                    ItemContainerStyle="{StaticResource DataGridListBoxItem}"
+                    Visibility="{Binding IsShowingListBox, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <StackPanel
+                    Grid.Row="1"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="{Binding IsImportingExcelData, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock
+                        Text="{Binding ProgressMessage}"
+                        Foreground="{StaticResource Black}"
+                        FontSize="14"/>
+                    <ProgressBar
+                        Width="100"
+                        Height="20"
+                        Minimum="{Binding ProgressMinValue}"
+                        Maximum="{Binding ProgressMaxValue}"
+                        Value="{Binding ProgressValue}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Grid.Row="1"
+                        IsIndeterminate="True"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentControl>

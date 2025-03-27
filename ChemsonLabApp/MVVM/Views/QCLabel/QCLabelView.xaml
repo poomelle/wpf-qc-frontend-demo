@@ -1,0 +1,256 @@
+﻿<ContentControl x:Class="ChemsonLabApp.MVVM.Views.QCLabel.QCLabelView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.QCLabel"
+                xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                mc:Ignorable="d">
+    
+    
+    <ContentControl.Resources>
+        <DataTemplate
+            x:Key="QCLabelDataGridTemplate">
+            <Border
+                Style="{StaticResource DataGridItemBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding product.name}"
+                        Style="{StaticResource SmallDataGridLabel}"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Horizontal">
+                        <TextBox
+                            Text="{Binding batchName}"
+                            Style="{StaticResource SmallDataGridTextBox}"
+                            Margin="0 0 10 0"/>
+                        <Button
+                            Content="Toggle"
+                            Style="{StaticResource GridEditButton}"
+                            Width="70"
+                            Command="{Binding DataContext.BatchNameToggleCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}"/>
+                    </StackPanel>
+                    <TextBox
+                        Grid.Column="2"
+                        Text="{Binding weight}"
+                        Style="{StaticResource SmallDataGridTextBox}"/>
+                    <Button
+                        Grid.Column="3"
+                        Content="Remove"
+                        Style="{StaticResource GridEditButton}"
+                        Width="70"
+                        Command="{Binding DataContext.RemoveQCLabelCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                        CommandParameter="{Binding}"/>
+                </Grid>
+            </Border>
+
+        </DataTemplate>
+    </ContentControl.Resources>
+
+    <Grid
+        Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0"
+            Margin="0 0 0 30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left">
+                <ComboBox
+                    ItemsSource="{Binding Products}"
+                    DisplayMemberPath="name"
+                    SelectedItem="{Binding SelectedProduct}"
+                    Text="Select a Product"
+                    Style="{StaticResource BaseComboBoxStyle}"
+                    Margin="0 0 30 0">
+                    <behaviors:Interaction.Triggers>
+                        <behaviors:EventTrigger EventName="SelectionChanged">
+                            <behaviors:InvokeCommandAction Command="{Binding ProductSelectionChangedCommand}"/>
+                        </behaviors:EventTrigger>
+                    </behaviors:Interaction.Triggers>
+                </ComboBox>
+                <Label
+                    Content="Batch number"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    Margin="0 0 10 0"/>
+                <TextBox
+                    Style="{StaticResource MediumInputTextBox}"
+                    Height="40"
+                    Width="60"
+                    Margin="0 0 10 0"
+                    Text="{Binding BatchNumberStart}"/>
+                <Label
+                    Content="to"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    Margin="0 0 10 0"/>
+                <TextBox
+                    Style="{StaticResource MediumInputTextBox}"
+                    Height="40"
+                    Width="60"
+                    Margin="0 0 40 0"
+                    Text="{Binding BatchNumberEnd}"/>
+                <Button
+                    Style="{StaticResource BaseButton}"
+                    Content="Add"
+                    Margin="0 0 10 0"
+                    Command="{Binding AddQCLabelCommand}"/>
+                <Button
+                    Style="{StaticResource BaseButton}"
+                    Content="Clear"
+                    Command="{Binding ClearQCLabelsCommand}"/>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <Button
+                    Style="{StaticResource BaseButton}"
+                    Content="Make QC Label"
+                    Margin="0 0 40 0"
+                    Command="{Binding MakeQCLabelCommand}"/>
+            </StackPanel>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Margin="0 0 0 30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Content="Bulk Weight (kg)"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Margin="0 0 10 0"/>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Content="{Binding BulkWeight}"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Margin="0 0 20 0"/>
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Content="Paper Bags Weight"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Margin="0 0 10 0"/>
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="{Binding PaperBagWeight}"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Margin="0 0 20 0"/>
+            </Grid>
+            <StackPanel
+                Grid.Column="1"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Orientation="Horizontal"
+                VerticalAlignment="Center">
+                <Label
+                    Content="Input Weight (kg)"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Margin="20 0 10 0"/>
+                <TextBox
+                    Grid.Column="1"
+                    Text="{Binding InputWeight}"
+                    Style="{StaticResource MediumInputTextBox}"
+                    HorizontalAlignment="Left"
+                />
+                <Button
+                    x:Name="EditToggleButton"
+                    Style="{StaticResource GridEditButton}"
+                    Command="{Binding InputWeightToggleCommand}"
+                    Margin="10 0 0 0">
+                    <Icons:Codicons
+                        Kind="ArrowSwap"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Border
+            Grid.Row="2"
+            Style="{StaticResource DataGridBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="Product"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="1"
+                        Content="Batch Number"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="2"
+                        Content="Weight"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                    <Label
+                        Grid.Column="3"
+                        Content="Action"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource SmallDataGridHeader}"/>
+                </Grid>
+                <ListBox
+                    Grid.Row="1"
+                    ItemsSource="{Binding QCLabels}"
+                    ItemTemplate="{StaticResource QCLabelDataGridTemplate}"
+                    Style="{StaticResource MainMenuListBox}"
+                    HorizontalContentAlignment="Stretch"
+                    ItemContainerStyle="{StaticResource DataGridListBoxItem}">
+                </ListBox>
+            </Grid>
+            
+            
+        </Border>
+    </Grid>
+</ContentControl>

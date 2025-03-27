@@ -1,0 +1,1069 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>8.0</LangVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6873D8E9-3D07-434C-B529-D2869AF8F1C0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ChemsonLabApp</RootNamespace>
+    <AssemblyName>ChemsonLabApp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.3.11, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.3.3\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.BootstrapIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.BootstrapIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.BoxIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.BoxIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Codicons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Codicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Coolicons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Coolicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Entypo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Entypo.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.EvaIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.EvaIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FeatherIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.FeatherIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FileIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.FileIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Fontaudio, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Fontaudio.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FontAwesome, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.FontAwesome.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Fontisto, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Fontisto.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.ForkAwesome, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.ForkAwesome.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Ionicons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Ionicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.JamIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.JamIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Material, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Material.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.MaterialDesign, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.MaterialDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.MaterialLight, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.MaterialLight.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Microns, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Microns.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Modern, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Modern.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Octicons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Octicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.PicolIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.PicolIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.PixelartIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.PixelartIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.RadixIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.RadixIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.RemixIcon, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.RemixIcon.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.RPGAwesome, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.RPGAwesome.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.SimpleIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.SimpleIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Typicons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Typicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Unicons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Unicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.VaadinIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.VaadinIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.WeatherIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.WeatherIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Zondicons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.4.11.0\lib\net47\MahApps.Metro.IconPacks.Zondicons.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.0-preview.1.24080.9\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.6.0.0\lib\net461\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.6.0.0\lib\net461\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Configuration, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Configuration.6.0.0\lib\net461\Microsoft.Extensions.Logging.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Console.6.0.0\lib\net461\Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.6.0.0\lib\net461\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.ConfigurationExtensions.6.0.0\lib\net461\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.6.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Outlook.15.0.4797.1004\lib\net20\Microsoft.Office.Interop.Outlook.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.1.0-preview-2\lib\netstandard2.0\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.1.0-preview-2\lib\netstandard2.0\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Quality, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.1.0-preview-2\lib\netstandard2.0\PdfSharp.Quality.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Snippets, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.1.0-preview-2\lib\netstandard2.0\PdfSharp.Snippets.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.System, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.1.0-preview-2\lib\netstandard2.0\PdfSharp.System.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.WPFonts, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.1.0-preview-2\lib\netstandard2.0\PdfSharp.WPFonts.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="PropertyChanged, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.4.1.0\lib\net40\PropertyChanged.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="SharpVectors.Converters.Wpf, Version=1.8.4.0, Culture=neutral, PublicKeyToken=b532964b8548be77, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Converters.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Core, Version=1.8.4.0, Culture=neutral, PublicKeyToken=7407205e337c98ef, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Css, Version=1.8.4.0, Culture=neutral, PublicKeyToken=7a46e3f532fdb787, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Css.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Dom, Version=1.8.4.0, Culture=neutral, PublicKeyToken=517340b6277b1a7a, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Dom.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Model, Version=1.8.4.0, Culture=neutral, PublicKeyToken=2236cfc76b505845, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Gdi, Version=1.8.4.0, Culture=neutral, PublicKeyToken=03902092284347e3, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Rendering.Gdi.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Wpf, Version=1.8.4.0, Culture=neutral, PublicKeyToken=d0902381100df30e, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Rendering.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Runtime.Wpf, Version=1.8.4.0, Culture=neutral, PublicKeyToken=d16e717f0a981fb9, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpVectors.Reloaded.1.8.4\lib\net47\SharpVectors.Runtime.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.ImageSharp.1.0.4\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.0\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.9.0.0-preview.1.24080.9\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.9.0.0-preview.1.24080.9\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Converters\BoolToRequireCOAConverter.cs" />
+    <Compile Include="Converters\BoolToResultConverter.cs" />
+    <Compile Include="Converters\COAConverter.cs" />
+    <Compile Include="Converters\DataPointToChartValuesConverter.cs" />
+    <Compile Include="Converters\DataPointToLabelsConverter.cs" />
+    <Compile Include="Converters\DateFormatConverter.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Converters\ProductComboMultiValueConverter.cs" />
+    <Compile Include="Converters\ReportTestTypeToBoolConverter.cs" />
+    <Compile Include="Converters\SimpleBoolToResultConverter.cs" />
+    <Compile Include="Converters\TestTypeToBoolConverter.cs" />
+    <Compile Include="Converters\X2Converter.cs" />
+    <Compile Include="MVVM\Models\Batch.cs" />
+    <Compile Include="MVVM\Models\BatchTestResult.cs" />
+    <Compile Include="MVVM\Models\Coa.cs" />
+    <Compile Include="MVVM\Models\Customer.cs" />
+    <Compile Include="MVVM\Models\CustomerOrder.cs" />
+    <Compile Include="MVVM\Models\DailyQc.cs" />
+    <Compile Include="MVVM\Models\Evaluation.cs" />
+    <Compile Include="MVVM\Models\FormulationPdf.cs" />
+    <Compile Include="MVVM\Models\FormulationPdfExcel.cs" />
+    <Compile Include="MVVM\Models\Instrument.cs" />
+    <Compile Include="MVVM\Models\Measurement.cs" />
+    <Compile Include="MVVM\Models\PrintOutMachineSpecification.cs" />
+    <Compile Include="MVVM\Models\PrintOutSpecification.cs" />
+    <Compile Include="MVVM\Models\Product.cs" />
+    <Compile Include="MVVM\Models\QcAveTestTimeKpi.cs" />
+    <Compile Include="MVVM\Models\QCLabel.cs" />
+    <Compile Include="MVVM\Models\QcPerformanceGraphData.cs" />
+    <Compile Include="MVVM\Models\QcPerformanceKpi.cs" />
+    <Compile Include="MVVM\Models\Report.cs" />
+    <Compile Include="MVVM\Models\Specification.cs" />
+    <Compile Include="MVVM\Models\TestResult.cs" />
+    <Compile Include="MVVM\Models\TestResultReport.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\COAViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\NextCOACommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\PreviousCOACommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\ReGenerateCOACommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\RemoveReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\SaveAndSendCOACommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\SearchTestResultReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\ShowMakeCOAViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\MakeCOAViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\AddCustomerOrderViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\AddCustomerViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\CustomerEditToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\CustomerNameFilterCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\CustomerOrderCustomerFilterCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\CustomerStatusFilterCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\CutomerOrderProductFilterCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\DeleteCustomerCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\DeleteCustomerOrderCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\EditViewModeToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\ReloadCustomerDataCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\ReloadDataCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\SaveCustomerCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\SaveCustomerOrderCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\ShowAddCustomerOrderView.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\ShowAddCustomerView.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\ShowDeleteCustomerOrderView.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\ShowDeleteCustomerViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\UpdateCustomerCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\Commands\UpdateCustomerOrderCommand.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\CustomerOrderViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\CustomerViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\DeleteCustomerOrderViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CustomerVM\DeleteCustomerViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\DeleteDailyQcCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\LoadLastBatchTestCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\ProductSelectionChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\SaveDataDailyQcCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\SearchDataDailyQcCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\TriggerSelectAllDailyQcsCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\DailyQCViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\DashboardVM\Command\ExportKPICommand.cs" />
+    <Compile Include="MVVM\ViewModels\DashboardVM\Command\GenerateKPICommand.cs" />
+    <Compile Include="MVVM\ViewModels\DashboardVM\ConformanceViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\DashboardVM\DashboardViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\BrowseExcelFileCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\OpenExcelFileCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\SavePDFCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\SearchExcelFileNameCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\TriggerDpcPdfAllCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\TriggerDpcPdfCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\TriggerQcPdfAllCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\TriggerQcPdfCommand.cs" />
+    <Compile Include="MVVM\ViewModels\FormulationPdfVM\FormulationPdfViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\AddInstrumentViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ComboBoxInstrumentSelectCommand.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ComboBoxStatusSelectCommand.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\DeleteInstrumentCommand.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\IsViewToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ReloadInstrumentsCommand.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\SaveNewInstrumentCommand.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ShowAddNewInsturmentView.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ShowDeleteInstrumentView.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\UpdateInstrumentCommand.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\DeleteInstrumentViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\InstrumentVM\InstrumentViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\DataLoaderSaveCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\DeleteTestResultCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\EditModeToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ImportMTFCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ReBatchNumberCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\RemoveLoaderCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SearchBatchTestResultCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SelectAllBatchTestResultCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ShowDataLoaderCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ShowDeleteBatchTestResultsCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ShowDeleteDataLoaderViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SuffixChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\TestTypeChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\UnSelectAllBatchTestResultCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\UpdateDataLoaderCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\DeleteDataLoaderViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\EditDataLoaderViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\NewDataLoaderViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\SearchDataLoaderViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\AddProductViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\DeletedProductCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\IsViewModeToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\ProductComboBoxSeletedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\ProductNameSearchCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\ProductStatusComboBoxSeletedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\ReloadDataCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\SaveNewProductCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\ShowAddNewProductView.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\ShowDeleteProductView.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\UpdateProductCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\DeleteProductViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\AddQCLabelCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\BatchNameToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\ClearQCLabelsCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\InputWeightToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\MakeQCLabelCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\NextQCLabelCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\PreviousQCLabelCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\PrintQCLabelsCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\ProductSelectionChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\RemoveQCLabelCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\MakeQCLabelViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\QCLabelViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\CalculateTorFusCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\DeletedReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\MakeReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\OpenReportFile.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\RemoveBatchTestResultCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\SaveAndSendCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\SearchBatchTestResultCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\SearchBatchTestResultReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\ShowDeleteReportViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\ShowMakeReportGraphViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\DeleteReportViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\MakeReportGraphViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\MakeReportViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\NewReportViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\OpenReportViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\SearchReportViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SettingVM\Command\OnCancelCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SettingVM\Command\OnSaveCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SettingVM\SettingViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\AddSpecificationViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\DeletedSpecificationCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\DeleteSpecificationViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\EditModeToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ImportSpecificationExcelFileCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\OnExistingProductSelection.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\PrintSpecificationCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ProductNameSearchCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ReloadDataCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\SaveNewSpecificationCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\SaveUpdateSpecificationCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ShowAddNewSpecificationView.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ShowPrintSpecificationView.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ShowSpecificationDetailCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ViewModeToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\DeleteSpecificationViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\DisplaySpecificationContentControlViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\EditSpecifiationContentControlViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\EditSpecificationViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\PrintSpecificationContentViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\SpecificationViewModel.cs" />
+    <Compile Include="MVVM\Views\COA\MakeCOAView.xaml.cs">
+      <DependentUpon>MakeCOAView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Customer\AddCustomerOrderView.xaml.cs">
+      <DependentUpon>AddCustomerOrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Customer\AddCustomerView.xaml.cs">
+      <DependentUpon>AddCustomerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Customer\CustomerOrderView.xaml.cs">
+      <DependentUpon>CustomerOrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Customer\DeleteCustomerOrderView.xaml.cs">
+      <DependentUpon>DeleteCustomerOrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Customer\DeleteCustomerView.xaml.cs">
+      <DependentUpon>DeleteCustomerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\DailyQC\DailyQCView.xaml.cs">
+      <DependentUpon>DailyQCView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Dashboard\ConformanceView.xaml.cs">
+      <DependentUpon>ConformanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Dashboard\QCLabelPrintedView.xaml.cs">
+      <DependentUpon>QCLabelPrintedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\DataLoader\DeleteDataLoaderView.xaml.cs">
+      <DependentUpon>DeleteDataLoaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\DataLoader\EditDataLoaderView.xaml.cs">
+      <DependentUpon>EditDataLoaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\FormulationPdf\FormulationPdfView.xaml.cs">
+      <DependentUpon>FormulationPdfView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Instrument\AddInstrumentView.xaml.cs">
+      <DependentUpon>AddInstrumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Instrument\DeleteInstrumentView.xaml.cs">
+      <DependentUpon>DeleteInstrumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Product\AddProductView.xaml.cs">
+      <DependentUpon>AddProductView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Product\DeleteProductView.xaml.cs">
+      <DependentUpon>DeleteProductView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\QCLabel\MakeQCLabelView.xaml.cs">
+      <DependentUpon>MakeQCLabelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\QCLabel\QCLabelView.xaml.cs">
+      <DependentUpon>QCLabelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Report\DeleteReportView.xaml.cs">
+      <DependentUpon>DeleteReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Report\MakeReportGraphView.xaml.cs">
+      <DependentUpon>MakeReportGraphView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Report\MakeReportView.xaml.cs">
+      <DependentUpon>MakeReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Report\OpenReportView.xaml.cs">
+      <DependentUpon>OpenReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Specification\AddSpecificationView.xaml.cs">
+      <DependentUpon>AddSpecificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Specification\DeleteSpecificationView.xaml.cs">
+      <DependentUpon>DeleteSpecificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Specification\DisplaySpecificationContentControlView.xaml.cs">
+      <DependentUpon>DisplaySpecificationContentControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Specification\EditSpecificationContentControlView.xaml.cs">
+      <DependentUpon>EditSpecificationContentControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Specification\EditSpecificationView.xaml.cs">
+      <DependentUpon>EditSpecificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Specification\PrintSpecificationContentView.xaml.cs">
+      <DependentUpon>PrintSpecificationContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RestAPI\BatchRestAPI.cs" />
+    <Compile Include="RestAPI\BatchTestResultRestAPI.cs" />
+    <Compile Include="RestAPI\CoaRestAPI.cs" />
+    <Compile Include="RestAPI\CustomerOrderRestAPI.cs" />
+    <Compile Include="RestAPI\CustomerRestAPI.cs" />
+    <Compile Include="RestAPI\DailyQcRestAPI.cs" />
+    <Compile Include="RestAPI\EvaluationRestAPI.cs" />
+    <Compile Include="RestAPI\InstrumentRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IBatchRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IBatchTestResultRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\ICoaRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\ICustomerOrderRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\ICustomerRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IDailyQcRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IEvaluationRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IInstrumentRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IMeasurementRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IProductRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IQcAveTimeKpiRestApi.cs" />
+    <Compile Include="RestAPI\IRestAPI\IQcLabelRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IQcPerformanceKpiRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\IReportRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\ISpecificationRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\ITestResultReportRestAPI.cs" />
+    <Compile Include="RestAPI\IRestAPI\ITestResultRestAPI.cs" />
+    <Compile Include="RestAPI\MeasurementRestAPI.cs" />
+    <Compile Include="RestAPI\ProductRestAPI.cs" />
+    <Compile Include="RestAPI\QcAveTestTimeKpiRestApi.cs" />
+    <Compile Include="RestAPI\QcLabelRestAPI.cs" />
+    <Compile Include="RestAPI\QcPerformanceKpiRestAPI.cs" />
+    <Compile Include="RestAPI\ReportRestAPI.cs" />
+    <Compile Include="RestAPI\SettingAPI.cs" />
+    <Compile Include="RestAPI\SpecificationRestAPI.cs" />
+    <Compile Include="RestAPI\TestResultReportRestAPI.cs" />
+    <Compile Include="RestAPI\TestResultRestAPI.cs" />
+    <Compile Include="Services\COAService\CoaService.cs" />
+    <Compile Include="Services\COAService\IMakeCoaService.cs" />
+    <Compile Include="Services\COAService\MakeCoaService.cs" />
+    <Compile Include="Services\CustomerService\CustomerOrderService.cs" />
+    <Compile Include="Services\CustomerService\CustomerViewService.cs" />
+    <Compile Include="Services\CustomerService\CustomerValidationService\CustomerValidationService.cs" />
+    <Compile Include="Services\CustomerService\CustomerValidationService\ICustomerValidationService.cs" />
+    <Compile Include="Services\DailyQcService\DailyQcService.cs" />
+    <Compile Include="Services\DataLoaderService\DataLoaderService.cs" />
+    <Compile Include="Services\DataLoaderService\DeleteDataLoaderService.cs" />
+    <Compile Include="Services\DataLoaderService\EditDataLoaderService.cs" />
+    <Compile Include="Services\DataLoaderService\IDataLoaderService.cs" />
+    <Compile Include="Services\DataLoaderService\IDeleteDataLoaderService.cs" />
+    <Compile Include="Services\DataLoaderService\IEditDataLoaderService.cs" />
+    <Compile Include="Services\DataLoaderService\ISearchDataLoaderService.cs" />
+    <Compile Include="Services\DataLoaderService\SearchDataLoaderService.cs" />
+    <Compile Include="Services\ShareServices\DialogService\DialogService.cs" />
+    <Compile Include="Services\ShareServices\DialogService\IDialogService.cs" />
+    <Compile Include="Services\ShareServices\EmailServices\IEmailService\IEmailService.cs" />
+    <Compile Include="Services\ShareServices\EmailServices\OutlookEmailService.cs" />
+    <Compile Include="Services\InstrumentService\InstrumentService.cs" />
+    <Compile Include="Services\COAService\ICoaService.cs" />
+    <Compile Include="Services\CustomerService\ICustomerOrderService.cs" />
+    <Compile Include="Services\CustomerService\ICustomerViewService.cs" />
+    <Compile Include="Services\DailyQcService\IDailyQcService.cs" />
+    <Compile Include="Services\InstrumentService\IInstrumentService.cs" />
+    <Compile Include="Services\ProductService\IProductService.cs" />
+    <Compile Include="Services\QcLabelService\IQcLabelService.cs" />
+    <Compile Include="Services\ReportService\IReportService.cs" />
+    <Compile Include="Services\SpecificationService\ISpecificationService.cs" />
+    <Compile Include="Services\ProductService\ProductService.cs" />
+    <Compile Include="Services\QcLabelService\QcLabelService.cs" />
+    <Compile Include="Services\ReportService\ReportService.cs" />
+    <Compile Include="Services\SpecificationService\SpecificationService.cs" />
+    <Compile Include="Utilities\BatchUtility.cs" />
+    <Compile Include="Utilities\CursorUtility.cs" />
+    <Compile Include="Utilities\ExcelUtility.cs" />
+    <Compile Include="Utilities\FileFolderUtility.cs" />
+    <Compile Include="Utilities\GridsToPrintFunction.cs" />
+    <Compile Include="Utilities\ImageUtility.cs" />
+    <Compile Include="Utilities\InputValidationUtility.cs" />
+    <Compile Include="Utilities\LoggerUtility.cs" />
+    <Compile Include="Utilities\NotificationUtility.cs" />
+    <Compile Include="Utilities\PdfUtility.cs" />
+    <Compile Include="Utilities\TestMonthUtility.cs" />
+    <Page Include="MVVM\Views\COA\COAView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\COA\MakeCOAView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Customer\AddCustomerOrderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Customer\AddCustomerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Customer\CustomerOrderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Customer\CustomerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Customer\DeleteCustomerOrderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Customer\DeleteCustomerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\DailyQC\DailyQCView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Dashboard\ConformanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Dashboard\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Dashboard\QCLabelPrintedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\DataLoader\DeleteDataLoaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\DataLoader\EditDataLoaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\DataLoader\NewDataLoaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\DataLoader\SearchDataLoaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\FormulationPdf\FormulationPdfView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Home\HomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Instrument\AddInstrumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Instrument\DeleteInstrumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Instrument\InstrumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Product\AddProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Product\DeleteProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Product\ProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\QCLabel\MakeQCLabelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\QCLabel\QCLabelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Report\DeleteReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Report\MakeReportGraphView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Report\MakeReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Report\NewReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Report\OpenReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Report\SearchReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Setting\SettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Specification\AddSpecificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Specification\DeleteSpecificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Specification\DisplaySpecificationContentControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Specification\EditSpecificationContentControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Specification\EditSpecificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Specification\PrintSpecificationContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\Specification\SpecificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Style\Colours.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Style\DataGridStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Style\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\MainMenuItems.cs" />
+    <Compile Include="Converters\BoolToActiveConverter.cs" />
+    <Compile Include="Converters\EmptyCollectionToVisibilityConverter.cs" />
+    <Compile Include="MVVM\Models\Menu.cs" />
+    <Compile Include="MVVM\ViewModels\MainWindow\Commands\MenuSelectionCommand.cs" />
+    <Compile Include="MVVM\ViewModels\MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\ProductViewModel.cs" />
+    <Compile Include="MVVM\Views\COA\COAView.xaml.cs">
+      <DependentUpon>COAView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Customer\CustomerView.xaml.cs">
+      <DependentUpon>CustomerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Dashboard\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\DataLoader\NewDataLoaderView.xaml.cs">
+      <DependentUpon>NewDataLoaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\DataLoader\SearchDataLoaderView.xaml.cs">
+      <DependentUpon>SearchDataLoaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Home\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Instrument\InstrumentView.xaml.cs">
+      <DependentUpon>InstrumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Product\ProductView.xaml.cs">
+      <DependentUpon>ProductView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Report\NewReportView.xaml.cs">
+      <DependentUpon>NewReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Report\SearchReportView.xaml.cs">
+      <DependentUpon>SearchReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Setting\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\Specification\SpecificationView.xaml.cs">
+      <DependentUpon>SpecificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Resources\Fonts\Roboto-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity">
+      <Version>1.14.0-beta.1</Version>
+    </PackageReference>
+    <PackageReference Include="ClosedXML">
+      <Version>0.102.3</Version>
+    </PackageReference>
+    <PackageReference Include="Costura.Fody">
+      <Version>5.8.0-alpha0098</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="DocumentFormat.OpenXml">
+      <Version>2.20.0</Version>
+    </PackageReference>
+    <PackageReference Include="EPPlus">
+      <Version>7.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="LiveCharts.Wpf">
+      <Version>0.9.7</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro.IconPacks">
+      <Version>4.11.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Graph">
+      <Version>5.72.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Identity.Client">
+      <Version>4.69.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Office.Interop.Excel">
+      <Version>15.0.4795.1001</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Office.Interop.Outlook">
+      <Version>15.0.4797.1004</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts">
+      <Version>10.0.26031-preview</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.77</Version>
+    </PackageReference>
+    <PackageReference Include="PDFsharp">
+      <Version>6.1.0-preview-2</Version>
+    </PackageReference>
+    <PackageReference Include="PropertyChanged.Fody">
+      <Version>4.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpVectors">
+      <Version>1.8.4</Version>
+    </PackageReference>
+    <PackageReference Include="SharpVectors.Reloaded">
+      <Version>1.8.4</Version>
+    </PackageReference>
+    <PackageReference Include="SharpZipLib">
+      <Version>1.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="SixLabors.Fonts">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="SixLabors.ImageSharp">
+      <Version>1.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>9.0.0-preview.2.24128.5</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\logo_transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\home.png" />
+    <Resource Include="Resources\Images\loader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\coa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\instrument.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\customer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\SettingData.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

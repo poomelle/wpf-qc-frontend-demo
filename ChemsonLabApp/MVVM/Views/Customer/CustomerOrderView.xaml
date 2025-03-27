@@ -1,0 +1,196 @@
+﻿<ContentControl x:Class="ChemsonLabApp.MVVM.Views.Customer.CustomerOrderView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Customer"
+                mc:Ignorable="d"
+                xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
+                xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks">
+
+    <ContentControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBoolConverter x:Key="inversebool"/>
+        <DataTemplate
+            x:Key="CustomerOrderDataGridTemplate">
+            <Border
+                Style="{StaticResource DataGridItemBorder}"
+                Visibility="{Binding show, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding product.name}"
+                        Style="{StaticResource DataGridLabel}"/>
+                    <Label
+                        Grid.Column="1"
+                        Content="{Binding customer.name}"
+                        Style="{StaticResource DataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBox
+                        Grid.Column="1"
+                        Text="{Binding customer.name, Mode=TwoWay}"
+                        Style="{StaticResource DataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Label
+                        Grid.Column="2"
+                        Content="{Binding customer.email}"
+                        Style="{StaticResource DataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBox
+                        Grid.Column="2"
+                        Text="{Binding customer.email, Mode=TwoWay}"
+                        Style="{StaticResource DataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <StackPanel
+                        Grid.Column="3"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="EditToggleButton"
+                            Style="{StaticResource GridEditButton}"
+                            Margin="0 0 10 0"
+                            Command="{Binding DataContext.EditViewModeToggleCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="PencilOffOutline"/>
+                        </Button>
+                        <Button
+                            Style="{StaticResource GridSaveButton}"
+                            Margin="0 0 10 0"
+                            IsEnabled="{Binding isViewMode, Converter={StaticResource inversebool}}"
+                            Command="{Binding DataContext.UpdateCustomerOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="ContentSave"/>
+                        </Button>
+                        <Button
+                            Style="{StaticResource GridRemoveButton}"
+                            Command="{Binding DataContext.ShowDeleteCustomerOrderView, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="DeleteOutline"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </ContentControl.Resources>
+    
+    <Grid
+        Style="{StaticResource ContentGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal">
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="New Order"
+                Command="{Binding ShowAddCustomerOrderView}"/>
+            <ComboBox
+                ItemsSource="{Binding Products}"
+                DisplayMemberPath="name"
+                SelectedItem="{Binding ComboBoxSelectedProduct}"
+                Margin="40,0,0,0"
+                Text="Select a Product"
+                Style="{StaticResource BaseComboBoxStyle}">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="SelectionChanged">
+                        <behaviors:InvokeCommandAction 
+                            Command="{Binding CutomerOrderProductFilterCommand}"/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </ComboBox>
+            <ComboBox
+                ItemsSource="{Binding Customers}"
+                DisplayMemberPath="name"
+                SelectedItem="{Binding ComboBoxSeletedCustomer}"
+                Margin="40,0,0,0"
+                Text="Select a Customer"
+                Style="{StaticResource BaseComboBoxStyle}">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="SelectionChanged">
+                        <behaviors:InvokeCommandAction 
+                            Command="{Binding CustomerOrderCustomerFilterCommand}"/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </ComboBox>
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="Refresh"
+                Margin="40,0,0,0"
+                Command="{Binding ReloadDataCommand}"/>
+        </StackPanel>
+        <Border
+             Grid.Row="1"
+             Style="{StaticResource DataGridBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid
+                     Grid.Row="0"
+                     Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                         Grid.Column="0"
+                         Content="Product"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                    <Label
+                         Grid.Column="1"
+                         Content="Customer"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                    <Label
+                         Grid.Column="2"
+                         Content="Email"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                    <Label
+                         Grid.Column="3"
+                         Content="Action"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                </Grid>
+                <ListBox
+                     Grid.Row="1"
+                     ItemsSource="{Binding CustomerOrders}"
+                     ItemTemplate="{StaticResource CustomerOrderDataGridTemplate}"
+                     Style="{StaticResource MainMenuListBox}"
+                     HorizontalContentAlignment="Stretch"
+                     ItemContainerStyle="{StaticResource DataGridListBoxItem}">
+                </ListBox>
+                <TextBlock
+                    Grid.Row="1"
+                    Text="{Binding ErrorMessage}" 
+                    Foreground="{StaticResource Black}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <ProgressBar
+                    Width="100"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="1"
+                    IsIndeterminate="True" 
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentControl>

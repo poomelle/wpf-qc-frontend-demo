@@ -1,0 +1,70 @@
+﻿<Window x:Class="ChemsonLabApp.MVVM.Views.Specification.EditSpecificationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Specification"
+        xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        Title="Edit Specification" Height="720" Width="650">
+
+
+    <Window.Resources>
+        <converters:COAConverter x:Key="COAconverter"/>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
+    <ScrollViewer>
+        <Grid
+            Background="{StaticResource White}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Style="{StaticResource BaseButton}"
+                    Content="Close"
+                    Margin="15"
+                    Click="CancelBtnClick"/>
+                <Button
+                    Grid.Column="1"
+                    Style="{StaticResource BaseButton}"
+                    Content="{Binding EditButtonText}"
+                    Command="{Binding EditModeToggleCommand}"
+                    Margin="15"/>
+                <Button
+                    Grid.Column="2"
+                    Style="{StaticResource BaseButton}"
+                    Background="{StaticResource DeleteRed}"
+                    Content="Delete"
+                    Margin="15"
+                    Command="{Binding DeleteSpecificationViewCommand}"
+                    Click="CancelBtnClick"/>
+            </Grid>
+            <ContentControl
+                Grid.Column="1"
+                Grid.Row="1"
+                Content="{Binding SelectedMode}"/>
+
+        </Grid>
+    </ScrollViewer>
+
+</Window>

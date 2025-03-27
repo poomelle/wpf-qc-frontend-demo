@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    
+    
+    
+    <SolidColorBrush x:Key="AppBGColour">#E1E1E1</SolidColorBrush>
+    <SolidColorBrush x:Key="White">#f9f9f9</SolidColorBrush>
+    <SolidColorBrush x:Key="Black">#36383f</SolidColorBrush>
+    <SolidColorBrush x:Key="Gray">#85888c</SolidColorBrush>
+    <SolidColorBrush x:Key="DeleteRed">#FB6962</SolidColorBrush>
+    <SolidColorBrush x:Key="ChemsonBlue">#194d91</SolidColorBrush>
+    <SolidColorBrush x:Key="SaveGreen">#588061</SolidColorBrush>
+    <SolidColorBrush x:Key="lightblue">#8ca6c8</SolidColorBrush>
+    <SolidColorBrush x:Key="yellowPastel">#FDFD96</SolidColorBrush>
+    
+    
+    
+    
+</ResourceDictionary>

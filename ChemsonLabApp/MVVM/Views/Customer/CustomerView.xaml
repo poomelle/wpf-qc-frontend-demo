@@ -1,0 +1,208 @@
+﻿<ContentControl x:Class="ChemsonLabApp.MVVM.Views.Customer.CustomerView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Customer"
+                xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:constants="clr-namespace:ChemsonLabApp.Constants"
+                xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
+                xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                mc:Ignorable="d">
+
+    <ContentControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBoolConverter x:Key="inversebool"/>
+        <converters:BoolToActiveConverter x:Key="BoolToActiveConverter"/>
+        <DataTemplate
+            x:Key="CustomerDataGridTemplate">
+            <Border
+                Style="{StaticResource DataGridItemBorder}"
+                Visibility="{Binding show, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding name}"
+                        Style="{StaticResource DataGridLabel}"/>
+                    <TextBox
+                        Grid.Column="0"
+                        Text="{Binding name, Mode=TwoWay}"
+                        Style="{StaticResource DataGridTextBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Label
+                        Grid.Column="1"
+                        Content="{Binding email}"
+                        Style="{StaticResource DataGridLabel}"
+                        HorizontalAlignment="Left"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBox
+                        Grid.Column="1"
+                        Text="{Binding email, Mode=TwoWay}"
+                        Style="{StaticResource DataGridTextBox}"
+                        HorizontalAlignment="Left"
+                        Width="200"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Label
+                        Grid.Column="2"
+                        Content="{Binding status, Converter={StaticResource BoolToActiveConverter}}"
+                        Style="{StaticResource DataGridLabel}"
+                        Visibility="{Binding isViewMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <ComboBox
+                        Grid.Column="2"
+                        ItemsSource="{x:Static constants:Constants.Status}"
+                        SelectedItem="{Binding status, Mode=TwoWay, Converter={StaticResource BoolToActiveConverter}}"
+                        Style="{StaticResource DataGridComboBox}"
+                        Visibility="{Binding isEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <StackPanel
+                        Grid.Column="3"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="EditToggleButton"
+                            Style="{StaticResource GridEditButton}"
+                            Margin="0 0 10 0"
+                            Command="{Binding DataContext.CustomerEditToggleCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="PencilOffOutline"/>
+                        </Button>
+                        <Button
+                            Style="{StaticResource GridSaveButton}"
+                            Margin="0 0 10 0"
+                            IsEnabled="{Binding isViewMode, Converter={StaticResource inversebool}}"
+                            Command="{Binding DataContext.UpdateCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="ContentSave"/>
+                        </Button>
+                        <Button
+                            Style="{StaticResource GridRemoveButton}"
+                            Command="{Binding DataContext.ShowDeleteCustomerViewCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                            <Icons:PackIconMaterial
+                                Style="{StaticResource GridButtonIcon}"
+                                Kind="DeleteOutline"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </ContentControl.Resources>
+
+    <Grid
+        Style="{StaticResource ContentGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal">
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="New Customer"
+                Command="{Binding ShowAddCustomerView}"/>
+            <ComboBox
+                ItemsSource="{Binding CustomerComboBox}"
+                DisplayMemberPath="name"
+                SelectedItem="{Binding ComboBoxSelectedCustomer}"
+                Margin="40,0,0,0"
+                Text="Select a Customer"
+                Style="{StaticResource BaseComboBoxStyle}">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="SelectionChanged">
+                        <behaviors:InvokeCommandAction 
+                            Command="{Binding CustomerNameFilterCommand}"/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </ComboBox>
+            <ComboBox
+                ItemsSource="{Binding StatusCombo}"
+                SelectedItem="{Binding ComboBoxSelectedStatus}"
+                Margin="40,0,0,0"
+                Text="Select a Status"
+                Style="{StaticResource BaseComboBoxStyle}">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="SelectionChanged">
+                        <behaviors:InvokeCommandAction 
+                            Command="{Binding CustomerStatusFilterCommand}"/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </ComboBox>
+            <Button
+                Style="{StaticResource BaseButton}"
+                Content="Refresh"
+                Margin="40,0,0,0"
+                Command="{Binding ReloadCustomerDataCommand}"/>
+        </StackPanel>
+        <Border
+             Grid.Row="1"
+             Style="{StaticResource DataGridBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid
+                     Grid.Row="0"
+                     Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                         Grid.Column="0"
+                         Content="Customer"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                    <Label
+                         Grid.Column="1"
+                         Content="Email"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                    <Label
+                         Grid.Column="2"
+                         Content="Status"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                    <Label
+                         Grid.Column="3"
+                         Content="Action"
+                         Style="{StaticResource DataGridHeaderLabel}"/>
+                </Grid>
+                <ListBox
+                     Grid.Row="1"
+                     ItemsSource="{Binding Customers}"
+                     ItemTemplate="{StaticResource CustomerDataGridTemplate}"
+                     Style="{StaticResource MainMenuListBox}"
+                     HorizontalContentAlignment="Stretch"
+                     ItemContainerStyle="{StaticResource DataGridListBoxItem}">
+                </ListBox>
+                <TextBlock
+                    Grid.Row="1"
+                    Text="{Binding ErrorMessage}" 
+                    Foreground="{StaticResource Black}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <ProgressBar
+                    Width="100"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="1"
+                    IsIndeterminate="True" 
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Border>
+    </Grid>
+    
+
+</ContentControl>
