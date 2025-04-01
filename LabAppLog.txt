@@ -1,0 +1,176 @@
+2025-03-31 5:42:20 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__109.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 134
+2025-03-31 5:42:31 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__109.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 134
+2025-03-31 5:42:47 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__109.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 134
+2025-03-31 5:44:19 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-03-31 5:46:11 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-03-31 5:48:23 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-03-31 5:51:44 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-03-31 5:53:26 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 334
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-03-31 6:40:27 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.OrderBatchTestResultsByTestDate(List`1 batchTestResults) in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 287
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 277
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-03-31 6:57:08 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.<LoadAllWarmUpTestResults>d__13.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 333
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 273
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-03-31 7:10:47 AM: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at ChemsonLabApp.Services.ReportService.OrderBatchTestResultsByTestDate(List`1 batchTestResults) in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 287
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 277
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__104.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 106
+2025-04-01 10:31:28 AM: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument argument, ExceptionResource resource)
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at ChemsonLabApp.Services.ReportService.<LoadAllStandardTestResults>d__14.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 365
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 274
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__91.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 101
+2025-04-01 10:31:31 AM: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument argument, ExceptionResource resource)
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at ChemsonLabApp.Services.ReportService.<LoadAllStandardTestResults>d__14.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 365
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.ReportService.<GetAllBatchTestResultsForMakingReport>d__10.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\ReportService\ReportService.cs:line 274
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__91.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 101

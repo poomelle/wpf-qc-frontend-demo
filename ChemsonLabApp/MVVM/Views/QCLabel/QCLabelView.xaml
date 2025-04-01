@@ -6,6 +6,8 @@
                 xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.QCLabel"
                 xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                 xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:controls="clr-namespace:ChemsonLabApp.Controls.ProductComboBox"
+                xmlns:batchesInputControls="clr-namespace:ChemsonLabApp.Controls.BatchesInput"
                 mc:Ignorable="d">
     
     
@@ -75,41 +77,15 @@
                 Orientation="Horizontal"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left">
-                <ComboBox
-                    ItemsSource="{Binding Products}"
-                    DisplayMemberPath="name"
-                    SelectedItem="{Binding SelectedProduct}"
-                    Text="Select a Product"
-                    Style="{StaticResource BaseComboBoxStyle}"
-                    Margin="0 0 30 0">
-                    <behaviors:Interaction.Triggers>
-                        <behaviors:EventTrigger EventName="SelectionChanged">
-                            <behaviors:InvokeCommandAction Command="{Binding ProductSelectionChangedCommand}"/>
-                        </behaviors:EventTrigger>
-                    </behaviors:Interaction.Triggers>
-                </ComboBox>
-                <Label
-                    Content="Batch number"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Margin="0 0 10 0"/>
-                <TextBox
-                    Style="{StaticResource MediumInputTextBox}"
-                    Height="40"
-                    Width="60"
-                    Margin="0 0 10 0"
-                    Text="{Binding BatchNumberStart}"/>
-                <Label
-                    Content="to"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Margin="0 0 10 0"/>
-                <TextBox
-                    Style="{StaticResource MediumInputTextBox}"
-                    Height="40"
-                    Width="60"
-                    Margin="0 0 40 0"
-                    Text="{Binding BatchNumberEnd}"/>
+                <controls:ProductComboBox ProductSelectionChangedCommand="{Binding ProductSelectionChangedCommand}"/>
+                <batchesInputControls:BatchesInput
+                    FromBatchTextChangeCommand ="{Binding FromBatchChangeQCLabelCommand}"
+                    ToBatchTextChangeCommnad="{Binding ToBatchChangeQCLabelCommand}"/>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Margin="0 0 40 0">
                 <Button
                     Style="{StaticResource BaseButton}"
                     Content="Add"
@@ -120,20 +96,12 @@
                     Content="Clear"
                     Command="{Binding ClearQCLabelsCommand}"/>
             </StackPanel>
-            <StackPanel
-                Grid.Column="1"
-                Orientation="Horizontal">
-                <Button
-                    Style="{StaticResource BaseButton}"
-                    Content="Make QC Label"
-                    Margin="0 0 40 0"
-                    Command="{Binding MakeQCLabelCommand}"/>
-            </StackPanel>
         </Grid>
         <Grid
             Grid.Row="1"
             Margin="0 0 0 30">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -202,6 +170,13 @@
                         Kind="ArrowSwap"/>
                 </Button>
             </StackPanel>
+            <Button
+                Grid.Column="2"
+                Style="{StaticResource BaseButton}"
+                HorizontalAlignment="Right"
+                Content="Make QC Label"
+                Command="{Binding MakeQCLabelCommand}"
+                Margin="0 0 40 0"/>
         </Grid>
         <Border
             Grid.Row="2"

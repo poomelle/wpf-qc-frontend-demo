@@ -33,8 +33,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
         public List<string> TestStatuses { get; set; } = new List<string>();
         public List<string> DataTableTestStatuses { get; set; } = new List<string>();
         public string SelectedTestStatus { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
-        public List<string> ProductsName { get; set; } = new List<string>();
         public List<string> DataTableProductsName { get; set; } = new List<string>();
         public string SelectedProduct { get; set; }
         public List<string> Years { get; set; } = new List<string>();
@@ -60,6 +58,8 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
         public SearchDataDailyQcCommand SearchDataDailyQcCommand { get; set; }
         public LoadLastBatchTestCommand LoadLastBatchTestCommand { get; set; }
         public ProductSelectionChangedCommand ProductSelectionChangedCommand { get; set; }
+        public ProductSelectionSearchCommand ProductSelectionSearchCommand { get; set; }
+        public SelectTestStatusChangeCommand SelectTestStatusChangeCommand { get; set; }
 
         public DailyQCViewModel(
             IDailyQcService dailyQcService,
@@ -76,13 +76,16 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             SearchDataDailyQcCommand = new SearchDataDailyQcCommand(this);
             LoadLastBatchTestCommand = new LoadLastBatchTestCommand(this);
             ProductSelectionChangedCommand = new ProductSelectionChangedCommand(this);
+            ProductSelectionSearchCommand = new ProductSelectionSearchCommand(this);
+            SelectTestStatusChangeCommand = new SelectTestStatusChangeCommand(this);
+
 
             // Initialize default parameters
             InitializeDefaultParameters();
             InitializeDailyQcs();
         }
 
-        private async void InitializeDefaultParameters()
+        private void InitializeDefaultParameters()
         {
             TestStatuses = new List<string> { "All", "In Process", "Yes", "No" };
             DataTableTestStatuses = new List<string> { "In Process", "Yes", "No" };
@@ -95,11 +98,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             // Add Months selection
             Months = Constants.Constants.Months;
             SelectedMonth = Months[DateTime.Now.Month];
-
-            // Load Products from Database
-            DataTableProductsName = await _productService.GetAllActiveProductName();
-            ProductsName = new List<string> { "All" }.Concat(DataTableProductsName).ToList();
-            SelectedProduct = "All";
 
             StdReqdComboBox = new List<string> { "DPC", "" };
 

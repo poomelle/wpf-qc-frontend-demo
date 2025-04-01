@@ -8,6 +8,7 @@
                 xmlns:constants="clr-namespace:ChemsonLabApp.Constants"
                 xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
                 xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                xmlns:StatusComboBox="clr-namespace:ChemsonLabApp.Controls.StatusComboBox"
                 mc:Ignorable="d">
 
     <ContentControl.Resources>
@@ -108,12 +109,13 @@
             <Button
                 Style="{StaticResource BaseButton}"
                 Content="New Customer"
-                Command="{Binding ShowAddCustomerView}"/>
+                Command="{Binding ShowAddCustomerView}"
+                Margin="0 0 40 0"/>
             <ComboBox
                 ItemsSource="{Binding CustomerComboBox}"
                 DisplayMemberPath="name"
                 SelectedItem="{Binding ComboBoxSelectedCustomer}"
-                Margin="40,0,0,0"
+                Margin="0,0,40,0"
                 Text="Select a Customer"
                 Style="{StaticResource BaseComboBoxStyle}">
                 <behaviors:Interaction.Triggers>
@@ -123,19 +125,9 @@
                     </behaviors:EventTrigger>
                 </behaviors:Interaction.Triggers>
             </ComboBox>
-            <ComboBox
-                ItemsSource="{Binding StatusCombo}"
-                SelectedItem="{Binding ComboBoxSelectedStatus}"
-                Margin="40,0,0,0"
-                Text="Select a Status"
-                Style="{StaticResource BaseComboBoxStyle}">
-                <behaviors:Interaction.Triggers>
-                    <behaviors:EventTrigger EventName="SelectionChanged">
-                        <behaviors:InvokeCommandAction 
-                            Command="{Binding CustomerStatusFilterCommand}"/>
-                    </behaviors:EventTrigger>
-                </behaviors:Interaction.Triggers>
-            </ComboBox>
+            <StatusComboBox:StatusComboBox
+                StatusName="{Binding StatusCombo}"
+                StatusChangeCommand="{Binding CustomerStatusFilterCommand}"/>
             <Button
                 Style="{StaticResource BaseButton}"
                 Content="Refresh"

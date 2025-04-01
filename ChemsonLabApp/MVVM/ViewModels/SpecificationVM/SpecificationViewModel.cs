@@ -28,9 +28,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Instrument> Instruments { get; set; } = new List<Instrument>();
         public List<string> StatusComboBox { get; set; } = new List<string> { "All", "Active", "Inactive" };
-        public Product ComboBoxSelectedProduct { get; set; }
-        public Instrument ComboBoxSelectedInstrument { get; set; }
-        public string ComboBoxSelectedStatus { get; set; } = "Active";
+        public Product SelectedProduct { get; set; }
+        public Instrument SelectedInstrument { get; set; }
+        public string SelectedStatus { get; set; }
         public bool IsImportingExcelData { get; set; }
         public bool IsShowingListBox { get; set; } = true;
 
@@ -58,6 +58,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
         public ProductNameSearchCommand ProductNameSearchCommand { get; set; }
         public ShowPrintSpecificationView ShowPrintSpecificationView { get; set; }
         public ImportSpecificationExcelFileCommand ImportSpecificationExcelFileCommand { get; set; }
+        public ProductSelectSpecificationCommand ProductSelectSpecificationCommand { get; set; }
+        public InstrumentSelectSpecificationCommand InstrumentSelectSpecificationCommand { get; set; }
+        public SelectStatusChangeSpecificationCommand SelectStatusChangeSpecificationCommand { get; set; }
 
         public SpecificationViewModel(
             ISpecificationService specificationService,
@@ -79,6 +82,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             ProductNameSearchCommand = new ProductNameSearchCommand(this);
             ShowPrintSpecificationView = new ShowPrintSpecificationView(this);
             ImportSpecificationExcelFileCommand = new ImportSpecificationExcelFileCommand(this);
+            ProductSelectSpecificationCommand = new ProductSelectSpecificationCommand(this);
+            InstrumentSelectSpecificationCommand = new InstrumentSelectSpecificationCommand(this);
+            SelectStatusChangeSpecificationCommand = new SelectStatusChangeSpecificationCommand(this);
 
             // Initialize
             InitializeParameter();
@@ -128,17 +134,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
 
         public void ReloadSpecification()
         {
-            ComboBoxSelectedProduct = null;
-            ComboBoxSelectedInstrument = null;
-            ComboBoxSelectedStatus = "Active";
+            SelectedProduct = null;
+            SelectedInstrument = null;
+            SelectedStatus = "Active";
             InitializeParameter();
         }
 
         public async void SpecificationFilter()
         {
-            string productName = ComboBoxSelectedProduct == null ? "" : ComboBoxSelectedProduct.name;
-            string instrumentName = ComboBoxSelectedInstrument == null ? "" : ComboBoxSelectedInstrument.name;
-            string status = ComboBoxSelectedStatus == "Active" ? "true" : ComboBoxSelectedStatus == "Inactive" ? "false" : "";
+            string productName = SelectedProduct == null ? "" : SelectedProduct.name;
+            string instrumentName = SelectedInstrument == null ? "" : SelectedInstrument.name;
+            string status = SelectedStatus == "Active" ? "true" : SelectedStatus == "Inactive" ? "false" : "";
 
             var specificationFilter = $"?productName={productName}&machineName={instrumentName}&inUse={status}";
 

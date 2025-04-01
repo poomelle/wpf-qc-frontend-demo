@@ -24,27 +24,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
     [AddINotifyPropertyChangedInterface]
     public class SearchDataLoaderViewModel
     {
-        private readonly IProductService _productService;
         private readonly ISearchDataLoaderService _searchDataLoaderService;
         private readonly IDialogService _dialogService;
 
         public ObservableCollection<BatchTestResult> BatchTestResults { get; set; } = new ObservableCollection<BatchTestResult>();
-        public List<Product> Products { get; set; } = new List<Product>();
         public Product SelectedProduct { get; set; }
         public string FromBatchNumber { get; set; }
         public string ToBatchNumber { get; set; }
         public DateTime TestDate { get; set; } = DateTime.Now;
         public bool SelectedAllBatchTestResult { get; set; } = false;
-
-        // Suffix for batch number
-        public bool Default { get; set; } = true;
-        public bool RS { get; set; } = false;
-        public bool RRS { get; set; } = false;
-        public bool RT { get; set; } = false;
-        public bool Remix { get; set; } = false;
-        public bool Min2 { get; set; } = false;
-        public bool Min4 { get; set; } = false;
-        public bool Cal { get; set; } = false;
+        public string Suffix { get; set; }
+        public string TestNumber { get; set; } = "1";
 
         // Commands
         public SearchBatchTestResultCommand SearchBatchTestResultCommand { get; set; }
@@ -52,15 +42,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
         public SelectAllBatchTestResultCommand SelectAllBatchTestResultCommand { get; set; }
         public UnSelectAllBatchTestResultCommand UnSelectAllBatchTestResultCommand { get; set; }
         public ShowDeleteBatchTestResultsCommand ShowDeleteBatchTestResultsCommand { get; set; }
+        public SelectProductCommand SelectProductCommand { get; set; }
+        public FromBachChangeSearchDataLoaderCommand FromBachChangeSearchDataLoaderCommand { get; set; }
+        public ToBatchChangeSearchDataLoaderCommand ToBatchChangeSearchDataLoaderCommand { get; set; }
+        public SuffixRadioButtonChangeSearchDataLoaderCommand SuffixRadioButtonChangeSearchDataLoaderCommand { get; set; }
 
         public SearchDataLoaderViewModel(
-            IProductService productService,
             ISearchDataLoaderService searchDataLoaderService,
             IDialogService dialogService
             )
         {
             // services
-            this._productService = productService;
             this._searchDataLoaderService = searchDataLoaderService;
             this._dialogService = dialogService;
 
@@ -70,33 +62,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             SelectAllBatchTestResultCommand = new SelectAllBatchTestResultCommand(this);
             UnSelectAllBatchTestResultCommand = new UnSelectAllBatchTestResultCommand(this);
             ShowDeleteBatchTestResultsCommand = new ShowDeleteBatchTestResultsCommand(this);
-
-            // initialize
-            InitializeParameter();
-        }
-
-        public async void InitializeParameter()
-        {
-            CursorUtility.DisplayCursor(true);
-
-            try
-            {
-                Products = await _productService.LoadActiveProducts();
-            }
-            catch (HttpRequestException ex)
-            {
-                NotificationUtility.ShowError("Error: Failed to load data. Please check internet connection and try again later.");
-                LoggerUtility.LogError(ex);
-            }
-            catch (Exception ex)
-            {
-                NotificationUtility.ShowError("Error: Failed to load data. Please try again later.");
-                LoggerUtility.LogError(ex);
-            }
-            finally
-            {
-                CursorUtility.DisplayCursor(false);
-            }
+            SelectProductCommand = new SelectProductCommand(this);
+            FromBachChangeSearchDataLoaderCommand = new FromBachChangeSearchDataLoaderCommand(this);
+            ToBatchChangeSearchDataLoaderCommand = new ToBatchChangeSearchDataLoaderCommand(this);
+            SuffixRadioButtonChangeSearchDataLoaderCommand = new SuffixRadioButtonChangeSearchDataLoaderCommand(this);
         }
 
         public async void SearchBatchTestResult()
@@ -106,25 +75,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             if (!InputValidationUtility.ValidateNotNullObject(SelectedProduct, "Product")) return;
             if (!InputValidationUtility.ValidateNotNullInput(FromBatchNumber, "Batch Number") || !InputValidationUtility.ValidateBatchNumberFormat(FromBatchNumber)) return;
 
-
             CursorUtility.DisplayCursor(false);
             try
             {
                 var productName = SelectedProduct.name;
 
-                string testNumber = Default ? "1" :
-                                    RS ? "2" :
-                                    RRS ? "3" : "";
-
-                string suffix = RS ? "RS" :
-                                RRS ? "RRS" :
-                                RT ? "RT" :
-                                Remix ? "Remix" :
-                                Min2 ? "2.00min" :
-                                Min4 ? "4.00min" :
-                                Cal ? "Cal" : null;
-
-                var bchBatchTestResults = await _searchDataLoaderService.LoadBCHBatchTestResult(productName, testNumber, suffix, FromBatchNumber, ToBatchNumber, TestDate);
+                var bchBatchTestResults = await _searchDataLoaderService.LoadBCHBatchTestResult(productName, TestNumber, Suffix, FromBatchNumber, ToBatchNumber, TestDate);
 
                 if (bchBatchTestResults.Count() == 0)
                 {

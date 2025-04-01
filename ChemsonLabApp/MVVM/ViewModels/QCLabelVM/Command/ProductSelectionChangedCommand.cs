@@ -1,4 +1,5 @@
-﻿using ChemsonLabApp.Utilities;
+﻿using ChemsonLabApp.MVVM.Models;
+using ChemsonLabApp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM.Command
 
         public void Execute(object parameter)
         {
-
-             viewModel.ProductSelectionChanged();
-
+            if (parameter is Product product)
+            {
+                viewModel.ProductSelectionChanged(product);
+            }
         }
     }
 }

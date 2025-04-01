@@ -20,9 +20,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM.Commands
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            viewModel.InitializeParameter();
+            await viewModel.GetAllInstrumentsAsync();
         }
     }
 }

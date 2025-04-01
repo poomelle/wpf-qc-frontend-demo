@@ -21,11 +21,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
     public class QCLabelViewModel
     {
         private readonly IQcLabelService _qcLabelService;
-        private readonly IProductService _productService;
         private readonly IDialogService _dialogService;
 
         public ObservableCollection<QCLabel> QCLabels { get; set; } = new ObservableCollection<QCLabel>();
-        public List<Product> Products { get; set; } = new List<Product>();
         public Product SelectedProduct { get; set; }
         public string BulkWeight { get; set; }
         public string PaperBagWeight { get; set; }
@@ -40,16 +38,16 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
         public RemoveQCLabelCommand RemoveQCLabelCommand { get; set; }
         public MakeQCLabelCommand MakeQCLabelCommand { get; set; }
         public ClearQCLabelsCommand ClearQCLabelsCommand { get; set; }
+        public FromBatchChangeQCLabelCommand FromBatchChangeQCLabelCommand { get; set; }
+        public ToBatchChangeQCLabelCommand ToBatchChangeQCLabelCommand { get; set; }
 
         public QCLabelViewModel(
             IQcLabelService qcLabelService,
-            IProductService productService,
             IDialogService dialogService
             )
         {
             // services
             this._qcLabelService = qcLabelService;
-            this._productService = productService;
             this._dialogService = dialogService;
 
             // commands
@@ -60,37 +58,15 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             RemoveQCLabelCommand = new RemoveQCLabelCommand(this);
             MakeQCLabelCommand = new MakeQCLabelCommand(this);
             ClearQCLabelsCommand = new ClearQCLabelsCommand(this);
-
-            // Initialize parameters
-            _ = InitializeParameters();
+            FromBatchChangeQCLabelCommand = new FromBatchChangeQCLabelCommand(this);
+            ToBatchChangeQCLabelCommand = new ToBatchChangeQCLabelCommand(this);
         }
 
-        private async Task InitializeParameters()
+        public void ProductSelectionChanged(Product product)
         {
-            CursorUtility.DisplayCursor(true);
-            try
-            {
-                Products = await _productService.LoadActiveProducts();
-            }
-            catch (HttpRequestException ex)
-            {
-                NotificationUtility.ShowError("Error : Internet Connection error. Please check your internet connection and try again.");
-                LoggerUtility.LogError(ex);
-            }
-            catch (Exception ex)
-            {
-                NotificationUtility.ShowError("Error : Failed to load products. Please check your internet connection and try again.");
-                LoggerUtility.LogError(ex);
-            }
-            finally
-            {
-                CursorUtility.DisplayCursor(false);
-            }
-        }
+            //if (SelectedProduct == null) return;
 
-        public void ProductSelectionChanged()
-        {
-            if (SelectedProduct == null) return;
+            SelectedProduct = product;
 
             var bulkWeight = SelectedProduct.bulkWeight;
             var paperBagWeight = SelectedProduct.paperBagWeight;

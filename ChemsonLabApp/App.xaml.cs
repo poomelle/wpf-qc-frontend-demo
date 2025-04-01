@@ -1,4 +1,5 @@
-﻿using ChemsonLabApp.MVVM.ViewModels;
+﻿using ChemsonLabApp.Controls.ProductComboBox;
+using ChemsonLabApp.MVVM.ViewModels;
 using ChemsonLabApp.MVVM.ViewModels.COAVM;
 using ChemsonLabApp.MVVM.ViewModels.CustomerVM;
 using ChemsonLabApp.MVVM.ViewModels.DailyQCVM;

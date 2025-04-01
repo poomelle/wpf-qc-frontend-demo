@@ -256,9 +256,12 @@ namespace ChemsonLabApp.Services
             return fullFilePath;
         }
 
-        public async Task<List<BatchTestResult>> GetAllBatchTestResultsForMakingReport(Product product, string fromBatch, string toBatch, string testDate, string attempt)
+        public async Task<List<BatchTestResult>> GetAllBatchTestResultsForMakingReport(Product product, string fromBatch, string toBatch, string testDate, string testNumber, string suffix)
         {
-            var batchTestResults = await GetAllTestedResults(product, fromBatch, toBatch, testDate, attempt);
+            var batchTestResults = await GetAllTestedResults(product, fromBatch, toBatch, testDate, testNumber);
+
+            // fillter batch test results by suffix
+            batchTestResults = batchTestResults.Where(r => r.batch.suffix == suffix).ToList();
 
             if (batchTestResults.Count == 0)
             {
@@ -284,7 +287,8 @@ namespace ChemsonLabApp.Services
         {
             foreach (var batchTestResult in batchTestResults)
             {
-                batchTestResult.testDate = DateTime.ParseExact(batchTestResult.testResult.testDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                //batchTestResult.testDate = DateTime.ParseExact(batchTestResult.testResult.testDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                batchTestResult.testDate = DateTime.Parse(batchTestResult.testResult.testDate);
             }
 
             batchTestResults = batchTestResults.OrderBy(r => r.testDate).ToList();
@@ -330,7 +334,8 @@ namespace ChemsonLabApp.Services
 
             foreach (var batchTestResult in batchTestResults)
             {
-                var testDate = DateTime.ParseExact(batchTestResult.testResult.testDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).Date;
+                //var testDate = DateTime.ParseExact(batchTestResult.testResult.testDate, "yyyy-MM-dd", CultureInfo.InvariantCulture).Date;
+                var testDate = DateTime.Parse(batchTestResult.testResult.testDate).Date;
 
                 if (!testDates.Contains(testDate))
                 {
@@ -523,7 +528,7 @@ namespace ChemsonLabApp.Services
             return await _testResultReportRestAPI.DeleteTestResultReportAsync(testResultReport);
         }
 
-        public async Task<List<TestResultReport>> GetProductTestResultReportsWithBatchRange(Product selectedProduct, string fromBatch, string toBatch)
+        public async Task<List<TestResultReport>> GetProductTestResultReportsWithBatchRange(Product selectedProduct, string fromBatch, string toBatch, string testNumber, string suffix)
         {
             List<TestResultReport> reports = new List<TestResultReport>();
 
@@ -531,11 +536,11 @@ namespace ChemsonLabApp.Services
             {
                 if (fromBatch.Length == 3)
                 {
-                    reports = await _testResultReportRestAPI.GetAllTestResultReportAsync($"?productName={selectedProduct.name}&batchName={fromBatch}");
+                    reports = await _testResultReportRestAPI.GetAllTestResultReportAsync($"?productName={selectedProduct.name}&batchName={fromBatch}&testNumber={testNumber}");
                 }
                 else if (fromBatch.Length > 3 && (fromBatch == toBatch || string.IsNullOrWhiteSpace(toBatch)))
                 {
-                    reports = await _testResultReportRestAPI.GetAllTestResultReportAsync($"?productName={selectedProduct.name}&exactBatchName={fromBatch}");
+                    reports = await _testResultReportRestAPI.GetAllTestResultReportAsync($"?productName={selectedProduct.name}&exactBatchName={fromBatch}&testNumber={testNumber}");
                 }
                 else
                 {
@@ -547,7 +552,7 @@ namespace ChemsonLabApp.Services
 
                     foreach (string batchName in batches)
                     {
-                        string filters = $"?productName={selectedProduct.name}&exactBatchName={batchName}";
+                        string filters = $"?productName={selectedProduct.name}&exactBatchName={batchName}&testNumber={testNumber}";
                         var batchReports = await _testResultReportRestAPI.GetAllTestResultReportAsync(filters);
                         reports.AddRange(batchReports);
                     }
@@ -561,6 +566,9 @@ namespace ChemsonLabApp.Services
             {
                 LoggerUtility.LogError(ex);
             }
+
+            // filter reports by suffix
+            reports = reports.Where(r => r.batchTestResult.batch.suffix == suffix).ToList();
 
             return reports;
         }

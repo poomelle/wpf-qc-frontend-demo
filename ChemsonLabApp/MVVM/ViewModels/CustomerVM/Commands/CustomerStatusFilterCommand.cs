@@ -23,6 +23,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM.Commands
 
         public async void Execute(object parameter)
         {
+            if (parameter is string text)
+            {
+                viewModel.ComboBoxSelectedStatus = text;
+            }
+
             await viewModel.GetAllCustomerAsync();
         }
     }

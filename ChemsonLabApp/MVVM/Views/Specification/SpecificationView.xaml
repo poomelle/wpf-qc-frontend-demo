@@ -8,6 +8,9 @@
                 xmlns:constants="clr-namespace:ChemsonLabApp.Constants"
                 xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
                 xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:controls="clr-namespace:ChemsonLabApp.Controls.ProductComboBox"
+                xmlns:Instrumentcontrols="clr-namespace:ChemsonLabApp.Controls.InstrumentComboBox"
+                xmlns:StatusComboBox="clr-namespace:ChemsonLabApp.Controls.StatusComboBox"
                 mc:Ignorable="d">
 
     <ContentControl.Resources>
@@ -90,12 +93,13 @@
     <Grid
         Style="{StaticResource ContentGridStyle}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"/>
-            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.7*"/>
         </Grid.RowDefinitions>
         <Grid
             Grid.Row="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -136,41 +140,26 @@
                 Orientation="Horizontal"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center">
-                <ComboBox
-                    ItemsSource="{Binding Products}"
-                    DisplayMemberPath="name"
-                    SelectedItem="{Binding ComboBoxSelectedProduct}"
-                    Margin="0,0,20,0"
-                    Text="Select a Product"
-                    Style="{StaticResource BaseComboBoxStyle}">
-                </ComboBox>
-                <ComboBox
-                    ItemsSource="{Binding Instruments}"
-                    DisplayMemberPath="name"
-                    SelectedItem="{Binding ComboBoxSelectedInstrument}"
-                    Margin="0,0,20,0"
-                    Text="Select an Instrument"
-                    FontSize="12"
-                    Style="{StaticResource BaseComboBoxStyle}"
-                    Width="150">
-                </ComboBox>
-                <ComboBox
-                    ItemsSource="{Binding StatusComboBox}"
-                    SelectedItem="{Binding ComboBoxSelectedStatus}"
-                    Margin="0,0,40,0"
-                    Text="Select a Status"
-                    Style="{StaticResource BaseComboBoxStyle}"
-                    Width="150">
-                </ComboBox>
+                <controls:ProductComboBox ProductSelectionChangedCommand="{Binding ProductSelectSpecificationCommand}"/>
+                <Instrumentcontrols:InstrumentComboBox InstrumentChangedCommand="{Binding InstrumentSelectSpecificationCommand}"/>
+                <StatusComboBox:StatusComboBox
+                    StatusName="{Binding StatusComboBox}"
+                    StatusChangeCommand="{Binding SelectStatusChangeSpecificationCommand}"/>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="2"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Margin="0 10 40 0">
                 <Button
                     Style="{StaticResource BaseButton}"
                     Content="Search"
                     Command="{Binding ProductNameSearchCommand}"
-                    Margin="0,0,40,0"/>
+                    Margin="0,0,20,0"/>
                 <Button
                     Style="{StaticResource BaseButton}"
                     Content="Refresh"
-                    Margin="0,0,0,0"
                     Command="{Binding ReloadDataCommand}"/>
             </StackPanel>
         </Grid>

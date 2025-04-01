@@ -30,10 +30,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
     {
         public List<string> DashboardMenus { get; set; }
         public string SelectedMenu { get; set; }
-        public List<string> Products { get; set; }
-        public string SelectedProduct { get; set; } = "All";
+        public string SelectedProduct { get; set; }
         public List<string> Instruments { get; set; }
-        public string SelectedInstrument { get; set; } = "All";
+        public string SelectedInstrument { get; set; }
         public List<string> Attempts { get; set; }
         public string SelectedAttempt { get; set; }
         public List<string> Years { get; set; }
@@ -51,8 +50,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
         private List<QcAveTestTimeKpi> qcAveTestTimeKpis = new List<QcAveTestTimeKpi>();
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly IProductService _productService;
-        private readonly IInstrumentService _instrumentService;
         private readonly IQcLabelRestAPI _qcLabelRestAPI;
         private readonly IQcAveTimeKpiRestApi _qcAveTimeKpiRestApi;
         private readonly IQcPerformanceKpiRestAPI _qcPerformanceKpiRestAPI;
@@ -60,11 +57,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
         // Commands
         public GenerateKPICommand GenerateKPICommand { get; set; }
         public ExportKPICommand ExportKPICommand { get; set; }
+        public SelectProductDashboardCommand SelectProductDashboardCommand { get; set; }
+        public SelectInstrumentDashboardCommand SelectInstrumentDashboardCommand { get; set; }
 
         public DashboardViewModel(
             IServiceScopeFactory serviceScopeFactory,
-            IProductService productService,
-            IInstrumentService instrumentService,
             IQcLabelRestAPI qcLabelRestAPI,
             IQcAveTimeKpiRestApi qcAveTimeKpiRestApi,
             IQcPerformanceKpiRestAPI qcPerformanceKpiRestAPI
@@ -72,8 +69,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
         {
             // Services
             this._serviceScopeFactory = serviceScopeFactory;
-            this._productService = productService;
-            this._instrumentService = instrumentService;
             this._qcLabelRestAPI = qcLabelRestAPI;
             this._qcAveTimeKpiRestApi = qcAveTimeKpiRestApi;
             this._qcPerformanceKpiRestAPI = qcPerformanceKpiRestAPI;
@@ -81,20 +76,21 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             // Commands
             GenerateKPICommand = new GenerateKPICommand(this);
             ExportKPICommand = new ExportKPICommand(this);
+            SelectProductDashboardCommand = new SelectProductDashboardCommand(this);
+            SelectInstrumentDashboardCommand = new SelectInstrumentDashboardCommand(this);
 
             // Initialise
             initializeParameter();
             GenerateKPI();
         }
 
-        private async void initializeParameter()
+        private void initializeParameter()
         {
             CursorUtility.DisplayCursor(true);
             try
             {
                 LoadDashboardMenusComboBoxes();
                 LoadYearsMonths();
-                await LoadProductsAndInstrument();
             }
             catch (HttpRequestException ex)
             {
@@ -109,20 +105,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             finally
             {
                 CursorUtility.DisplayCursor(false);
-            }
-        }
-
-        private async Task LoadProductsAndInstrument()
-        {
-            try
-            {
-                Products = new List<string> { "All" }.Concat(await _productService.GetAllActiveProductName()).ToList();
-                Instruments = new List<string> { "All" }.Concat(await _instrumentService.GetAllActiveInstrumentName()).ToList();
-            }
-            catch (Exception e)
-            {
-                NotificationUtility.ShowError("Error loading Products and Instruments");
-                LoggerUtility.LogError(e);
             }
         }
 

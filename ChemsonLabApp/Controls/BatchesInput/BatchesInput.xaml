@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="ChemsonLabApp.Controls.BatchesInput.BatchesInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChemsonLabApp.Controls.BatchesInput"
+             mc:Ignorable="d"
+             Name="batchesInput">
+    <Grid>
+        <StackPanel
+            Orientation="Horizontal"
+            Margin="0 0 30 0">
+            <Label
+                Content="Batch number"
+                VerticalAlignment="Center"
+                FontSize="15"
+                Margin="0 0 10 0"/>
+            <TextBox
+                x:Name="FromBatchTextBox"
+                Style="{StaticResource MediumInputTextBox}"
+                Height="40"
+                Width="60"
+                Margin="0 0 10 0"
+                TextChanged="FromBatch_TextChanged"/>
+            <Label
+                Content="To"
+                VerticalAlignment="Center"
+                FontSize="15"
+                Margin="0 0 10 0"/>
+            <TextBox
+                x:Name="ToBatchTextBox"
+                Style="{StaticResource MediumInputTextBox}"
+                Height="40"
+                Width="60"
+                TextChanged="ToBatch_TextChanged"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -24,12 +24,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
     [AddINotifyPropertyChangedInterface]
     public class SearchReportViewModel
     {
-        private readonly IProductService _productService;
         private readonly IDialogService _dialogService;
         private readonly IReportService _reportService;
 
         public ObservableCollection<TestResultReport> TestResultReports { get; set; } = new ObservableCollection<TestResultReport>();
-        public List<Product> Products { get; set; } = new List<Product>();
         public Product SelectedProduct { get; set; }
         public string FromBatchNumber { get; set; }
         public string ToBatchNumber { get; set; }
@@ -38,25 +36,20 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
         public double? TorqueFail { get; set; }
         public double? FusionWarning { get; set; }
         public double? FusionFail { get; set; }
-
-        // Suffix for batch number
-        public bool Default { get; set; } = true;
-        public bool RS { get; set; } = false;
-        public bool RRS { get; set; } = false;
-        public bool RT { get; set; } = false;
-        public bool Remix { get; set; } = false;
-        public bool Min2 { get; set; } = false;
-        public bool Min4 { get; set; } = false;
-        public bool Cal { get; set; } = false;
+        public string Suffix { get; set; }
+        public string TestNumber { get; set; } = "1";
 
         // commands
         public SearchBatchTestResultReportCommand SearchBatchTestResultReportCommand { get; set; }
         public ShowDeleteReportViewCommand ShowDeleteReportViewCommand { get; set; }
         public ShowMakeReportGraphViewCommand ShowMakeReportGraphViewCommand { get; set; }
+        public ProductSelectSearchReportCommand ProductSelectSearchReportCommand { get; set; }
+        public FromBatchChangeSearchReportCommand FromBatchChangeSearchReportCommand { get; set; }
+        public ToBatchChangeSearchReportCommand ToBatchChangeSearchReportCommand { get; set; }
+        public SuffixRadioButtonChangeReportCommand SuffixRadioButtonChangeReportCommand { get; set; }
         public OpenReportFile OpenReportFile { get; set; }
 
         public SearchReportViewModel(
-            IProductService productService,
             IDialogService dialogService,
             IReportService reportService
             )
@@ -64,37 +57,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             SearchBatchTestResultReportCommand = new SearchBatchTestResultReportCommand(this);
             ShowDeleteReportViewCommand = new ShowDeleteReportViewCommand(this);
             ShowMakeReportGraphViewCommand = new ShowMakeReportGraphViewCommand(this);
+            ProductSelectSearchReportCommand = new ProductSelectSearchReportCommand(this);
+            FromBatchChangeSearchReportCommand = new FromBatchChangeSearchReportCommand(this);
+            ToBatchChangeSearchReportCommand = new ToBatchChangeSearchReportCommand(this);
+            SuffixRadioButtonChangeReportCommand = new SuffixRadioButtonChangeReportCommand(this);
             OpenReportFile = new OpenReportFile(this);
 
-            this._productService = productService;
             this._dialogService = dialogService;
             this._reportService = reportService;
-
-            InitializeParameter();
-        }
-
-        public async void InitializeParameter()
-        {
-            CursorUtility.DisplayCursor(true);
-            try
-            {
-                Products.Clear();
-                Products = await _productService.LoadActiveProducts();
-            }
-            catch (HttpRequestException ex)
-            {
-                NotificationUtility.ShowError("Network error: Unable to retrieve test results. Please check your internet connection.");
-                LoggerUtility.LogError(ex);
-            }
-            catch (Exception ex)
-            {
-                NotificationUtility.ShowError("Error: Failed to load products. Please try again later.");
-                LoggerUtility.LogError(ex);
-            }
-            finally
-            {
-                CursorUtility.DisplayCursor(false);
-            }
         }
 
         public async void SearchTestResultReport()
@@ -102,18 +72,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             CursorUtility.DisplayCursor(true);
             try
             {
-                string suffix = RS ? "RS" :
-                                RRS ? "RRS" :
-                                RT ? "RT" :
-                                Remix ? "Remix" :
-                                Min2 ? "2.00min" :
-                                Min4 ? "4.00min" :
-                                Cal ? "Cal" : null;
-
                 if (!InputValidationUtility.ValidateNotNullObject(SelectedProduct, "Product")) return;
                 if (!InputValidationUtility.ValidateBatchNumberFormat(FromBatchNumber) || !InputValidationUtility.ValidateNotNullInput(FromBatchNumber, "From Batch Number")) return;
 
-                var testResultReports = await _reportService.GetProductTestResultReportsWithBatchRange(SelectedProduct, FromBatchNumber, ToBatchNumber);
+                var testResultReports = await _reportService.GetProductTestResultReportsWithBatchRange(SelectedProduct, FromBatchNumber, ToBatchNumber, TestNumber, Suffix);
 
                 if (testResultReports.Count == 0)
                 {

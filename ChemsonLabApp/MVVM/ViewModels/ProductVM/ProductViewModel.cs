@@ -29,11 +29,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
         public List<string> StatusComboBox { get; set; } = new List<string> { "All", "Active", "Inactive" };
         public List<string> ComboBoxProducts { get; set; }
-        public string ComboBoxSelectedProduct { get; set; } = "All";
-        public string ComboBoxSelectedStatus { get; set; } = "All";
-        public string ErrorMessage { get; set; }
-        public bool IsLoading { get; set; }
-        public bool HasError { get; set; }
+        public string SelectedProduct { get; set; }
+        public string ComboBoxSelectedStatus { get; set; }
+
+        // Commands
         public ShowAddNewProductView ShowAddNewProductView { get; set; }
         public ShowDeleteProductView ShowDeleteProductView { get; set; }
         public ReloadDataCommand ReloadDataCommand { get; set; }
@@ -42,6 +41,8 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
         public ProductComboBoxSeletedCommand ProductComboBoxSeletedCommand { get; set; }
         public ProductStatusComboBoxSeletedCommand ProductStatusComboBoxSeletedCommand { get; set; }
         public ProductNameSearchCommand ProductNameSearchCommand { get; set; }
+        public SelectProductChangedCommand SelectProductChangedCommand { get; set; }
+        public SelectStatusChangeProductCommand SelectStatusChangeProductCommand { get; set; }
 
         public ProductViewModel(
             IProductService productService,
@@ -61,6 +62,8 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
             ProductComboBoxSeletedCommand = new ProductComboBoxSeletedCommand(this);
             ProductStatusComboBoxSeletedCommand = new ProductStatusComboBoxSeletedCommand(this);
             ProductNameSearchCommand = new ProductNameSearchCommand(this);
+            SelectProductChangedCommand = new SelectProductChangedCommand(this);
+            SelectStatusChangeProductCommand = new SelectStatusChangeProductCommand(this);
 
             // Initialize
             InitializeParameter();
@@ -73,7 +76,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
             {
                 await PopulateProductComboBox();
 
-                ComboBoxSelectedProduct = "All";
+                SelectedProduct = "All";
                 ComboBoxSelectedStatus = "All";
 
                 await GetAllProductsAsync();
@@ -102,7 +105,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
         public async Task GetAllProductsAsync()
         {
             var sort = "&sortBy=Name&isAscending=true";
-            var modifiedProduct = ComboBoxSelectedProduct == "All" ? "" : ComboBoxSelectedProduct;
+            var modifiedProduct = SelectedProduct == "All" ? "" : SelectedProduct;
             var modifiedStatus = ComboBoxSelectedStatus == "All" ? "" : ComboBoxSelectedStatus == "Active" ? "true" : "false";
             var filter = $"?name={modifiedProduct}&status={modifiedStatus}";
 

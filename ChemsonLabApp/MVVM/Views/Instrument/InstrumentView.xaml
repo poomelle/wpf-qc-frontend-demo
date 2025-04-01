@@ -8,6 +8,8 @@
                 xmlns:constants="clr-namespace:ChemsonLabApp.Constants"
                 xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
                 xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:controls="clr-namespace:ChemsonLabApp.Controls.InstrumentComboBox"
+                xmlns:StatusComboBox="clr-namespace:ChemsonLabApp.Controls.StatusComboBox"
                 mc:Ignorable="d">
 
     <ContentControl.Resources>
@@ -109,33 +111,10 @@
                 Orientation="Horizontal"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center">
-                <ComboBox
-                    ItemsSource="{Binding Instruments}"
-                    DisplayMemberPath="name"
-                    SelectedItem="{Binding ComboBoxSelectedInstrument}"
-                    Margin="0,0,0,0"
-                    Text="Select an Instrument"
-                    Style="{StaticResource BaseComboBoxStyle}">
-                    <behaviors:Interaction.Triggers>
-                        <behaviors:EventTrigger EventName="SelectionChanged">
-                            <behaviors:InvokeCommandAction 
-                                Command="{Binding ComboBoxInstrumentSelectCommand}"/>
-                        </behaviors:EventTrigger>
-                    </behaviors:Interaction.Triggers>
-                </ComboBox>
-                <ComboBox
-                    ItemsSource="{Binding StatusComboBox}"
-                    SelectedItem="{Binding ComboBoxSelectedStatus}"
-                    Margin="40,0,0,0"
-                    Text="Select a Status"
-                    Style="{StaticResource BaseComboBoxStyle}">
-                    <behaviors:Interaction.Triggers>
-                        <behaviors:EventTrigger EventName="SelectionChanged">
-                            <behaviors:InvokeCommandAction 
-                                Command="{Binding ComboBoxStatusSelectCommand}"/>
-                        </behaviors:EventTrigger>
-                    </behaviors:Interaction.Triggers>
-                </ComboBox>
+                <controls:InstrumentComboBox InstrumentChangedCommand="{Binding ComboBoxInstrumentSelectCommand}"/>
+                <StatusComboBox:StatusComboBox
+                    StatusName="{Binding StatusComboBox}"
+                    StatusChangeCommand="{Binding ComboBoxInstrumentSelectCommand}"/>
                 <Button
                     Style="{StaticResource BaseButton}"
                     Content="Refresh"
@@ -180,22 +159,6 @@
                     HorizontalContentAlignment="Stretch"
                     ItemContainerStyle="{StaticResource DataGridListBoxItem}">
                 </ListBox>
-                <TextBlock
-                    Grid.Row="1"
-                    Text="{Binding ErrorMessage}" 
-                    Foreground="{StaticResource Black}"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    FontSize="14"
-                    Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <ProgressBar
-                    Width="100"
-                    Height="20"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Grid.Row="1"
-                    IsIndeterminate="True" 
-                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </Border>
     </Grid>

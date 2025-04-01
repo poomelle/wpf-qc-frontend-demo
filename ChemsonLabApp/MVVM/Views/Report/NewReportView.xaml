@@ -4,9 +4,12 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.Report"
+                xmlns:controls="clr-namespace:ChemsonLabApp.Controls.ProductComboBox"
                 xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
                 xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
                 xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                xmlns:batchesInputControls="clr-namespace:ChemsonLabApp.Controls.BatchesInput"
+                xmlns:SuffixSelector="clr-namespace:ChemsonLabApp.Controls.SuffixSelector"
                 mc:Ignorable="d">
 
     <ContentControl.Resources>
@@ -52,11 +55,6 @@
                             Style="{StaticResource SmallDataGridLabel}"
                             Content="{Binding batch.suffix}"/>
                     </StackPanel>
-                    <!--<Label
-                        x:Name="BatchName"
-                        Grid.Column="2"
-                        Style="{StaticResource SmallDataGridLabel}"
-                        Content="{Binding batch.batchName}"/>-->
                     <Label
                         Grid.Column="3"
                         Style="{StaticResource SmallDataGridLabel}"
@@ -166,36 +164,10 @@
                 Orientation="Horizontal"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left">
-                <ComboBox
-                    ItemsSource="{Binding Products}"
-                    DisplayMemberPath="name"
-                    SelectedItem="{Binding SelectedProduct}"
-                    Text="Select a Product"
-                    Style="{StaticResource BaseComboBoxStyle}"
-                    Margin="0 0 30 0">
-                </ComboBox>
-                <Label
-                    Content="Batch number"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Margin="0 0 10 0"/>
-                <TextBox
-                    Style="{StaticResource MediumInputTextBox}"
-                    Height="40"
-                    Width="60"
-                    Margin="0 0 10 0"
-                    Text="{Binding FromBatch}"/>
-                <Label
-                    Content="to"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Margin="0 0 10 0"/>
-                <TextBox
-                    Style="{StaticResource MediumInputTextBox}"
-                    Height="40"
-                    Width="60"
-                    Margin="0 0 30 0"
-                    Text="{Binding ToBatch}"/>
+                <controls:ProductComboBox ProductSelectionChangedCommand="{Binding ProductSelectNewReportCommand}"/>
+                <batchesInputControls:BatchesInput
+                    FromBatchTextChangeCommand ="{Binding FromBatchChangeNewReportCommand}"
+                    ToBatchTextChangeCommnad="{Binding ToBatchChangeNewReportCommnad}"/>
                 <Label
                     Content="Test Date"
                     VerticalAlignment="Center"
@@ -221,137 +193,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Grid
-                Grid.Column="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <StackPanel
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding Default, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="Default"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding RS, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="RS"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="2"
-                    Grid.Row="0"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding RRS, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="RRS"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="3"
-                    Grid.Row="0"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding RT, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="RT"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="4"
-                    Grid.Row="0"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding Remix, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="Remix"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding Rework, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="Rework"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding Min2, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="2.00min"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="2"
-                    Grid.Row="1"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding Min4, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="4.00min"/>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="3"
-                    Grid.Row="1"
-                    Orientation="Horizontal"
-                    Margin="0 0 20 0">
-                    <RadioButton
-                        VerticalAlignment="Center"
-                        GroupName="Suffix"
-                        IsChecked="{Binding Cal, Mode=TwoWay}"/>
-                    <Label 
-                        Style="{StaticResource SmallDataGridHeader}"
-                        Content="Cal"/>
-                </StackPanel>
-            </Grid>
+            <SuffixSelector:SuffixSelector
+                Grid.Column="0"
+                RadioButtonCheckCommand="{Binding SuffixRadioButtonChangeReportCommand}"/>
             <Button
                 Grid.Column="1"
                 Content="Make Report"

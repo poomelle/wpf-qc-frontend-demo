@@ -356,6 +356,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Controls\BatchesInput\BatchesInput.xaml.cs">
+      <DependentUpon>BatchesInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InstrumentComboBox\InstrumentComboBox.xaml.cs">
+      <DependentUpon>InstrumentComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InstrumentNameComboBox\InstrumentNameComboBox.xaml.cs">
+      <DependentUpon>InstrumentNameComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProductComboBox\ProductComboBox.xaml.cs">
+      <DependentUpon>ProductComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProductNameComboBox\ProductNameComboBox.xaml.cs">
+      <DependentUpon>ProductNameComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StatusComboBox\StatusComboBox.xaml.cs">
+      <DependentUpon>StatusComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SuffixSelector\SuffixSelector.xaml.cs">
+      <DependentUpon>SuffixSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BoolToRequireCOAConverter.cs" />
     <Compile Include="Converters\BoolToResultConverter.cs" />
     <Compile Include="Converters\COAConverter.cs" />
@@ -391,13 +412,16 @@
     <Compile Include="MVVM\Models\TestResult.cs" />
     <Compile Include="MVVM\Models\TestResultReport.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\COAViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\FromBatchCOACommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\Commands\NextCOACommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\Commands\PreviousCOACommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\ProductSelectCOACommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\Commands\ReGenerateCOACommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\Commands\RemoveReportCommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\Commands\SaveAndSendCOACommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\Commands\SearchTestResultReportCommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\Commands\ShowMakeCOAViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\COAVM\Commands\ToBatchCOACommand.cs" />
     <Compile Include="MVVM\ViewModels\COAVM\MakeCOAViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CustomerVM\AddCustomerOrderViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CustomerVM\AddCustomerViewModel.cs" />
@@ -426,12 +450,16 @@
     <Compile Include="MVVM\ViewModels\DailyQCVM\Command\DeleteDailyQcCommand.cs" />
     <Compile Include="MVVM\ViewModels\DailyQCVM\Command\LoadLastBatchTestCommand.cs" />
     <Compile Include="MVVM\ViewModels\DailyQCVM\Command\ProductSelectionChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\ProductSelectionSearchCommand.cs" />
     <Compile Include="MVVM\ViewModels\DailyQCVM\Command\SaveDataDailyQcCommand.cs" />
     <Compile Include="MVVM\ViewModels\DailyQCVM\Command\SearchDataDailyQcCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DailyQCVM\Command\SelectTestStatusChangeCommand.cs" />
     <Compile Include="MVVM\ViewModels\DailyQCVM\Command\TriggerSelectAllDailyQcsCommand.cs" />
     <Compile Include="MVVM\ViewModels\DailyQCVM\DailyQCViewModel.cs" />
     <Compile Include="MVVM\ViewModels\DashboardVM\Command\ExportKPICommand.cs" />
     <Compile Include="MVVM\ViewModels\DashboardVM\Command\GenerateKPICommand.cs" />
+    <Compile Include="MVVM\ViewModels\DashboardVM\Command\SelectInstrumentDashboardCommand.cs" />
+    <Compile Include="MVVM\ViewModels\DashboardVM\Command\SelectProductDashboardCommand.cs" />
     <Compile Include="MVVM\ViewModels\DashboardVM\ConformanceViewModel.cs" />
     <Compile Include="MVVM\ViewModels\DashboardVM\DashboardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\FormulationPdfVM\Command\BrowseExcelFileCommand.cs" />
@@ -445,7 +473,6 @@
     <Compile Include="MVVM\ViewModels\FormulationPdfVM\FormulationPdfViewModel.cs" />
     <Compile Include="MVVM\ViewModels\InstrumentVM\AddInstrumentViewModel.cs" />
     <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ComboBoxInstrumentSelectCommand.cs" />
-    <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ComboBoxStatusSelectCommand.cs" />
     <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\DeleteInstrumentCommand.cs" />
     <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\IsViewToggleCommand.cs" />
     <Compile Include="MVVM\ViewModels\InstrumentVM\Commands\ReloadInstrumentsCommand.cs" />
@@ -458,16 +485,20 @@
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\DataLoaderSaveCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\DeleteTestResultCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\EditModeToggleCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\FromBachChangeSearchDataLoaderCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ImportMTFCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ReBatchNumberCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\RemoveLoaderCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SearchBatchTestResultCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SelectAllBatchTestResultCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SelectProductCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ShowDataLoaderCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ShowDeleteBatchTestResultsCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ShowDeleteDataLoaderViewCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SuffixChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\SuffixRadioButtonChangeSearchDataLoaderCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\TestTypeChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\ToBatchChangeSearchDataLoaderCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\UnSelectAllBatchTestResultCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\Command\UpdateDataLoaderCommand.cs" />
     <Compile Include="MVVM\ViewModels\NewDataLoaderVM\DeleteDataLoaderViewModel.cs" />
@@ -482,6 +513,8 @@
     <Compile Include="MVVM\ViewModels\ProductVM\Commands\ProductStatusComboBoxSeletedCommand.cs" />
     <Compile Include="MVVM\ViewModels\ProductVM\Commands\ReloadDataCommand.cs" />
     <Compile Include="MVVM\ViewModels\ProductVM\Commands\SaveNewProductCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\SelectProductChangedCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ProductVM\Commands\SelectStatusChangeProductCommand.cs" />
     <Compile Include="MVVM\ViewModels\ProductVM\Commands\ShowAddNewProductView.cs" />
     <Compile Include="MVVM\ViewModels\ProductVM\Commands\ShowDeleteProductView.cs" />
     <Compile Include="MVVM\ViewModels\ProductVM\Commands\UpdateProductCommand.cs" />
@@ -489,6 +522,7 @@
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\AddQCLabelCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\BatchNameToggleCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\ClearQCLabelsCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\FromBatchChangeQCLabelCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\InputWeightToggleCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\MakeQCLabelCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\NextQCLabelCommand.cs" />
@@ -496,18 +530,26 @@
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\PrintQCLabelsCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\ProductSelectionChangedCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\Command\RemoveQCLabelCommand.cs" />
+    <Compile Include="MVVM\ViewModels\QCLabelVM\Command\ToBatchChangeQCLabelCommand.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\MakeQCLabelViewModel.cs" />
     <Compile Include="MVVM\ViewModels\QCLabelVM\QCLabelViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\CalculateTorFusCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\DeletedReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\FromBatchChangeSearchReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\FromBatchChangeNewReportCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\MakeReportCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\OpenReportFile.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\ProductSelectNewReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\ProductSelectSearchReportCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\RemoveBatchTestResultCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\SaveAndSendCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\SearchBatchTestResultCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\SearchBatchTestResultReportCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\ShowDeleteReportViewCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\Command\ShowMakeReportGraphViewCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\SuffixRadioButtonChangeReportCommand.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\ToBatchChangeNewReportCommnad.cs" />
+    <Compile Include="MVVM\ViewModels\ReportVM\Command\ToBatchChangeSearchReportCommand.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\DeleteReportViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\MakeReportGraphViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ReportVM\MakeReportViewModel.cs" />
@@ -522,12 +564,15 @@
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\DeleteSpecificationViewCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\EditModeToggleCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ImportSpecificationExcelFileCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\InstrumentSelectSpecificationCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\OnExistingProductSelection.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\PrintSpecificationCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ProductNameSearchCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ProductSelectSpecificationCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ReloadDataCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\SaveNewSpecificationCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\SaveUpdateSpecificationCommand.cs" />
+    <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\SelectStatusChangeSpecificationCommand.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ShowAddNewSpecificationView.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ShowPrintSpecificationView.cs" />
     <Compile Include="MVVM\ViewModels\SpecificationVM\Commands\ShowSpecificationDetailCommand.cs" />
@@ -702,6 +747,34 @@
     <Compile Include="Utilities\NotificationUtility.cs" />
     <Compile Include="Utilities\PdfUtility.cs" />
     <Compile Include="Utilities\TestMonthUtility.cs" />
+    <Page Include="Controls\BatchesInput\BatchesInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InstrumentComboBox\InstrumentComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InstrumentNameComboBox\InstrumentNameComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProductComboBox\ProductComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProductNameComboBox\ProductNameComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\StatusComboBox\StatusComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SuffixSelector\SuffixSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\Views\COA\COAView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

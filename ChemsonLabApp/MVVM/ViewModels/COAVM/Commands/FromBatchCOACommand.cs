@@ -5,16 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM.Commands
+namespace ChemsonLabApp.MVVM.ViewModels.COAVM.Commands
 {
-    public class ComboBoxStatusSelectCommand : ICommand
+    public class FromBatchCOACommand : ICommand
     {
-        public InstrumentViewModel viewModel { get; set; }
+        private readonly COAViewModel _cOAViewModel;
+
         public event EventHandler CanExecuteChanged;
-        public ComboBoxStatusSelectCommand(InstrumentViewModel viewModel)
+
+        public FromBatchCOACommand(COAViewModel cOAViewModel)
         {
-            this.viewModel = viewModel;
+            this._cOAViewModel = cOAViewModel;
         }
+
         public bool CanExecute(object parameter)
         {
             return true;
@@ -22,7 +25,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM.Commands
 
         public void Execute(object parameter)
         {
-            viewModel.ComboBoxStatusFilter();
+            if (parameter is string text)
+            {
+                _cOAViewModel.FromBatch = text;
+            }
         }
     }
 }

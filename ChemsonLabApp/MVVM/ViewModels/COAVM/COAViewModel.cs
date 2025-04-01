@@ -23,12 +23,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
     [AddINotifyPropertyChangedInterface]
     public class COAViewModel
     {
-        private readonly IProductService _productService;
         private readonly ICoaService _coaService;
         private readonly IDialogService _dialogService;
 
         public ObservableCollection<TestResultReport> TestResultReports { get; set; } = new ObservableCollection<TestResultReport>();
-        public List<Product> Products { get; set; } = new List<Product>();
         public Product SelectedProduct { get; set; }
         public string FromBatch { get; set; }
         public string ToBatch { get; set; }
@@ -43,14 +41,15 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
         public ShowMakeCOAViewCommand ShowMakeCOAViewCommand { get; set; }
         public SearchTestResultReportCommand SearchTestResultReportCommand { get; set; }
         public RemoveReportCommand RemoveReportCommand { get; set; }
+        public ProductSelectCOACommand ProductSelectCOACommand { get; set; }
+        public FromBatchCOACommand FromBatchCOACommand { get; set; }
+        public ToBatchCOACommand ToBatchCOACommand { get; set; }
 
         public COAViewModel(
-            IProductService productService,
             ICoaService coaService,
             IDialogService dialogService
             )
         {
-            this._productService = productService;
             this._coaService = coaService;
             this._dialogService = dialogService;
 
@@ -58,34 +57,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             SearchTestResultReportCommand = new SearchTestResultReportCommand(this);
             ShowMakeCOAViewCommand = new ShowMakeCOAViewCommand(this);
             RemoveReportCommand = new RemoveReportCommand(this);
-
-            // initialize
-            InitializeParameter();
-        }
-
-        public async void InitializeParameter()
-        {
-            CursorUtility.DisplayCursor(true);
-            try
-            {
-                Products.Clear();
-                Products = await _productService.LoadActiveProducts();
-            }
-            catch (HttpRequestException ex)
-            {
-                NotificationUtility.ShowError("Network error: Unable to retrieve test results. Please check your internet connection.");
-                LoggerUtility.LogError(ex);
-            }
-            catch (Exception ex)
-            {
-                NotificationUtility.ShowError("An unexpected error occurred. Please try again or contact support.");
-                LoggerUtility.LogError(ex);
-            }
-            finally
-            {
-                CursorUtility.DisplayCursor(false);
-            }
-
+            ProductSelectCOACommand = new ProductSelectCOACommand(this);
+            FromBatchCOACommand = new FromBatchCOACommand(this);
+            ToBatchCOACommand = new ToBatchCOACommand(this);
         }
 
         public async void SearchTestResultReport()

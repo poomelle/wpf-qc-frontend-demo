@@ -25,11 +25,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
     [AddINotifyPropertyChangedInterface]
     public class NewReportViewModel
     {
-        private readonly IProductService _productService;
         private readonly IDialogService _dialogService;
         private readonly IReportService _reportService;
 
-        public List<Product> Products { get; set; } = new List<Product>();
         public ObservableCollection<BatchTestResult> BatchTestResults { get; set; } = new ObservableCollection<BatchTestResult>();
         public string FromBatch { get; set; }
         public string ToBatch { get; set; }
@@ -42,25 +40,20 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
         public double? FusionWarning { get; set; }
         public double? FusionFail { get; set; }
         public Dictionary<string,List<double>> TorqFusValues { get; set; } = new Dictionary<string, List<double>>();
-
-        // Suffix for batch number
-        public bool Default { get; set; } = true;
-        public bool RS { get; set; } = false;
-        public bool RRS { get; set; } = false;
-        public bool RT { get; set; } = false;
-        public bool Remix { get; set; } = false;
-        public bool Min2 { get; set; } = false;
-        public bool Min4 { get; set; } = false;
-        public bool Cal { get; set; } = false;
+        public string TestNumber { get; set; } = "1";
+        public string Suffix { get; set; }
 
         // commands
         public SearchBatchTestResultCommand SearchBatchTestResultCommand { get; set; }
         public CalculateTorFusCommand CalculateTorFusCommand { get; set; }
         public MakeReportCommand MakeReportCommand { get; set; }
         public RemoveBatchTestResultCommand RemoveBatchTestResultCommand { get; set; }
+        public ProductSelectNewReportCommand ProductSelectNewReportCommand { get; set; }
+        public FromBatchChangeNewReportCommand FromBatchChangeNewReportCommand { get; set; }
+        public ToBatchChangeNewReportCommnad ToBatchChangeNewReportCommnad { get; set; }
+        public SuffixRadioButtonChangeReportCommand SuffixRadioButtonChangeReportCommand { get; set; }
 
         public NewReportViewModel(
-            IProductService productService, 
             IDialogService dialogService,
             IReportService reportService)
         {
@@ -69,38 +62,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             CalculateTorFusCommand = new CalculateTorFusCommand(this);
             MakeReportCommand = new MakeReportCommand(this);
             RemoveBatchTestResultCommand = new RemoveBatchTestResultCommand(this);
+            ProductSelectNewReportCommand = new ProductSelectNewReportCommand(this);
+            FromBatchChangeNewReportCommand = new FromBatchChangeNewReportCommand(this);
+            ToBatchChangeNewReportCommnad = new ToBatchChangeNewReportCommnad(this);
+            SuffixRadioButtonChangeReportCommand = new SuffixRadioButtonChangeReportCommand(this);
 
             // Independent Injection
-            this._productService = productService;
             this._dialogService = dialogService;
             this._reportService = reportService;
-
-            // Initialize
-            InitializeParameter();
-        }
-
-        public async void InitializeParameter()
-        {
-            CursorUtility.DisplayCursor(true);
-            try
-            {
-                Products.Clear();
-                Products = await _productService.LoadActiveProducts();
-            }
-            catch (HttpRequestException ex)
-            {
-                NotificationUtility.ShowError("Error: Failed to load products. Please check internet connection.");
-                LoggerUtility.LogError(ex);
-            }
-            catch (Exception ex)
-            {
-                NotificationUtility.ShowError("Error: Failed to load products.");
-                LoggerUtility.LogError(ex);
-            }
-            finally
-            {
-                CursorUtility.DisplayCursor(false);
-            }
         }
 
         public async void SearchTestResults()
@@ -110,26 +79,26 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             {
                 if (!InputValidationUtility.ValidateNotNullObject(SelectedProduct, "Product")) return;
 
-                var searchTestDate = TestDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-                string attempt = Default ? "1" :
-                                 RS ? "2" :
-                                 RRS ? "3" : "";
-
                 TorqueWarning = SelectedProduct.torqueWarning;
                 TorqueFail = SelectedProduct.torqueFail;
                 FusionWarning = SelectedProduct.fusionWarning;
                 FusionFail = SelectedProduct.fusionFail;
 
-                string suffix = RS ? "RS" :
-                                RRS ? "RRS" :
-                                RT ? "RT" :
-                                Remix ? "Remix" :
-                                Min2 ? "2.00min" :
-                                Min4 ? "4.00min" :
-                                Cal ? "Cal" : null;
+                var searchTestDate = TestDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-                var batchTestResults = await _reportService.GetAllBatchTestResultsForMakingReport(SelectedProduct, FromBatch.ToUpper(), ToBatch.ToUpper(), searchTestDate, attempt);
+                //string testNumber = Default ? "1" :
+                //                 RS ? "2" :
+                //                 RRS ? "3" : "";
+
+                //string suffix = RS ? "RS" :
+                //                RRS ? "RRS" :
+                //                RT ? "RT" :
+                //                Remix ? "Remix" :
+                //                Min2 ? "2.00min" :
+                //                Min4 ? "4.00min" :
+                //                Cal ? "Cal" : null;
+
+                var batchTestResults = await _reportService.GetAllBatchTestResultsForMakingReport(SelectedProduct, FromBatch.ToUpper(), ToBatch.ToUpper(), searchTestDate, TestNumber, Suffix);
 
                 PopulateStdComboBox(batchTestResults);
 

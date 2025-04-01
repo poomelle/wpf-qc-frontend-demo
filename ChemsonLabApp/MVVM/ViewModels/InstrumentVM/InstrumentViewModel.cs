@@ -27,20 +27,16 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
         private readonly IInstrumentService _instrumentService;
         private readonly IDialogService _dialogService;
 
-        public ObservableCollection<Instrument> Instruments { get; set; }
-        public ObservableCollection<string> StatusComboBox { get; set; }
-        public Instrument ComboBoxSelectedInstrument { get; set; }
-        public string ComboBoxSelectedStatus { get; set; }
-        public bool IsLoading { get; set; }
-        public string ErrorMessage { get; set; }
-        public bool HasError { get; set; }
+        public ObservableCollection<Instrument> Instruments { get; set; } = new ObservableCollection<Instrument>();
+        public List<string> StatusComboBox { get; set; } = new List<string>() { "All", "Active", "Inactive" };
+
+        // Commands
         public ShowAddNewInsturmentView ShowAddNewInsturmentView { get; set; }
         public ReloadInstrumentsCommand ReloadInstrumentsCommand { get; set; }
         public ShowDeleteInstrumentView ShowDeleteInstrumentView { get; set; }
         public UpdateInstrumentCommand UpdateInstrumentCommand { get; set; }
         public IsViewToggleCommand IsViewToggleCommand { get; set; }
         public ComboBoxInstrumentSelectCommand ComboBoxInstrumentSelectCommand { get; set; }
-        public ComboBoxStatusSelectCommand ComboBoxStatusSelectCommand { get; set; }
 
         public InstrumentViewModel(IInstrumentService instrumentService, IDialogService dialogService)
         {
@@ -49,15 +45,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             this._dialogService = dialogService;
 
             // commands
-            Instruments = new ObservableCollection<Instrument>();
-            StatusComboBox = new ObservableCollection<string>() { "All", "Active", "Inactive" };
             ShowAddNewInsturmentView = new ShowAddNewInsturmentView(this);
             ReloadInstrumentsCommand = new ReloadInstrumentsCommand(this);
             ShowDeleteInstrumentView = new ShowDeleteInstrumentView(this);
             UpdateInstrumentCommand = new UpdateInstrumentCommand(this);
             IsViewToggleCommand = new IsViewToggleCommand(this);
             ComboBoxInstrumentSelectCommand = new ComboBoxInstrumentSelectCommand(this);
-            ComboBoxStatusSelectCommand = new ComboBoxStatusSelectCommand(this);
 
             // initialize
             InitializeParameter();
@@ -124,42 +117,16 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             }
         }
 
-        public async void ComboBoxInstrumentFilter()
+        public async void ComboBoxInstrumentFilter(Instrument selectedInstrument = null, string status = "")
         {
-            if (ComboBoxSelectedInstrument == null)
-            {
-                await GetAllInstrumentsAsync();
-            }
-            else
-            {
-                foreach (var instrument in Instruments)
-                {
-                    if (instrument != ComboBoxSelectedInstrument)
-                    {
-                        instrument.show = false;
-                    }
-                }
-            }
-        }
+            //SelectedInstrument = selectedInstrument;
+            //ComboBoxSelectedStatus = status;
 
-        public async void ComboBoxStatusFilter()
-        {
-            if (string.IsNullOrWhiteSpace(ComboBoxSelectedStatus) || ComboBoxSelectedStatus == "All")
-            {
-                await GetAllInstrumentsAsync();
-            }
-            else
-            {
-                foreach (var instrument in Instruments)
-                {
-                    var status = ComboBoxSelectedStatus == "Active" ? true : false;
+            string instrumentFilter = selectedInstrument == null ? "" : selectedInstrument.name;
+            string statusfilter = status == "" || status == "All" ? "" : status == "Active" ? "true" : "false";
 
-                    if (instrument.status != status)
-                    {
-                        instrument.show = false;
-                    }
-                }
-            }
+            var filter = $"?name={instrumentFilter}&status={statusfilter}";
+            await GetAllInstrumentsAsync(filter);
         }
     }
 }

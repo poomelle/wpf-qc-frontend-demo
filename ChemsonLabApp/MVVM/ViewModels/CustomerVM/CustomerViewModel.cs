@@ -30,7 +30,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
         public List<Customer> CustomerComboBox { get; set; }
         public ObservableCollection<Customer> Customers { get; set; } = new ObservableCollection<Customer>();
         public List<string> StatusCombo { get; set; } = new List<string> { "All", "Active", "Inactive" };
-        public string ComboBoxSelectedStatus { get; set; } = "Active";
+        public string ComboBoxSelectedStatus { get; set; }
         public string ErrorMessage { get; set; }
         public bool IsLoading { get; set; }
         public bool HasError { get; set; }

@@ -5,6 +5,8 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:local="clr-namespace:ChemsonLabApp.MVVM.Views.COA"
                 xmlns:converters="clr-namespace:ChemsonLabApp.Converters"
+                xmlns:controls="clr-namespace:ChemsonLabApp.Controls.ProductComboBox"
+                xmlns:batchesInputControls="clr-namespace:ChemsonLabApp.Controls.BatchesInput"
                 mc:Ignorable="d">
 
     <ContentControl.Resources>
@@ -107,36 +109,10 @@
                 Orientation="Horizontal"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left">
-                <ComboBox
-                    ItemsSource="{Binding Products}"
-                    DisplayMemberPath="name"
-                    SelectedItem="{Binding SelectedProduct}"
-                    Text="Select a Product"
-                    Style="{StaticResource BaseComboBoxStyle}"
-                    Margin="0 0 30 0">
-                </ComboBox>
-                <Label
-                    Content="Batch number"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Margin="0 0 10 0"/>
-                <TextBox
-                    Style="{StaticResource MediumInputTextBox}"
-                    Height="40"
-                    Width="60"
-                    Margin="0 0 10 0"
-                    Text="{Binding FromBatch}"/>
-                <Label
-                    Content="to"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Margin="0 0 10 0"/>
-                <TextBox
-                    Style="{StaticResource MediumInputTextBox}"
-                    Height="40"
-                    Width="60"
-                    Margin="0 0 40 0"
-                    Text="{Binding ToBatch}"/>
+                <controls:ProductComboBox ProductSelectionChangedCommand="{Binding ProductSelectCOACommand}"/>
+                <batchesInputControls:BatchesInput
+                    FromBatchTextChangeCommand ="{Binding FromBatchCOACommand}"
+                    ToBatchTextChangeCommnad="{Binding ToBatchCOACommand}"/>
                 <Button
                     Style="{StaticResource BaseButton}"
                     Content="Search"
