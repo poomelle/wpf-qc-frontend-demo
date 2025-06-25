@@ -59,6 +59,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             InitializeParameter();
         }
 
+        /// <summary>
+        /// Initializes parameters for the CustomerOrderViewModel, including loading all customer orders
+        /// with a filter for active status. Handles exceptions and manages the cursor state during the operation.
+        /// </summary>
         public async void InitializeParameter()
         {
             CursorUtility.DisplayCursor(true);
@@ -83,6 +87,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             }
         }
 
+        /// <summary>
+        /// Retrieves all customer orders from the service, applies optional filtering and sorting,
+        /// updates the CustomerOrders collection, and refreshes the Customers and Products lists
+        /// with unique entries based on the retrieved orders.
+        /// </summary>
         public async Task GetAllCustomerOrdersAsync(string filter = "", string sort = "")
         {
             var customerOrders = await _customerOrderService.GetAllCustomerOrdersAsync(filter, sort);
@@ -108,9 +117,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
                 .ToList();
         }
 
+        /// <summary>
+        /// Saves changes made to a customer's information within a customer order.
+        /// Validates the input fields for customer name and email, updates the customer via the service,
+        /// refreshes the customer orders list, toggles the edit/view mode for the order, and refreshes the list again.
+        /// </summary>
         public async void SaveChangeCustomer(CustomerOrder customerOrder)
         {
-            if (!InputValidationUtility.ValidateNotNullInput(customerOrder.customer.name, "Customer Name") && 
+            if (!InputValidationUtility.ValidateNotNullInput(customerOrder.customer.name, "Customer Name") &&
                 !InputValidationUtility.ValidateNotNullInput(customerOrder.customer.email, "Customer Email")) return;
 
             Customer customer = new Customer
@@ -129,6 +143,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             await GetAllCustomerOrdersAsync();
         }
 
+        /// <summary>
+        /// Toggles the edit and view modes for a given CustomerOrder.
+        /// If switched to view mode, refreshes the list of customer orders from the service.
+        /// </summary>
         public async void EditViewToggle(CustomerOrder customerOrder)
         {
             customerOrder.isEditMode = !customerOrder.isEditMode;
@@ -140,21 +158,36 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             }
         }
 
+        /// <summary>
+        /// Opens the Add Customer Order dialog view using the dialog service.
+        /// </summary>
         public void PopupAddCustomerOrderView()
         {
             _dialogService.ShowView("AddCustomerOrder");
         }
 
+        /// <summary>
+        /// Opens the Delete Customer Order dialog view for the specified customer order using the dialog service.
+        /// </summary>
+        /// <param name="customerOrder">The customer order to be deleted.</param>
         public void PopupDeleteCustomerOrderView(CustomerOrder customerOrder)
         {
             _dialogService.ShowDeleteView(customerOrder);
         }
 
+        /// <summary>
+        /// Reloads the customer orders data asynchronously.
+        /// </summary>
         public async void ReloadData()
         {
             await GetAllCustomerOrdersAsync();
         }
 
+        /// <summary>
+        /// Filters the CustomerOrders collection based on the selected product in ComboBoxSelectedProduct.
+        /// If no product is selected, reloads all active customer orders.
+        /// Otherwise, sets the 'show' property to false for orders whose product does not match the selected product.
+        /// </summary>
         public async void CustomerOrderProductFilter()
         {
             if (ComboBoxSelectedProduct == null)
@@ -174,6 +207,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             }
         }
 
+        /// <summary>
+        /// Filters the CustomerOrders collection based on the selected customer in ComboBoxSeletedCustomer.
+        /// If no customer is selected, reloads all active customer orders.
+        /// Otherwise, sets the 'show' property to false for orders whose customer does not match the selected customer.
+        /// </summary>
         public async void CustomerOrderCustomerFilter()
         {
             if (ComboBoxSeletedCustomer == null)

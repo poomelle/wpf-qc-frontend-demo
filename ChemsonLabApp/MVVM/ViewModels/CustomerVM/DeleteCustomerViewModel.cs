@@ -31,6 +31,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             this._customerViewService = customerViewService;
         }
 
+        /// <summary>
+        /// Deletes the specified customer and their associated orders after confirmation.
+        /// Shows a success notification if the deletion is successful.
+        /// </summary>
         public async void DeleteCustomer()
         {
             var deletedCustomer = await _customerViewService.DeleteCustomerAndCustomerOrderAsync(Customer, DeleteConfirm);

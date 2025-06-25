@@ -18,6 +18,13 @@ namespace ChemsonLabApp.Services.DataLoaderService
             this._batchTestResultRestAPI = batchTestResultRestAPI;
         }
 
+        /// <summary>
+        /// Loads BCH batch test results based on the provided search criteria.
+        /// If only fromBatchName is provided, loads results for that batch.
+        /// If both fromBatchName and toBatchName are provided, loads results for all batches in the range.
+        /// If neither is provided, loads results by test date.
+        /// Filters results by the specified suffix.
+        /// </summary>
         public async Task<List<BatchTestResult>> LoadBCHBatchTestResult(string productName, string testNumber, string suffix, string fromBatchName, string toBatchName, DateTime testDate)
         {
             var loadedBatchTestResults = new List<BatchTestResult>();
@@ -74,6 +81,10 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return loadedBatchTestResults;
         }
 
+        /// <summary>
+        /// Loads batch test results for WarmUp and STD test types based on BCH batch test results.
+        /// Uses the product name and batch group from the first BCH batch test result.
+        /// </summary>
         public async Task<List<BatchTestResult>> LoadWarmUpAndSTDBatchTestResult(List<BatchTestResult> bchBatchTestResults, string testType)
         {
             var productName = bchBatchTestResults.FirstOrDefault().testResult.product.name;

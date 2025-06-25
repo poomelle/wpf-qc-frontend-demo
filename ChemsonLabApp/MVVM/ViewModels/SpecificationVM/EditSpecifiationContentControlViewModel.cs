@@ -36,6 +36,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             SaveUpdateSpecificationCommand = new SaveUpdateSpecificationCommand(this);
         }
 
+        /// <summary>
+        /// Saves the current Specification and its associated Product by calling the specification service.
+        /// Displays a loading cursor during the operation, shows a success notification if the update succeeds,
+        /// and handles errors by displaying appropriate error messages and logging them.
+        /// </summary>
         public async void SaveSpecificationAndProduct()
         {
             CursorUtility.DisplayCursor(true);
@@ -60,6 +65,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Asynchronously retrieves a Specification by its ID and assigns it to the Specification property.
+        /// </summary>
+        /// <param name="id">The ID of the Specification to retrieve.</param>
         public async void GetSpecificationById(int id)
         {
             Specification = await _specificationService.GetSpecificationByIdAsync(id);

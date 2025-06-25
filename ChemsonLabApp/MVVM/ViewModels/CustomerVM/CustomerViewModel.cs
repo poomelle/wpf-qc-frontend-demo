@@ -65,6 +65,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
 
         }
 
+        /// <summary>
+        /// Initializes customer-related parameters by loading all customers for the ComboBox and populating the Customers collection.
+        /// Handles errors related to server connectivity and general exceptions, displaying appropriate notifications.
+        /// Shows a loading cursor during the operation.
+        /// </summary>
         public async void InitializeParameter()
         {
             CursorUtility.DisplayCursor(true);
@@ -89,6 +94,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             }
         }
 
+        /// <summary>
+        /// Retrieves all customers asynchronously, applies status and name filters, and updates the Customers collection.
+        /// </summary>
         public async Task GetAllCustomerAsync()
         {
             var customers = await _customerService.GetAllCustomersAsync();
@@ -101,13 +109,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             Customers.Clear();
             if (filteredByName != null)
             {
-                foreach(var customer in filteredByName)
+                foreach (var customer in filteredByName)
                 {
                     Customers.Add(customer);
                 }
             }
         }
 
+        /// <summary>
+        /// Toggles the edit and view modes for the specified customer.
+        /// If toggled back to view mode, refreshes the customer list.
+        /// </summary>
         public async Task EditViewToggle(Customer customer)
         {
             customer.isEditMode = !customer.isEditMode;
@@ -119,24 +131,39 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             }
         }
 
+        /// <summary>
+        /// Saves changes made to the specified customer by updating it through the service,
+        /// then refreshes the customer list.
+        /// </summary>
         public async Task SaveChangeCustomer(Customer customer)
         {
             await _customerService.UpdateCustomerAsync(customer);
             await GetAllCustomerAsync();
         }
 
-        public async Task ReloadCustomerData() 
+        /// <summary>
+        /// Reloads the customer data by resetting the status and selected customer filters,
+        /// then refreshes the customer list.
+        /// </summary>
+        public async Task ReloadCustomerData()
         {
             ComboBoxSelectedStatus = "Active";
             ComboBoxSelectedCustomer = null;
             await GetAllCustomerAsync();
         }
 
+        /// <summary>
+        /// Opens the Add Customer dialog view using the dialog service.
+        /// </summary>
         public void PopupAddCustomerView()
         {
             _dialogService.ShowView("AddCustomer");
         }
 
+        /// <summary>
+        /// Opens the Delete Customer dialog view for the specified customer using the dialog service.
+        /// </summary>
+        /// <param name="customer">The customer to be deleted.</param>
         public void PopupDeleteCustomerView(Customer customer)
         {
             _dialogService.ShowDeleteView(customer);

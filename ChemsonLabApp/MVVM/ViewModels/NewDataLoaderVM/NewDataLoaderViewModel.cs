@@ -79,6 +79,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             InitializeParameters();
         }
 
+        /// <summary>
+        /// Initializes the parameters for the NewDataLoaderViewModel by loading active products and instruments.
+        /// Updates the Products, Instruments, and InstrumentsNameList properties.
+        /// Handles exceptions related to server connectivity and data loading, and manages the cursor display state.
+        /// </summary>
         private async void InitializeParameters()
         {
             CursorUtility.DisplayCursor(true);
@@ -108,6 +113,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Opens a file dialog for the user to select one or more MTF or TXT files, processes each file according to its extension,
+        /// and loads the resulting test data into the TestResults collection. After processing, assigns default values and arranges
+        /// the results, then updates the TestResults collection and sets the X2 value. Handles errors and manages the cursor display state.
+        /// </summary>
         public async void ImportFiles()
         {
             string defaultPath = "S:\\Lab\\B3_Data";
@@ -158,10 +168,15 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
                 finally
                 {
                     CursorUtility.DisplayCursor(false);
-                };
+                }
+                ;
             }
         }
 
+        /// <summary>
+        /// Processes a B3 MTF file by opening a database connection to the file, extracting test results, evaluations, 
+        /// and measurements using the data loader service, and adding them to the corresponding collections.
+        /// </summary>
         private void ProcessB3MTFFile(string file)
         {
             string fileName = Path.GetFileName(file);
@@ -185,6 +200,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Processes a TXT file by extracting the test result, measurements, and evaluations using the data loader service.
+        /// Adds the extracted test result to the TestResults collection, measurements to the Measurements collection,
+        /// and evaluations to the Evaluations collection.
+        /// </summary>
         private void ProcessTxtFile(string file)
         {
             var testResult = _dataLoaderService.ProcessTxtTestResult(file, Products, Instruments);
@@ -197,6 +217,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             Evaluations.AddRange(evaluations);
         }
 
+        /// <summary>
+        /// Populates the TestResults ObservableCollection with the provided list of test results.
+        /// </summary>
         private void PopulateTestResultsObservation(List<TestResult> testResults)
         {
             foreach (var testResult in testResults)
@@ -205,11 +228,19 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Sets the isTwoX property based on the comment of the product in the first TestResult.
+        /// If the comment is "x2" (case-insensitive), isTwoX is set to true; otherwise, false.
+        /// </summary>
         private void SetX2Value()
         {
             isTwoX = TestResults[0].product.comment.ToLower() == "x2" ? true : false;
         }
 
+        /// <summary>
+        /// Automatically rebatches the names of the test results using the data loader service and the isTwoX flag.
+        /// Clears the current TestResults collection and repopulates it with the updated results.
+        /// </summary>
         public void AutoReBatchName()
         {
             var testResults = _dataLoaderService.AutoReBatchName(TestResults.ToList(), isTwoX);
@@ -217,6 +248,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             PopulateTestResultsObservation(testResults);
         }
 
+        /// <summary>
+        /// Saves the current test results, evaluations, and measurements using the data loader service.
+        /// Displays a success notification if the save is successful, otherwise logs and notifies of errors.
+        /// Clears the TestResults, Evaluations, and Measurements collections after the operation.
+        /// Manages the cursor display state during the save process.
+        /// </summary>
         public async void SavingDataLoader()
         {
             CursorUtility.DisplayCursor(true);
@@ -239,6 +276,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Updates the test number of the given TestResult based on its suffix.
+        /// If the suffix is not null or whitespace, assigns the test number from the SuffixTestAttemptPair dictionary.
+        /// Otherwise, sets the test number to 1.
+        /// </summary>
         public void SuffixChanged(TestResult testResult)
         {
             if (!string.IsNullOrWhiteSpace(testResult.suffix))
@@ -251,6 +293,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Updates the test number of the given TestResult based on its test type.
+        /// Sets testNumber to 0 for "W/U" and "STD" types, and to 1 for "BCH" type.
+        /// Throws an exception if the test type is not valid.
+        /// </summary>
         public void TestTypeChanged(TestResult testResult)
         {
             try
@@ -274,6 +321,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Removes the specified TestResult from the TestResults collection.
+        /// If the removal fails, logs the error and shows a notification.
+        /// </summary>
         public void RemoveDataLoaderFunction(TestResult testResult)
         {
             for (int i = 0; i < TestResults.Count; i++)

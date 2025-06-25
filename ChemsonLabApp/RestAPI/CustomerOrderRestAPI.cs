@@ -28,7 +28,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<CustomerOrder>> GetAllCustomerOrdersAsync(string filter="", string sort = "")
+        /// <summary>
+        /// Retrieves all customer orders from the API with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of <see cref="CustomerOrder"/> objects.</returns>
+        public async Task<List<CustomerOrder>> GetAllCustomerOrdersAsync(string filter = "", string sort = "")
         {
             string url = $"{baseUrl}{filter}{sort}";
 
@@ -41,6 +47,11 @@ namespace ChemsonLabApp.RestAPI
             return CustomerOrders;
         }
 
+        /// <summary>
+        /// Retrieves a customer order by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the customer order.</param>
+        /// <returns>The <see cref="CustomerOrder"/> object if found; otherwise, null.</returns>
         public async Task<CustomerOrder> GetCustomerOrderByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -54,6 +65,11 @@ namespace ChemsonLabApp.RestAPI
             return CustomerOrder;
         }
 
+        /// <summary>
+        /// Creates a new customer order via the API.
+        /// </summary>
+        /// <param name="customerOrder">The <see cref="CustomerOrder"/> object to create.</param>
+        /// <returns>The created <see cref="CustomerOrder"/> object as returned by the API.</returns>
         public async Task<CustomerOrder> CreateCustomerOrderAsync(CustomerOrder customerOrder)
         {
             string url = $"{baseUrl}";
@@ -69,11 +85,16 @@ namespace ChemsonLabApp.RestAPI
             return CustomerOrder;
         }
 
+        /// <summary>
+        /// Updates an existing customer order via the API.
+        /// </summary>
+        /// <param name="customerOrder">The <see cref="CustomerOrder"/> object to update.</param>
+        /// <returns>The updated <see cref="CustomerOrder"/> object as returned by the API.</returns>
         public async Task<CustomerOrder> UpdateCustomerOrderAsync(CustomerOrder customerOrder)
         {
             string url = $"{baseUrl}/{customerOrder.id}";
             var json = JsonSerializer.Serialize<CustomerOrder>(customerOrder, options);
-            StringContent content = new StringContent (json, Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PutAsync(url, content);
             if (response.IsSuccessStatusCode)
@@ -84,6 +105,11 @@ namespace ChemsonLabApp.RestAPI
             return CustomerOrder;
         }
 
+        /// <summary>
+        /// Deletes a customer order via the API.
+        /// </summary>
+        /// <param name="customerOrder">The <see cref="CustomerOrder"/> object to delete.</param>
+        /// <returns>The deleted <see cref="CustomerOrder"/> object as returned by the API.</returns>
         public async Task<CustomerOrder> DeleteCustomerOrderAsync(CustomerOrder customerOrder)
         {
             string url = $"{baseUrl}/{customerOrder.id}";

@@ -22,6 +22,12 @@ namespace ChemsonLabApp.Services
             this._testResultReportRestAPI = testResultReportRestAPI;
         }
 
+        /// <summary>
+        /// Creates a Certificate of Analysis (COA) for each TestResultReport in the provided list if a COA does not already exist
+        /// for the corresponding product and batch. Uses the ICoaRestAPI to check for existing COAs and to create new ones as needed.
+        /// Logs any exceptions encountered during the process and continues with the next report.
+        /// </summary>
+        /// <param name="testResultReports">A list of TestResultReport objects to process for COA creation.</param>
         public async Task CreateCOAFromTestResultReportAsync(List<TestResultReport> testResultReports)
         {
             if (testResultReports != null || testResultReports.Count != 0)
@@ -54,6 +60,15 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a list of TestResultReport objects for a given product and batch range.
+        /// Handles single batch, exact batch, and batch range queries using the ITestResultReportRestAPI.
+        /// Logs any exceptions encountered and returns the collected reports.
+        /// </summary>
+        /// <param name="selectedProduct">The product for which to retrieve test result reports.</param>
+        /// <param name="fromBatch">The starting batch name or exact batch name.</param>
+        /// <param name="toBatch">The ending batch name (optional, used for range queries).</param>
+        /// <returns>A list of TestResultReport objects matching the specified criteria.</returns>
         public async Task<List<TestResultReport>> GetProductTestResultReportsWithBatchRange(Product selectedProduct, string fromBatch, string toBatch)
         {
             List<TestResultReport> reports = new List<TestResultReport>();
@@ -96,6 +111,12 @@ namespace ChemsonLabApp.Services
             return reports;
         }
 
+        /// <summary>
+        /// Sorts a list of TestResultReport objects by their batch number, which is parsed from the batch name.
+        /// Updates the batchNumber property of each report and returns a new list ordered by batch number.
+        /// </summary>
+        /// <param name="testResultReports">The list of TestResultReport objects to sort.</param>
+        /// <returns>A new list of TestResultReport objects sorted by batch number.</returns>
         public List<TestResultReport> SortTestReportsByBatchNumber(List<TestResultReport> testResultReports)
         {
             foreach (var report in testResultReports)

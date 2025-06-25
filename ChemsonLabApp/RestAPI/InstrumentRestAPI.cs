@@ -28,6 +28,12 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
+        /// <summary>
+        /// Retrieves a list of instruments from the REST API, with optional filtering and sorting.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of <see cref="Instrument"/> objects.</returns>
         public async Task<List<Instrument>> GetInstrumentsAsync(string filter = "", string sort = "")
         {
             Instruments = new List<Instrument>();
@@ -43,6 +49,11 @@ namespace ChemsonLabApp.RestAPI
             return Instruments;
         }
 
+        /// <summary>
+        /// Retrieves a single instrument by its ID from the REST API.
+        /// </summary>
+        /// <param name="id">The ID of the instrument to retrieve.</param>
+        /// <returns>The <see cref="Instrument"/> object if found; otherwise, null.</returns>
         public async Task<Instrument> GetInstrumentByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -57,6 +68,11 @@ namespace ChemsonLabApp.RestAPI
             return Instrument;
         }
 
+        /// <summary>
+        /// Creates a new instrument by sending a POST request to the REST API.
+        /// </summary>
+        /// <param name="instrument">The <see cref="Instrument"/> object to create.</param>
+        /// <returns>The created <see cref="Instrument"/> object as returned by the API.</returns>
         public async Task<Instrument> CreateInstrumentAsync(Instrument instrument)
         {
             var json = JsonSerializer.Serialize<Instrument>(instrument, options);
@@ -71,6 +87,11 @@ namespace ChemsonLabApp.RestAPI
             return Instrument;
         }
 
+        /// <summary>
+        /// Updates an existing instrument by sending a PUT request to the REST API.
+        /// </summary>
+        /// <param name="instrument">The <see cref="Instrument"/> object to update.</param>
+        /// <returns>The updated <see cref="Instrument"/> object as returned by the API.</returns>
         public async Task<Instrument> UpdateInstrumentAsync(Instrument instrument)
         {
             string url = $"{baseUrl}/{instrument.id}";
@@ -82,11 +103,16 @@ namespace ChemsonLabApp.RestAPI
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                Instrument = JsonSerializer.Deserialize<Instrument>(data, options);    
+                Instrument = JsonSerializer.Deserialize<Instrument>(data, options);
             }
             return Instrument;
         }
 
+        /// <summary>
+        /// Deletes an instrument by sending a DELETE request to the REST API.
+        /// </summary>
+        /// <param name="instrument">The <see cref="Instrument"/> object to delete.</param>
+        /// <returns>The deleted <see cref="Instrument"/> object as returned by the API.</returns>
         public async Task<Instrument> DeleteInstrumentAsync(Instrument instrument)
         {
             string url = $"{baseUrl}/{instrument.id}";

@@ -23,6 +23,9 @@ namespace ChemsonLabApp.Services
         }
 
 
+        /// <summary>
+        /// Loads all active products, sorted by name in ascending order.
+        /// </summary>
         public async Task<List<Product>> LoadActiveProducts()
         {
             string filter = "?status=true";
@@ -31,11 +34,20 @@ namespace ChemsonLabApp.Services
             return await _productRestAPI.GetProductsAsync(filter, sort);
         }
 
-        public async Task<List<Product>> LoadAllProducts(string filer="", string sort="")
+        /// <summary>
+        /// Loads all products with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filer">The filter string to apply.</param>
+        /// <param name="sort">The sort string to apply.</param>
+        public async Task<List<Product>> LoadAllProducts(string filer = "", string sort = "")
         {
             return await _productRestAPI.GetProductsAsync(filer, sort);
         }
 
+        /// <summary>
+        /// Creates a new product with the specified name if the name is valid and does not already exist.
+        /// </summary>
+        /// <param name="name">The name of the new product.</param>
         public async Task<Product> CreateNewProductByProductName(string name)
         {
             var isNewProductNameValid = await IsNewProductNameValid(name);
@@ -55,6 +67,10 @@ namespace ChemsonLabApp.Services
             return await _productRestAPI.CreateProductAsync(product);
         }
 
+        /// <summary>
+        /// Checks if the new product name is valid and does not already exist.
+        /// </summary>
+        /// <param name="name">The product name to validate.</param>
         private async Task<bool> IsNewProductNameValid(string name)
         {
             var isProductNameNull = string.IsNullOrWhiteSpace(name);
@@ -64,6 +80,10 @@ namespace ChemsonLabApp.Services
             return !isProductNameNull && !isDuplicate;
         }
 
+        /// <summary>
+        /// Updates the specified product if the product name is valid and not a duplicate.
+        /// </summary>
+        /// <param name="product">The product to update.</param>
         public async Task<Product> UpdateProduct(Product product)
         {
             var isProductNameValid = await IsUpdateProductNameValid(product);
@@ -81,6 +101,10 @@ namespace ChemsonLabApp.Services
             return updateProduct;
         }
 
+        /// <summary>
+        /// Checks if the updated product name is valid and not a duplicate for other products.
+        /// </summary>
+        /// <param name="product">The product to validate.</param>
         private async Task<bool> IsUpdateProductNameValid(Product product)
         {
             var isProductNameNull = string.IsNullOrWhiteSpace(product.name);
@@ -90,6 +114,11 @@ namespace ChemsonLabApp.Services
             return !isProductNameNull && !isUpdateNameDuplicate;
         }
 
+        /// <summary>
+        /// Deletes the specified product if the delete confirmation is valid.
+        /// </summary>
+        /// <param name="product">The product to delete.</param>
+        /// <param name="deleteConfirmation">The delete confirmation string.</param>
         public async Task<Product> DeleteProduct(Product product, string deleteConfirmation)
         {
             if (!InputValidationUtility.DeleteConfirmation(deleteConfirmation)) return null;
@@ -97,6 +126,10 @@ namespace ChemsonLabApp.Services
             return await _productRestAPI.DeleteProductAsync(product);
         }
 
+        /// <summary>
+        /// Gets a product by its name.
+        /// </summary>
+        /// <param name="productName">The name of the product to retrieve.</param>
         public async Task<Product> GetProductFromProductName(string productName)
         {
             var filter = $"?name={productName}";
@@ -104,6 +137,9 @@ namespace ChemsonLabApp.Services
             return products.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Gets the names of all active products.
+        /// </summary>
         public async Task<List<string>> GetAllActiveProductName()
         {
             var products = await LoadActiveProducts();

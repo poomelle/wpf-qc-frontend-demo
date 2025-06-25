@@ -29,6 +29,12 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
+        /// <summary>
+        /// Retrieves all batches from the API with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of Batch objects.</returns>
         public async Task<List<Batch>> GetAllBatchesAsync(string filter = "", string sort = "")
         {
             Batches = new List<Batch>();
@@ -42,6 +48,11 @@ namespace ChemsonLabApp.RestAPI
             return Batches;
         }
 
+        /// <summary>
+        /// Retrieves a batch by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the batch.</param>
+        /// <returns>The Batch object if found; otherwise, null.</returns>
         public async Task<Batch> GetBatchByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -54,6 +65,11 @@ namespace ChemsonLabApp.RestAPI
             return Batch;
         }
 
+        /// <summary>
+        /// Creates a new batch by sending a POST request to the API.
+        /// </summary>
+        /// <param name="batch">The Batch object to create.</param>
+        /// <returns>The created Batch object as returned by the API.</returns>
         public async Task<Batch> CreateBatchAsync(Batch batch)
         {
             string url = $"{baseUrl}";
@@ -68,6 +84,11 @@ namespace ChemsonLabApp.RestAPI
             return Batch;
         }
 
+        /// <summary>
+        /// Updates an existing batch by sending a PUT request to the API.
+        /// </summary>
+        /// <param name="batch">The Batch object with updated information.</param>
+        /// <returns>The updated Batch object as returned by the API.</returns>
         public async Task<Batch> UpdateBatchAsync(Batch batch)
         {
             string url = $"{baseUrl}/{batch.id}";
@@ -82,6 +103,11 @@ namespace ChemsonLabApp.RestAPI
             return Batch;
         }
 
+        /// <summary>
+        /// Deletes a batch by sending a DELETE request to the API.
+        /// </summary>
+        /// <param name="batch">The Batch object to delete.</param>
+        /// <returns>The deleted Batch object as returned by the API.</returns>
         public async Task<Batch> DeleteBatchAsync(Batch batch)
         {
             string url = $"{baseUrl}/{batch.id}";

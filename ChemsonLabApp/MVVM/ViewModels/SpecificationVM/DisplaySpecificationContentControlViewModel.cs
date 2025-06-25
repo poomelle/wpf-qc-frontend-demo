@@ -21,6 +21,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             this._specificationService = specificationService;
         }
 
+        /// <summary>
+        /// Asynchronously retrieves a Specification by its ID and updates the Specification property.
+        /// </summary>
+        /// <param name="id">The ID of the specification to retrieve.</param>
         public async void GetSpecificationById(int id)
         {
             Specification = await _specificationService.GetSpecificationByIdAsync(id);

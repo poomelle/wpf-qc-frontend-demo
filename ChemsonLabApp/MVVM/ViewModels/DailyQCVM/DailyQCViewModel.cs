@@ -85,6 +85,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             InitializeDailyQcs();
         }
 
+        /// <summary>
+        /// Initializes the default parameters for the DailyQCViewModel, including filter combo box items,
+        /// default selected values, and other UI-related lists such as years, months, priorities, and comments.
+        /// </summary>
         private void InitializeDefaultParameters()
         {
             TestStatuses = new List<string> { "All", "In Process", "Yes", "No" };
@@ -101,13 +105,19 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
 
             StdReqdComboBox = new List<string> { "DPC", "" };
 
-            PriorityComboBox = new List<int> { 0, 1, 2, 3, 4};
+            PriorityComboBox = new List<int> { 0, 1, 2, 3, 4 };
 
             ExtraComboBox = new List<string> { "NEW", "" };
 
             CommentComboBox = new List<string> { "await samples", "OKs printed", "" };
         }
 
+        /// <summary>
+        /// Loads and initializes the DailyQcs collection for the dashboard view.
+        /// Fetches daily QC data for the selected product, year, month, and test status
+        /// from the service, populates the observable collection, and handles UI cursor state.
+        /// Displays error notifications if data loading fails.
+        /// </summary>
         public async void InitializeDailyQcs()
         {
             CursorUtility.DisplayCursor(true);
@@ -134,6 +144,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             }
         }
 
+        /// <summary>
+        /// Searches for DailyQc records based on the selected product, year, month, and test status.
+        /// Retrieves the filtered DailyQc list from the service, populates additional COA, label, and batch information,
+        /// and updates the observable collection for display. Handles and logs any errors that occur during the process.
+        /// </summary>
         public async void SearchDataDailyQc()
         {
             try
@@ -149,6 +164,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             }
         }
 
+        /// <summary>
+        /// Populates the DailyQcs observable collection with the provided list of DailyQc objects.
+        /// Orders the list based on the selected test status (by incoming date if "All", otherwise by priority).
+        /// Optionally filters the list to include only products that require a COA if IsOnlyCOARequired is true.
+        /// Sets the productName property for each DailyQc and adds it to the collection for UI binding.
+        /// </summary>
         private void PopulateDailyQcsData(List<DailyQc> dailyQcs)
         {
             DailyQcs.Clear();
@@ -181,6 +202,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             }
         }
 
+        /// <summary>
+        /// Populates the last tested batch information for the specified DailyQc object.
+        /// Retrieves the last batch value asynchronously from the daily QC service and updates the DailyQc object.
+        /// Sets the isLastBatchLoaded flag to true if a valid last batch value is retrieved.
+        /// </summary>
         private async Task PopulateLastTestedBatch(DailyQc dailyQc)
         {
             dailyQc.lastBatch = await _dailyQcService.GetLastTest(dailyQc);
@@ -190,6 +216,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             }
         }
 
+        /// <summary>
+        /// Populates the SelectedDailyQc object with product information for a new DailyQc entry.
+        /// Sets the product name, retrieves the corresponding Product object and its ID, sets the test status to "In Process",
+        /// and loads the last tested batch information for the selected product.
+        /// Handles and logs any exceptions that occur during the process.
+        /// </summary>
         public async void PopulateNewDailyQc(string productName)
         {
             try
@@ -208,6 +240,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             }
         }
 
+        /// <summary>
+        /// Saves all DailyQc records in the DailyQcs collection to the database.
+        /// Displays a success notification upon successful save, or an error notification if an exception occurs.
+        /// After saving, reinitializes the DailyQcs collection to reflect the latest data.
+        /// </summary>
         public async void SaveDailyQcsToDatabase()
         {
             try
@@ -226,6 +263,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             }
         }
 
+        /// <summary>
+        /// Deletes the selected DailyQc records from the database.
+        /// Prompts the user for confirmation before deletion. If confirmed, deletes all DailyQc items
+        /// in the DailyQcs collection that are marked as selected. Displays a success notification if deletion succeeds,
+        /// or an error notification if an exception occurs. After deletion, reinitializes the DailyQcs collection
+        /// to reflect the latest data.
+        /// </summary>
         public async void DeleteDailyQc()
         {
             try
@@ -246,6 +290,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DailyQCVM
             }
         }
 
+        /// <summary>
+        /// Selects or deselects all DailyQc items in the DailyQcs collection based on the IsAllSelected property.
+        /// When IsAllSelected is true, all items are marked as selected; otherwise, all are deselected.
+        /// </summary>
         public void TriggerSelectAllDailyQcs()
         {
             foreach (var dailyQc in DailyQcs)

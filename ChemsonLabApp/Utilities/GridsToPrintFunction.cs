@@ -14,8 +14,19 @@ using System.Xml;
 
 namespace ChemsonLabApp.Utilities
 {
+    /// <summary>
+    /// Provides utility functions for printing multiple WPF Grid elements as a combined document.
+    /// Includes methods for preparing, cloning, and scaling grids to fit printable page sizes.
+    /// </summary>
     public static class GridsToPrintFunction
     {
+        /// <summary>
+        /// Prints a list of Grid elements as a combined document, with options for orientation and margin.
+        /// </summary>
+        /// <param name="gridsToPrint">The list of Grid elements to print.</param>
+        /// <param name="documentTitle">The title of the print document.</param>
+        /// <param name="portrait">True for portrait orientation, false for landscape.</param>
+        /// <param name="gridMargin">True to add margin to each grid, false otherwise.</param>
         public static void PrintCombinedGrids(List<Grid> gridsToPrint, string documentTitle, bool portrait, bool gridMargin)
         {
             PrintDialog printDialog = new PrintDialog();
@@ -30,13 +41,11 @@ namespace ChemsonLabApp.Utilities
                     printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
                 }
 
-
                 FixedDocument fixedDoc = new FixedDocument();
                 fixedDoc.DocumentPaginator.PageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
 
                 foreach (Grid grid in gridsToPrint)
                 {
-
                     // Create a FixedPage and add the prepared grid
                     FixedPage fixedPage = new FixedPage();
                     fixedPage.Width = printDialog.PrintableAreaWidth;
@@ -48,8 +57,6 @@ namespace ChemsonLabApp.Utilities
                     preparedElement.Measure(elementSize);
                     preparedElement.Arrange(new Rect(elementSize));
 
-                    // Calculate the left position to center the element horizontally
-                    //double leftOffset = (printDialog.PrintableAreaWidth - preparedElement.DesiredSize.Width) / 2;
                     fixedPage.Children.Add(preparedElement);
 
                     // Add the FixedPage to the FixedDocument
@@ -61,17 +68,21 @@ namespace ChemsonLabApp.Utilities
                 // Print the document
                 Application.Current.Dispatcher.Invoke(() => printDialog.PrintDocument(fixedDoc.DocumentPaginator, documentTitle));
             }
-
-
         }
 
+        /// <summary>
+        /// Prepares a Grid for printing by cloning, optionally adding margin, and scaling to fit the page.
+        /// </summary>
+        /// <param name="originalGrid">The original Grid to prepare.</param>
+        /// <param name="printDialog">The PrintDialog providing page size information.</param>
+        /// <param name="gridMargin">True to add margin to the grid, false otherwise.</param>
+        /// <returns>A UIElement ready for printing.</returns>
         private static UIElement PrepareGridForPrinting(Grid originalGrid, PrintDialog printDialog, bool gridMargin)
         {
             Grid printGrid = CloneGrid(originalGrid);
 
             Grid wrapperGrid = new Grid();
             wrapperGrid.Children.Add(printGrid);
-            //printGrid.Margin = new Thickness(150, 50, 150, 200);
 
             if (gridMargin)
             {
@@ -88,6 +99,11 @@ namespace ChemsonLabApp.Utilities
             return wrapperGrid;
         }
 
+        /// <summary>
+        /// Creates a deep clone of the specified Grid using XAML serialization.
+        /// </summary>
+        /// <param name="originalGrid">The Grid to clone.</param>
+        /// <returns>A cloned Grid instance.</returns>
         private static Grid CloneGrid(Grid originalGrid)
         {
             string gridXaml = XamlWriter.Save(originalGrid);
@@ -97,6 +113,12 @@ namespace ChemsonLabApp.Utilities
             return clonedGrid;
         }
 
+        /// <summary>
+        /// Calculates a ScaleTransform to fit the Grid within the printable area of the page.
+        /// </summary>
+        /// <param name="grid">The Grid to scale.</param>
+        /// <param name="printDialog">The PrintDialog providing printable area dimensions.</param>
+        /// <returns>A ScaleTransform for fitting the grid to the page.</returns>
         private static ScaleTransform FitGridToPageSize(Grid grid, PrintDialog printDialog)
         {
             double printableWidth = printDialog.PrintableAreaWidth;
@@ -106,8 +128,6 @@ namespace ChemsonLabApp.Utilities
 
             double scaleX = printableWidth / grid.DesiredSize.Width;
             double scaleY = printableHeight / grid.DesiredSize.Height;
-
-            scaleX *= 1;
 
             double scale = Math.Min(scaleX, scaleY);
 

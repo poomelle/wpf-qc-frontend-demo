@@ -27,7 +27,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<TestResultReport>> GetAllTestResultReportAsync(string filter="", string sort = "")
+        /// <summary>
+        /// Retrieves all test result reports asynchronously, with optional filtering and sorting.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request.</param>
+        /// <param name="sort">Optional sort string to apply to the request.</param>
+        /// <returns>A list of <see cref="TestResultReport"/> objects.</returns>
+        public async Task<List<TestResultReport>> GetAllTestResultReportAsync(string filter = "", string sort = "")
         {
             TestResultReports = new List<TestResultReport>();
             string url = $"{baseUrl}{filter}{sort}";
@@ -41,10 +47,15 @@ namespace ChemsonLabApp.RestAPI
             return TestResultReports;
         }
 
+        /// <summary>
+        /// Retrieves a test result report by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the test result report.</param>
+        /// <returns>The <see cref="TestResultReport"/> object if found; otherwise, null.</returns>
         public async Task<TestResultReport> GetTestResultReportByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
-            
+
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
@@ -54,21 +65,31 @@ namespace ChemsonLabApp.RestAPI
             return TestResultReport;
         }
 
+        /// <summary>
+        /// Creates a new test result report asynchronously.
+        /// </summary>
+        /// <param name="report">The <see cref="TestResultReport"/> object to create.</param>
+        /// <returns>The created <see cref="TestResultReport"/> object.</returns>
         public async Task<TestResultReport> CreateTestResultReportAsync(TestResultReport report)
         {
             string url = $"{baseUrl}";
             var json = JsonSerializer.Serialize<TestResultReport>(report, options);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            
+
             var response = await client.PostAsync(url, content);
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                TestResultReport = JsonSerializer.Deserialize<TestResultReport>(data,options);
+                TestResultReport = JsonSerializer.Deserialize<TestResultReport>(data, options);
             }
             return TestResultReport;
         }
 
+        /// <summary>
+        /// Updates an existing test result report asynchronously.
+        /// </summary>
+        /// <param name="resultReport">The <see cref="TestResultReport"/> object to update.</param>
+        /// <returns>The updated <see cref="TestResultReport"/> object.</returns>
         public async Task<TestResultReport> UpdateTestResultReportAsync(TestResultReport resultReport)
         {
             string url = $"{baseUrl}/{resultReport.id}";
@@ -84,6 +105,11 @@ namespace ChemsonLabApp.RestAPI
             return TestResultReport;
         }
 
+        /// <summary>
+        /// Deletes a test result report asynchronously.
+        /// </summary>
+        /// <param name="testResultReport">The <see cref="TestResultReport"/> object to delete.</param>
+        /// <returns>The deleted <see cref="TestResultReport"/> object.</returns>
         public async Task<TestResultReport> DeleteTestResultReportAsync(TestResultReport testResultReport)
         {
             string url = $"{baseUrl}/{testResultReport.id}";

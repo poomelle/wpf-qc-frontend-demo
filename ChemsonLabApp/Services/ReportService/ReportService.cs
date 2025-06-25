@@ -33,10 +33,16 @@ namespace ChemsonLabApp.Services
             this._evaluationRestAPI = evaluationRestAPI;
         }
 
+        /// <summary>
+        /// Calculates the average test time in ticks for a list of batch test results.
+        /// Only considers test results from the most recent test date and intervals less than 30 minutes.
+        /// Returns 0 if the input list is empty.
+        /// </summary>
+        /// <param name="batchTestResults">List of BatchTestResult objects to calculate the average test time from.</param>
+        /// <returns>The average test time in ticks as a long value.</returns>
         public long CalculateAveTestTimeTick(List<BatchTestResult> batchTestResults)
         {
             long aveTestTimeTick = 0;
-
 
             if (batchTestResults.Count == 0)
             {
@@ -95,6 +101,15 @@ namespace ChemsonLabApp.Services
             return aveTestTimeTick;
         }
 
+        /// <summary>
+        /// Saves or updates reports for the provided batch test results.
+        /// Creates a new report entry, determines the file location, and for each batch test result,
+        /// retrieves corresponding database batch test results and creates or updates their associated test result reports.
+        /// Handles exceptions related to HTTP requests and general errors, displaying appropriate notifications and logging errors.
+        /// </summary>
+        /// <param name="batchTestResults">List of batch test results to be included in the report.</param>
+        /// <param name="aveTimeTicks">The average test time in ticks to be recorded in the report.</param>
+        /// <returns>True if the operation succeeds; otherwise, false.</returns>
         public async Task<bool> SaveOrUpdateReports(List<BatchTestResult> batchTestResults, long aveTimeTicks)
         {
             try
@@ -129,9 +144,19 @@ namespace ChemsonLabApp.Services
                 NotificationUtility.ShowError("Error while saving report. Please try again later.");
                 LoggerUtility.LogError(ex);
                 return false;
-            }            
+            }
         }
 
+        /// <summary>
+        /// Creates or updates test result reports for each database batch test result.
+        /// For each dbBatchTestResult, checks if a TestResultReport exists; if not, creates a new one with the provided data.
+        /// If a report exists, updates it with the latest values from the batchTestResult and report context.
+        /// </summary>
+        /// <param name="aveTimeTicks">The average test time in ticks to be recorded in the report.</param>
+        /// <param name="createdReport">The Report object representing the parent report entry.</param>
+        /// <param name="fullFilePath">The file path where the report is stored.</param>
+        /// <param name="batchTestResult">The BatchTestResult containing the latest test data.</param>
+        /// <param name="dbBatchTestResults">List of BatchTestResult objects from the database to process.</param>
         private async Task CreateOrUpdateBatchTestResultReports(long aveTimeTicks, Report createdReport, string fullFilePath, BatchTestResult batchTestResult, List<BatchTestResult> dbBatchTestResults)
         {
             foreach (var dbBatchTestResult in dbBatchTestResults)
@@ -174,6 +199,13 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the corresponding database batch test results for a given BatchTestResult.
+        /// If the batch name contains a '+', it splits the batch into two and fetches results for both parts.
+        /// Otherwise, it fetches results using the test result ID.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult for which to retrieve database entries.</param>
+        /// <returns>A list of BatchTestResult objects from the database matching the criteria.</returns>
         private async Task<List<BatchTestResult>> GetDbBatchTestResults(BatchTestResult batchTestResult)
         {
             var dbBatchTestResults = new List<BatchTestResult>();
@@ -186,7 +218,6 @@ namespace ChemsonLabApp.Services
                 var firstBatchName = batchTestResult.batch.batchName.Split('+')[0].Trim();
                 var lastBatchName = $"{yearMonth}{batchTestResult.batch.batchName.Split('+')[1].Trim()}";
                 var testNumber = batchTestResult.testResult.testNumber;
-
 
                 string firstFilter = $"?productName={productName}&exactBatchName={firstBatchName}&testNumber={testNumber}";
                 string secondFilter = $"?productName={productName}&exactBatchName={lastBatchName}&testNumber={testNumber}";
@@ -208,6 +239,12 @@ namespace ChemsonLabApp.Services
             return dbBatchTestResults;
         }
 
+        /// <summary>
+        /// Generates the file location for a report image based on the provided batch test results.
+        /// Constructs the path using the report base folder, year, product name, month, and batch name(s).
+        /// Handles both single and double batch scenarios, formatting the file name accordingly.
+        /// Returns the full file path as a string.
+        /// </summary>
         public string getFileLocation(List<BatchTestResult> batchTestResults)
         {
             string fullFilePath = "";
@@ -256,6 +293,19 @@ namespace ChemsonLabApp.Services
             return fullFilePath;
         }
 
+        /// <summary>
+        /// Retrieves all batch test results for generating a report based on the specified product, batch range, test date, test number, and suffix.
+        /// Filters the results by the provided suffix, consolidates double batches, loads standard and warm-up test results, 
+        /// loads torque and fusion data, and orders the results by test date before returning the final list.
+        /// Displays an error notification if no results are found for the given criteria.
+        /// </summary>
+        /// <param name="product">The product for which to retrieve batch test results.</param>
+        /// <param name="fromBatch">The starting batch name in the range.</param>
+        /// <param name="toBatch">The ending batch name in the range.</param>
+        /// <param name="testDate">The test date to filter results.</param>
+        /// <param name="testNumber">The test number to filter results.</param>
+        /// <param name="suffix">The suffix to filter batch test results.</param>
+        /// <returns>A list of BatchTestResult objects matching the specified criteria, ready for report generation.</returns>
         public async Task<List<BatchTestResult>> GetAllBatchTestResultsForMakingReport(Product product, string fromBatch, string toBatch, string testDate, string testNumber, string suffix)
         {
             var batchTestResults = await GetAllTestedResults(product, fromBatch, toBatch, testDate, testNumber);
@@ -283,6 +333,11 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Orders the given list of BatchTestResult objects by their test date.
+        /// Parses the test date from the testResult.testDate string property and assigns it to the testDate property of each BatchTestResult.
+        /// Returns a new list sorted in ascending order by testDate.
+        /// </summary>
         private List<BatchTestResult> OrderBatchTestResultsByTestDate(List<BatchTestResult> batchTestResults)
         {
             foreach (var batchTestResult in batchTestResults)
@@ -296,6 +351,12 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Loads torque and fusion data for each BatchTestResult in the provided list.
+        /// For each result, retrieves the latest Evaluation for torque (pointName "X") and fusion (pointName "t") from the database.
+        /// Updates the testResult.torque, testResult.torqueId, testResult.fusion, and testResult.fusionId properties accordingly.
+        /// Returns the updated list of BatchTestResult objects.
+        /// </summary>
         private async Task<List<BatchTestResult>> LoadTorqueFusionData(List<BatchTestResult> batchTestResults)
         {
             foreach (var result in batchTestResults)
@@ -322,6 +383,12 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Loads all warm-up (W/U) test results for the provided batch test results.
+        /// For each unique test date in the input list, retrieves corresponding W/U batch test results
+        /// from the database using product name, batch group, test date, and machine name as filters.
+        /// Adds all found W/U results to the original list and returns the combined list.
+        /// </summary>
         private async Task<List<BatchTestResult>> LoadAllWarmUpTestResults(List<BatchTestResult> batchTestResults)
         {
             List<DateTime> testDates = new List<DateTime>();
@@ -360,12 +427,16 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Loads all standard (STD) test results for the provided batch test results.
+        /// Retrieves STD batch test results from the database using product name, batch group, and machine name as filters.
+        /// Adds all found STD results to the original list and returns the combined list.
+        /// </summary>
         private async Task<List<BatchTestResult>> LoadAllStandardTestResults(List<BatchTestResult> batchTestResults)
         {
             string batchGroupName = batchTestResults[0].testResult.batchGroup;
             string machineName = batchTestResults[0].testResult.machine.name;
             string productName = batchTestResults[0].testResult.product.name;
-
 
             string stdResultsFilter = $"?productName={productName}&batchGroup={batchGroupName}&batchName=STD&machineName={machineName}";
 
@@ -376,6 +447,11 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Retrieves all tested batch results for a given product, batch range, test date, and attempt number.
+        /// If a batch range is specified, fetches results for each batch in the range; otherwise, fetches by test date and attempt.
+        /// Returns a list of BatchTestResult objects matching the criteria.
+        /// </summary>
         private async Task<List<BatchTestResult>> GetAllTestedResults(Product product, string fromBatch, string toBatch, string testDate, string attempt)
         {
             var batchTestResults = new List<BatchTestResult>();
@@ -403,6 +479,12 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Consolidates double batch test results by combining consecutive results with the same file name.
+        /// Sets the batch number for ordering, sorts the list, and merges batch names for double batches.
+        /// Removes the second batch from the list when a double batch is detected.
+        /// Returns the consolidated and ordered list of BatchTestResult objects.
+        /// </summary>
         private List<BatchTestResult> ConsolidateDoubleBatchesTestResult(List<BatchTestResult> batchTestResults)
         {
             try
@@ -418,7 +500,6 @@ namespace ChemsonLabApp.Services
                 NotificationUtility.ShowError("Error: Batch number format is not correct.");
                 LoggerUtility.LogError(ex);
             }
-
 
             // order batchTestResults by batch name
             batchTestResults = batchTestResults.OrderBy(r => r.batch.batchNumber).ToList();
@@ -438,6 +519,14 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Calculates the torque and fusion differences for each batch test result compared to a standard result.
+        /// For each batch test result of type "BCH", sets the standard reference, computes the percentage difference
+        /// in torque and fusion values relative to the standard, and determines if the result passes based on product fail thresholds.
+        /// </summary>
+        /// <param name="batchTestResults">List of BatchTestResult objects to update with calculated differences and results.</param>
+        /// <param name="standardResult">The BatchTestResult representing the standard for comparison.</param>
+        /// <returns>The updated list of BatchTestResult objects with calculated differences and result flags.</returns>
         public List<BatchTestResult> CalculateTorDiffAndFusDiff(List<BatchTestResult> batchTestResults, BatchTestResult standardResult)
         {
             if (standardResult != null)
@@ -467,6 +556,13 @@ namespace ChemsonLabApp.Services
             return batchTestResults;
         }
 
+        /// <summary>
+        /// Checks and updates the torque and fusion evaluation results for each batch test result.
+        /// For each batch test result, retrieves the corresponding torque and fusion evaluation records from the database.
+        /// If the torque or fusion values differ from those in the evaluation records, updates the evaluation records accordingly.
+        /// Displays a success notification listing the batches for which torque or fusion data was updated.
+        /// Returns the updated list of batch test results.
+        /// </summary>
         public async Task<List<BatchTestResult>> CheckAndUpdateEvaluationResults(List<BatchTestResult> batchTestResults)
         {
             var updatedBatchTestResults = new List<BatchTestResult>();
@@ -521,6 +617,13 @@ namespace ChemsonLabApp.Services
             return updatedBatchTestResults;
         }
 
+        /// <summary>
+        /// Deletes a specified TestResultReport after confirming the delete action.
+        /// If the delete confirmation is invalid, returns null. Otherwise, deletes the report using the REST API.
+        /// </summary>
+        /// <param name="testResultReport">The TestResultReport object to delete.</param>
+        /// <param name="deleteConfirmation">The confirmation string to validate the delete action.</param>
+        /// <returns>The deleted TestResultReport object if successful; otherwise, null.</returns>
         public async Task<TestResultReport> DeleteTestResultReport(TestResultReport testResultReport, string deleteConfirmation)
         {
             if (!InputValidationUtility.DeleteConfirmation(deleteConfirmation)) return null;
@@ -528,6 +631,16 @@ namespace ChemsonLabApp.Services
             return await _testResultReportRestAPI.DeleteTestResultReportAsync(testResultReport);
         }
 
+        /// <summary>
+        /// Retrieves all TestResultReport objects for a given product and batch range, filtered by test number and suffix.
+        /// Handles single batch, exact batch, and batch range scenarios. Returns only reports matching the specified suffix.
+        /// </summary>
+        /// <param name="selectedProduct">The product for which to retrieve reports.</param>
+        /// <param name="fromBatch">The starting batch name in the range.</param>
+        /// <param name="toBatch">The ending batch name in the range.</param>
+        /// <param name="testNumber">The test number to filter reports.</param>
+        /// <param name="suffix">The suffix to filter reports.</param>
+        /// <returns>A list of TestResultReport objects matching the criteria.</returns>
         public async Task<List<TestResultReport>> GetProductTestResultReportsWithBatchRange(Product selectedProduct, string fromBatch, string toBatch, string testNumber, string suffix)
         {
             List<TestResultReport> reports = new List<TestResultReport>();

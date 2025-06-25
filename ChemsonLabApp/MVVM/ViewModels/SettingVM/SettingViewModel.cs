@@ -31,6 +31,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.SettingVM
             OnCancelCommand = new OnCancelCommand(this);
         }
 
+        /// <summary>
+        /// Initializes the setting parameters by retrieving values from the SettingAPI.
+        /// </summary>
         private void InitializeParameters()
         {
             var settingAPI = new SettingAPI();
@@ -42,6 +45,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SettingVM
             FormulationActiveFolder = settingAPI.GetFormulationExcelFolder();
         }
 
+        /// <summary>
+        /// Saves the current setting values using the SettingAPI and reloads the parameters.
+        /// Displays a message box on success, and handles errors by showing a notification and logging the error.
+        /// </summary>
         public void SaveNewSettingValues()
         {
             try
@@ -59,13 +66,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.SettingVM
 
                 MessageBox.Show($"New Setting has been saved", "Saved!", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 NotificationUtility.ShowError("Error: unable to save a new setting value. Please try again later.");
                 LoggerUtility.LogError(ex);
             }
         }
 
+        /// <summary>
+        /// Reverts any unsaved changes by re-initializing the setting parameters.
+        /// </summary>
         public void UnsavedNewSettingValue()
         {
             InitializeParameters();

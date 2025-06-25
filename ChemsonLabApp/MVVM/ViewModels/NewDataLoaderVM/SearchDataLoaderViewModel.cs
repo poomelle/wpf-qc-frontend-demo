@@ -68,6 +68,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             SuffixRadioButtonChangeSearchDataLoaderCommand = new SuffixRadioButtonChangeSearchDataLoaderCommand(this);
         }
 
+        /// <summary>
+        /// Searches for batch test results based on the selected product, batch number range, test number, suffix, and test date.
+        /// Loads BCH, Warm Up, and STD batch test results using the search data loader service.
+        /// Populates the BatchTestResults collection with the results.
+        /// Displays notifications if no data is found or if an error occurs during the search.
+        /// </summary>
         public async void SearchBatchTestResult()
         {
             BatchTestResults.Clear();
@@ -116,6 +122,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Populates the BatchTestResults collection with unique BatchTestResult items from the provided list.
+        /// Ensures that no duplicate BatchTestResult (by id) is added to the collection.
+        /// </summary>
         private void PopulateBatchTestResults(List<BatchTestResult> batchTestResults)
         {
             // Populate each unique item in list to BatchTestResults
@@ -128,11 +138,19 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Opens the Edit Data Loader dialog for the specified BatchTestResult.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult to edit.</param>
         public void PopupEditDataLoaderView(BatchTestResult batchTestResult)
         {
             _dialogService.ShowEditDataLoaderView(batchTestResult);
         }
 
+        /// <summary>
+        /// Opens the Delete Data Loader dialog for the selected BatchTestResult items.
+        /// If no items are selected, shows a warning notification.
+        /// </summary>
         public void PopupDeleteDataLoaderView()
         {
             var batchTestResults = BatchTestResults.Where(x => x.isSelected).ToList();
@@ -146,6 +164,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             _dialogService.ShowDeleteDataLoaderView(batchTestResults);
         }
 
+        /// <summary>
+        /// Selects all BatchTestResult items in the BatchTestResults collection.
+        /// Sets the SelectedAllBatchTestResult property to true.
+        /// </summary>
         public void SelectAllBatchTestResult()
         {
             SelectedAllBatchTestResult = true;
@@ -155,6 +177,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Unselects all BatchTestResult items in the BatchTestResults collection.
+        /// Sets the SelectedAllBatchTestResult property to false.
+        /// </summary>
         public void UnSelectAllBatchTestResult()
         {
             SelectedAllBatchTestResult = false;

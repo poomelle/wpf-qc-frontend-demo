@@ -35,16 +35,26 @@ namespace ChemsonLabApp.Services.DataLoaderService
         }
 
 
+        /// <summary>
+        /// Deletes a list of BatchTestResult entities and all related data (TestResultReports, Batch, Evaluation, Measurement, TestResult)
+        /// after confirming the delete operation.
+        /// </summary>
+        /// <param name="batchTestResults">The list of BatchTestResult objects to delete.</param>
+        /// <param name="deleteConfirm">The confirmation string required to proceed with deletion.</param>
         public async Task DeleteBatchTestResults(List<BatchTestResult> batchTestResults, string deleteConfirm)
         {
             if (!InputValidationUtility.DeleteConfirmation(deleteConfirm)) return;
 
-            foreach(var batchTestResult in batchTestResults)
+            foreach (var batchTestResult in batchTestResults)
             {
                 await DeleteBatchTestResult(batchTestResult);
             }
         }
 
+        /// <summary>
+        /// Deletes a single BatchTestResult and all associated entities, including TestResultReports, Batch, Evaluations, Measurements, and TestResult.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult object to delete.</param>
         private async Task DeleteBatchTestResult(BatchTestResult batchTestResult)
         {
             var batchTestResultId = batchTestResult.id;

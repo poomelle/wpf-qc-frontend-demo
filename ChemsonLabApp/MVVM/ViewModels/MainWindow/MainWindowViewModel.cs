@@ -60,13 +60,18 @@ namespace ChemsonLabApp.MVVM.ViewModels
             MenuSelected(HeaderTitle);
         }
 
+        /// <summary>
+        /// Handles menu selection logic for the main window. 
+        /// Sets the header title and updates the SelectedContent property 
+        /// with the appropriate view and view model based on the selected menu title.
+        /// </summary>
         public void MenuSelected(string menuTitle)
         {
             HeaderTitle = menuTitle;
             switch (menuTitle)
             {
                 case "Daily QC":
-                    using(var scope = _serviceScopeFactory.CreateScope())
+                    using (var scope = _serviceScopeFactory.CreateScope())
                     {
                         var dailyQCViewModel = scope.ServiceProvider.GetRequiredService<DailyQCViewModel>();
                         SelectedContent = new DailyQCView(dailyQCViewModel);
@@ -136,7 +141,7 @@ namespace ChemsonLabApp.MVVM.ViewModels
                     }
                     break;
                 case "Customer":
-                    using(var scope = _serviceScopeFactory.CreateScope())
+                    using (var scope = _serviceScopeFactory.CreateScope())
                     {
                         var customerViewModel = scope.ServiceProvider.GetRequiredService<CustomerViewModel>();
                         SelectedContent = new CustomerView(customerViewModel);
@@ -170,6 +175,11 @@ namespace ChemsonLabApp.MVVM.ViewModels
             }
         }
 
+        /// <summary>
+        /// Toggles the visibility of the submenu for the selected menu item.
+        /// If the submenu is currently visible, it hides all submenus.
+        /// Otherwise, it hides all submenus and then shows the submenu for the selected menu.
+        /// </summary>
         public void ShowHideSubMenu(Models.Menu selectedMenu)
         {
             if (selectedMenu.IsSubmenuVisible == true)
@@ -183,6 +193,9 @@ namespace ChemsonLabApp.MVVM.ViewModels
             }
         }
 
+        /// <summary>
+        /// Hides all submenus by setting IsSubmenuVisible to false for each menu item.
+        /// </summary>
         public void HideAllSubMenu()
         {
             foreach (Models.Menu menu in MenuItems)

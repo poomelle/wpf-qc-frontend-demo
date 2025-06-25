@@ -19,11 +19,24 @@ namespace ChemsonLabApp.Services
             this._qcLabelRestAPI = qcLabelRestAPI;
         }
 
+        /// <summary>
+        /// Creates a new QCLabel record asynchronously by calling the underlying REST API.
+        /// </summary>
+        /// <param name="qcLabel">The QCLabel object to create.</param>
+        /// <returns>The created QCLabel object.</returns>
         public async Task<QCLabel> CreateQcLabelAsync(QCLabel qcLabel)
         {
             return await _qcLabelRestAPI.CreateQCLabelAsync(qcLabel);
         }
 
+        /// <summary>
+        /// Creates QCLabel records from a list of QCLabel objects asynchronously.
+        /// For each QCLabel in the list, checks if a label with the same batch name and product name already exists.
+        /// If not, creates a new QCLabel record marked as printed.
+        /// Returns true if the operation completes without exceptions, otherwise returns false.
+        /// </summary>
+        /// <param name="qcLabels">The list of QCLabel objects to process.</param>
+        /// <returns>True if all operations succeed; otherwise, false.</returns>
         public async Task<bool> CreateQcLabelFromListAsync(List<QCLabel> qcLabels)
         {
             try
@@ -61,9 +74,15 @@ namespace ChemsonLabApp.Services
                 LoggerUtility.LogError(ex);
                 return false;
             }
-
         }
 
+        /// <summary>
+        /// Extracts and formats the batch name from the provided string.
+        /// If the batch name contains a hyphen, it combines the first three characters (year and month)
+        /// with the batch number after the hyphen. Otherwise, returns the original batch name.
+        /// </summary>
+        /// <param name="batchName">The original batch name string.</param>
+        /// <returns>The formatted batch name.</returns>
         private string GetBatchName(string batchName)
         {
             if (batchName.Contains("-"))
@@ -75,26 +94,58 @@ namespace ChemsonLabApp.Services
             return batchName;
         }
 
+        /// <summary>
+        /// Deletes the specified QCLabel asynchronously by calling the underlying REST API.
+        /// </summary>
+        /// <param name="qcLabel">The QCLabel object to delete.</param>
+        /// <returns>The deleted QCLabel object.</returns>
         public async Task<QCLabel> DeleteQcLabelAsync(QCLabel qcLabel)
         {
             return await _qcLabelRestAPI.DeleteQCLabelAsync(qcLabel);
         }
 
+        /// <summary>
+        /// Retrieves all QCLabel records asynchronously, with optional filtering and sorting.
+        /// </summary>
+        /// <param name="filter">Optional filter string for querying QCLabels.</param>
+        /// <param name="sort">Optional sort string for ordering QCLabels.</param>
+        /// <returns>A list of QCLabel objects.</returns>
         public async Task<List<QCLabel>> GetAllQcLabelsAsync(string filter = "", string sort = "")
         {
             return await _qcLabelRestAPI.GetAllQCLabelsAsync(filter, sort);
         }
 
+        /// <summary>
+        /// Retrieves a QCLabel by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the QCLabel.</param>
+        /// <returns>The QCLabel object with the specified ID.</returns>
         public async Task<QCLabel> GetQcLabelByIdAsync(int id)
         {
             return await _qcLabelRestAPI.GetQCLabelByIdAsync(id);
         }
 
+        /// <summary>
+        /// Updates the specified QCLabel asynchronously by calling the underlying REST API.
+        /// </summary>
+        /// <param name="qcLabel">The QCLabel object to update.</param>
+        /// <returns>The updated QCLabel object.</returns>
         public async Task<QCLabel> UpdateQcLabelAsync(QCLabel qcLabel)
         {
             return await _qcLabelRestAPI.UpdateQCLabelAsync(qcLabel);
         }
 
+        /// <summary>
+        /// Populates a list of QCLabel objects for a given product and batch range.
+        /// Validates the input parameters, then generates QCLabel instances for each batch number
+        /// in the specified range, assigning the provided product and weight to each label.
+        /// Returns the list of generated QCLabel objects, or null if validation fails or an error occurs.
+        /// </summary>
+        /// <param name="product">The product associated with the QC labels.</param>
+        /// <param name="batchStart">The starting batch name (e.g., "24001").</param>
+        /// <param name="batchEnd">The ending batch name (e.g., "24010").</param>
+        /// <param name="weight">The weight to assign to each QC label.</param>
+        /// <returns>A list of populated QCLabel objects, or null if validation fails or an error occurs.</returns>
         public List<QCLabel> PopulateQcLabels(Product product, string batchStart, string batchEnd, string weight)
         {
             if (!ValidateQcLabelInputs(product, batchStart, batchEnd, weight)) return null;
@@ -138,6 +189,17 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Validates the input parameters required for creating or populating QCLabel objects.
+        /// Checks that the product, batch start, batch end, and weight are not null or empty,
+        /// and that the batch numbers are in the correct format.
+        /// Returns true if all validations pass; otherwise, false.
+        /// </summary>
+        /// <param name="product">The product associated with the QC labels.</param>
+        /// <param name="batchStart">The starting batch name.</param>
+        /// <param name="batchEnd">The ending batch name.</param>
+        /// <param name="weight">The weight to assign to each QC label.</param>
+        /// <returns>True if all inputs are valid; otherwise, false.</returns>
         private bool ValidateQcLabelInputs(Product product, string batchStart, string batchEnd, string weight)
         {
             var isSelectProductNotNull = InputValidationUtility.ValidateNotNullObject(product, "Product");

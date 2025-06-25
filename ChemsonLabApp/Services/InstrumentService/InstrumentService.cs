@@ -19,6 +19,12 @@ namespace ChemsonLabApp.Services
             this._instrumentRestAPI = instrumentRestAPI;
         }
 
+        /// <summary>
+        /// Creates a new instrument with the specified name after validating that the name is not null, empty, or a duplicate.
+        /// Shows an error notification if the name is invalid or already exists.
+        /// </summary>
+        /// <param name="name">The name of the instrument to create.</param>
+        /// <returns>True if the instrument was created successfully; otherwise, false.</returns>
         public async Task<bool> CreateInstrumentAsync(string name)
         {
             var isNewInstrumentNameValid = await IsAddNewInstrumentNameValid(name);
@@ -38,6 +44,12 @@ namespace ChemsonLabApp.Services
             return true;
         }
 
+        /// <summary>
+        /// Deletes the specified instrument if the delete confirmation is valid.
+        /// </summary>
+        /// <param name="instrument">The instrument to delete.</param>
+        /// <param name="deleteConfirmation">The confirmation string for deletion.</param>
+        /// <returns>The deleted instrument if successful; otherwise, null.</returns>
         public async Task<Instrument> DeleteInstrumentAsync(Instrument instrument, string deleteConfirmation)
         {
             if (!InputValidationUtility.DeleteConfirmation(deleteConfirmation)) return null;
@@ -45,6 +57,11 @@ namespace ChemsonLabApp.Services
             return await _instrumentRestAPI.DeleteInstrumentAsync(instrument);
         }
 
+        /// <summary>
+        /// Validates whether a new instrument name is not null, empty, or a duplicate of an existing instrument.
+        /// </summary>
+        /// <param name="name">The instrument name to validate.</param>
+        /// <returns>True if the name is valid; otherwise, false.</returns>
         private async Task<bool> IsAddNewInstrumentNameValid(string name)
         {
             var isNameNull = string.IsNullOrWhiteSpace(name);
@@ -55,6 +72,10 @@ namespace ChemsonLabApp.Services
             return !isNameNull && !isDuplicate;
         }
 
+        /// <summary>
+        /// Retrieves all active instruments, sorted by name in ascending order.
+        /// </summary>
+        /// <returns>A list of all active instruments.</returns>
         public async Task<List<Instrument>> GetAllActiveInstrument()
         {
             string filter = "?status=true";
@@ -63,11 +84,22 @@ namespace ChemsonLabApp.Services
             return await _instrumentRestAPI.GetInstrumentsAsync(filter, sort);
         }
 
+        /// <summary>
+        /// Retrieves all instruments with optional filtering and sorting.
+        /// </summary>
+        /// <param name="filter">The filter string to apply.</param>
+        /// <param name="sort">The sort string to apply.</param>
+        /// <returns>A list of instruments matching the filter and sort criteria.</returns>
         public async Task<List<Instrument>> GetAllInstrumentsAsync(string filter = "", string sort = "")
         {
             return await _instrumentRestAPI.GetInstrumentsAsync(filter, sort);
         }
 
+        /// <summary>
+        /// Validates whether the instrument name can be updated (not null, empty, or a duplicate of another active instrument).
+        /// </summary>
+        /// <param name="instrument">The instrument to validate.</param>
+        /// <returns>True if the update is valid; otherwise, false.</returns>
         private async Task<bool> IsUpdateInstrumentNameValid(Instrument instrument)
         {
             var instruments = await GetAllActiveInstrument();
@@ -78,6 +110,12 @@ namespace ChemsonLabApp.Services
             return !isDuplicate && !isNull;
         }
 
+        /// <summary>
+        /// Updates the specified instrument after validating the name.
+        /// Shows an error notification if the name is invalid or already exists.
+        /// </summary>
+        /// <param name="instrument">The instrument to update.</param>
+        /// <returns>True if the instrument was updated successfully; otherwise, false.</returns>
         public async Task<bool> UpdateInstrumentAsync(Instrument instrument)
         {
             if (!await IsUpdateInstrumentNameValid(instrument))
@@ -92,6 +130,10 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the names of all active instruments.
+        /// </summary>
+        /// <returns>A list of names of all active instruments.</returns>
         public async Task<List<string>> GetAllActiveInstrumentName()
         {
             var instruments = await GetAllActiveInstrument();

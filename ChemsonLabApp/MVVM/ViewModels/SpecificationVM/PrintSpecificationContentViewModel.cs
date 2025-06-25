@@ -60,15 +60,22 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             InitializeAsync();
         }
 
+        /// <summary>
+        /// Initializes the PrintSpecificationContentViewModel by asynchronously loading specifications and instruments,
+        /// consolidating the specification data, and creating the display grids for printing.
+        /// </summary>
         private async void InitializeAsync()
         {
-            
             await GetAllSpecificationsAsync(filter: "?inUse=true", sort: "&sortBy=productName&isAscending=true");
             await GetAllInstrumentsAsync(filter: "?status=true");
             ConsolidateSpecification();
             CreateAndShowGrid();
         }
 
+        /// <summary>
+        /// Asynchronously retrieves all specifications from the specification service using the provided filter and sort parameters,
+        /// clears the current Specifications collection, and populates it with the retrieved specifications.
+        /// </summary>
         private async Task GetAllSpecificationsAsync(string filter = "", string sort = "")
         {
             var specifications = await _specificationService.GetAllSpecificationsAsync(filter, sort);
@@ -80,6 +87,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
 
         }
 
+        /// <summary>
+        /// Asynchronously retrieves all instruments from the instrument service using the provided filter and sort parameters,
+        /// clears the current Instruments collection, and populates it with the retrieved instruments.
+        /// </summary>
         private async Task GetAllInstrumentsAsync(string filter = "", string sort = "")
         {
             var instruments = await _instrumentService.GetAllInstrumentsAsync(filter, sort);
@@ -90,6 +101,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Consolidates the list of specifications by grouping them based on product properties,
+        /// and creates a collection of <see cref="PrintOutSpecification"/> objects.
+        /// Each consolidated specification contains product details and a list of machine-specific specifications
+        /// for all available instruments. The resulting collection is assigned to <see cref="PrintSpecifications"/>.
+        /// </summary>
         public void ConsolidateSpecification()
         {
             var consolidatedSpecifications = Specifications
@@ -144,6 +161,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Creates a header label for use in the specification grid, with optional background color.
+        /// The header label is styled with bold font, centered alignment, and a specified font size and family.
+        /// </summary>
+        /// <param name="text">The text to display in the header label.</param>
+        /// <param name="colourBrush">An optional SolidColorBrush to use as the background color. If null, the background is transparent.</param>
+        /// <returns>A configured Label control representing the header.</returns>
         private Label CreateHeader(string text, SolidColorBrush colourBrush = null)
         {
             return new Label
@@ -161,6 +185,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             };
         }
 
+        /// <summary>
+        /// Creates a content label for use in the specification grid, with optional background color.
+        /// The content label is styled with bold font, centered alignment, and a specified font size and family.
+        /// </summary>
+        /// <param name="text">The text to display in the content label.</param>
+        /// <param name="colourBrush">An optional SolidColorBrush to use as the background color. If null, the background is transparent.</param>
+        /// <returns>A configured Label control representing the content cell.</returns>
         private Label CreateContent(string text, SolidColorBrush colourBrush = null)
         {
             return new Label
@@ -178,6 +209,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             };
         }
 
+        /// <summary>
+        /// Creates a label for displaying product content in the specification grid.
+        /// The label is styled with left horizontal alignment, gray border, and uses the specified font size and Arial font family.
+        /// </summary>
+        /// <param name="text">The text to display in the product content label.</param>
+        /// <returns>A configured Label control representing the product content cell.</returns>
         private Label CreateProductContent(string text)
         {
             return new Label
@@ -193,6 +230,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             };
         }
 
+        /// <summary>
+        /// Adds a UIElement to the specified Grid at the given column and row.
+        /// Sets the column and row for the element and adds it to the grid's children.
+        /// </summary>
+        /// <param name="grid">The Grid to which the element will be added.</param>
+        /// <param name="element">The UIElement to add to the grid.</param>
+        /// <param name="column">The column index where the element will be placed.</param>
+        /// <param name="row">The row index where the element will be placed.</param>
         private void AddCellToGrid(Grid grid, UIElement element, int column, int row)
         {
             Grid.SetColumn(element, column);
@@ -200,6 +245,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             grid.Children.Add(element);
         }
 
+        /// <summary>
+        /// Creates and displays two grids for printing specifications, splitting the PrintSpecifications collection
+        /// into two pages. Each grid is initialized with headers and populated with data rows, then assigned to
+        /// TableGrid1 and TableGrid2. The grids are also displayed in FlowDocuments for preview or printing.
+        /// </summary>
         private void CreateAndShowGrid()
         {
             if (PrintSpecifications == null) return;
@@ -219,6 +269,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             DisplayGridsInFlowDocuments(grid1, grid2);
         }
 
+        /// <summary>
+        /// Initializes a new Grid with column definitions for product, instrument-specific columns (Temp, Load, RPM for each instrument),
+        /// and fixed columns (DHSI, DB Date, Comment, Colour, Smple). Adds a header row to the grid.
+        /// </summary>
         private Grid InitializeGridWithHeaders()
         {
             var grid = new Grid();
@@ -237,12 +291,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return grid;
         }
 
+        /// <summary>
+        /// Adds the header row to the provided grid, including product, instrument-specific columns (Temp, Load, RPM for each instrument),
+        /// and fixed columns ("DHSI", "DB Date", "Comment", "Colour", "Smple"). Each instrument's columns are color-coded using the BackgroundColours list.
+        /// </summary>
+        /// <param name="grid">The Grid to which the header row will be added.</param>
         private void AddHeaderRowToGrid(Grid grid)
         {
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             int columnIndex = 0;
             AddCellToGrid(grid, CreateHeader("Product"), columnIndex++, 0);
-            for (int i = 0; i< Instruments.Count(); i++)
+            for (int i = 0; i < Instruments.Count(); i++)
             {
                 AddCellToGrid(grid, CreateHeader($"{Instruments[i].name} \nTemp (°C)", BackgroundColours[i]), columnIndex++, 0);
                 AddCellToGrid(grid, CreateHeader($"{Instruments[i].name} \nLoad (g)", BackgroundColours[i]), columnIndex++, 0);
@@ -255,6 +314,15 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Adds data rows to the provided grid for each specification in the given collection.
+        /// Each row contains product information and instrument-specific values (Temp, Load, RPM),
+        /// as well as additional fields such as COA, DB Date (with special background if older than 180 days),
+        /// Comment, Colour, and Sample Amount. The method applies background colors to instrument columns
+        /// and handles null or missing values gracefully.
+        /// </summary>
+        /// <param name="grid">The Grid to which data rows will be added.</param>
+        /// <param name="specifications">The collection of PrintOutSpecification objects to display.</param>
         private void AddDataRowsToGrid(Grid grid, IEnumerable<PrintOutSpecification> specifications)
         {
             int rowIndex = 1;
@@ -299,6 +367,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Displays the provided grids in FlowDocuments for preview or printing.
+        /// Each grid is wrapped in a BlockUIContainer and assigned to SpecificationTable1 and SpecificationTable2.
+        /// </summary>
         private void DisplayGridsInFlowDocuments(Grid grid1, Grid grid2)
         {
             var flowDoc1 = new FlowDocument();
@@ -311,8 +383,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             SpecificationTable2 = flowDoc2;
         }
 
-
-
+        /// <summary>
+        /// Prepares a clone of the provided Grid for printing by wrapping it in a new Grid, 
+        /// applying margins, scaling it to fit the printable area of the specified PrintDialog, 
+        /// and arranging it to match the page size. Returns the prepared UIElement for printing.
+        /// </summary>
+        /// <param name="originalGrid">The original Grid to be printed.</param>
+        /// <param name="printDialog">The PrintDialog containing printable area information.</param>
+        /// <returns>A UIElement ready for printing, containing the scaled and arranged grid.</returns>
         private UIElement PrepareGridForPrinting(Grid originalGrid, PrintDialog printDialog)
         {
             Grid printGrid = CloneGrid(originalGrid);
@@ -331,6 +409,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return wrapperGrid;
         }
 
+        /// <summary>
+        /// Creates a deep clone of the provided Grid by serializing it to XAML and then deserializing it.
+        /// This method is useful for duplicating UI elements for printing or display purposes in WPF.
+        /// </summary>
+        /// <param name="originalGrid">The original Grid to clone.</param>
+        /// <returns>A new Grid instance that is a deep copy of the original.</returns>
         private Grid CloneGrid(Grid originalGrid)
         {
             string gridXaml = XamlWriter.Save(originalGrid);
@@ -340,6 +424,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return clonedGrid;
         }
 
+        /// <summary>
+        /// Calculates a scale transform to fit the provided grid within the printable area of the specified PrintDialog.
+        /// Measures the grid, determines the scaling factors for width and height, and returns a ScaleTransform
+        /// that ensures the grid fits within the printable page size while maintaining aspect ratio.
+        /// </summary>
+        /// <param name="grid">The Grid to be scaled for printing.</param>
+        /// <param name="printDialog">The PrintDialog containing printable area dimensions.</param>
+        /// <returns>A ScaleTransform that scales the grid to fit the printable area.</returns>
         private ScaleTransform FitGridToPageSize(Grid grid, PrintDialog printDialog)
         {
             double printableWidth = printDialog.PrintableAreaWidth;
@@ -357,6 +449,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return new ScaleTransform(scale, scale);
         }
 
+        /// <summary>
+        /// Combines multiple grids into a single printable document, adding headers and footers to each page.
+        /// Displays a print dialog, prepares each grid for printing, and prints the resulting FixedDocument.
+        /// </summary>
+        /// <param name="gridsToPrint">A list of Grid controls to be printed, each representing a page.</param>
+        /// <param name="documentTitle">The title of the document to be printed.</param>
         private void PrintCombinedGrids(List<Grid> gridsToPrint, string documentTitle)
         {
             PrintDialog printDialog = new PrintDialog();
@@ -424,6 +522,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Creates a header UI element for printing, using a TextBlock with the specified text, width, and alignment.
+        /// The header is styled with a top margin, font size 12, and bold font weight.
+        /// </summary>
+        /// <param name="headerText">The text to display in the header.</param>
+        /// <param name="pageWidth">The width of the header, typically matching the printable page width.</param>
+        /// <param name="alignment">The text alignment for the header (e.g., Center, Left, Right).</param>
+        /// <returns>A TextBlock UIElement configured as a header.</returns>
         private UIElement CreateHeader(string headerText, double pageWidth, TextAlignment alignment)
         {
             TextBlock header = new TextBlock
@@ -439,6 +545,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return header;
         }
 
+        /// <summary>
+        /// Creates a footer UI element for printing, using a TextBlock with the specified text, width, and alignment.
+        /// The footer is styled with a margin, font size 8, and the provided alignment.
+        /// </summary>
+        /// <param name="footerText">The text to display in the footer.</param>
+        /// <param name="pageWidth">The width of the footer, typically matching the printable page width.</param>
+        /// <param name="alignment">The text alignment for the footer (e.g., Center, Left, Right).</param>
+        /// <returns>A TextBlock UIElement configured as a footer.</returns>
         private UIElement CreateFooter(string footerText, double pageWidth, TextAlignment alignment)
         {
             TextBlock footer = new TextBlock
@@ -453,6 +567,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return footer;
         }
 
+        /// <summary>
+        /// Initiates the print process for the specification tables. 
+        /// Checks if the required grids are available, then prepares and prints them on a background thread using the application's dispatcher.
+        /// </summary>
         public void Print()
         {
             if (TableGrid1 == null || TableGrid2 == null)

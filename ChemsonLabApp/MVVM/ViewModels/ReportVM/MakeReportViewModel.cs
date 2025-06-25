@@ -48,6 +48,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             this._emailService = emailService;
         }
 
+        /// <summary>
+        /// Calculates the average test time tick from the provided batch test results
+        /// and assigns the result to the AveTestTimeTick property. Handles and logs exceptions.
+        /// </summary>
         public void CalculateAveTestTimeTick(List<BatchTestResult> batchTestResults)
         {
             try
@@ -59,10 +63,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
                 NotificationUtility.ShowError("Failed to calculate average test time tick.");
                 LoggerUtility.LogError(ex);
             }
-
-
         }
 
+        /// <summary>
+        /// Initializes the OutputBatchTestResults collection with the provided batch test results.
+        /// Handles exceptions related to HTTP requests and general errors, displaying appropriate notifications and logging errors.
+        /// Displays a loading cursor during the operation.
+        /// </summary>
         public void InitializeParameter(List<BatchTestResult> batchTestResults)
         {
             CursorUtility.DisplayCursor(true);
@@ -90,6 +97,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Saves or updates the report data and generates an image from the TestReportGrid.
+        /// If the operation is successful, prompts the user to send the report via email.
+        /// Handles HTTP and general exceptions, displaying notifications and logging errors.
+        /// Displays a loading cursor during the operation.
+        /// </summary>
         public async void SaveAndSend()
         {
             CursorUtility.DisplayCursor(true);
@@ -122,12 +135,23 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Creates and opens an Outlook email with the specified image attached and sender address.
+        /// The email subject is generated based on the current batch test results.
+        /// </summary>
+        /// <param name="imagePath">The file path of the image to attach to the email.</param>
+        /// <param name="fromAddress">The sender's email address.</param>
         private void CreateOutlookEmailWithImage(string imagePath, string fromAddress)
         {
             string mailSubject = GetMailSubject();
             _emailService.CreateReportEmailAndOpenOutlook(mailSubject, imagePath, fromAddress);
         }
 
+        /// <summary>
+        /// Generates the email subject for the report based on the product name and batch information
+        /// from the OutputBatchTestResults collection. Handles cases with no batch data, a single batch,
+        /// or multiple batches, formatting the subject accordingly.
+        /// </summary>
         private string GetMailSubject()
         {
             string productName = OutputBatchTestResults.First().testResult.product.name;

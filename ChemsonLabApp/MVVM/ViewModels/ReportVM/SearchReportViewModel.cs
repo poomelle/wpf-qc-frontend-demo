@@ -67,6 +67,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             this._reportService = reportService;
         }
 
+        /// <summary>
+        /// Searches for test result reports based on the selected product, batch number range, test number, and suffix.
+        /// Validates input fields, loads the test result reports using the report service, and populates the TestResultReports collection.
+        /// Displays notifications if no data is found or if an error occurs during the search.
+        /// </summary>
         public async void SearchTestResultReport()
         {
             CursorUtility.DisplayCursor(true);
@@ -101,6 +106,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Populates the TestResultReports collection with the provided list of test result reports.
+        /// Clears any existing reports, adds the new ones, and updates the torque and fusion warning/fail values
+        /// based on the product information from the first report in the list.
+        /// </summary>
         private void PopulateTestResultReports(List<TestResultReport> testResultReports)
         {
             TestResultReports.Clear();
@@ -115,6 +125,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             FusionFail = testResultReports[0].batchTestResult.testResult.product.fusionFail;
         }
 
+        /// <summary>
+        /// Opens the report file associated with the specified TestResultReport.
+        /// Displays a loading cursor while attempting to open the file using the dialog service.
+        /// Shows an error notification if the file cannot be opened and logs the exception.
+        /// </summary>
         public void OnOpenReportFile(TestResultReport testResultReport)
         {
             CursorUtility.DisplayCursor(true);
@@ -133,6 +148,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Opens the delete report confirmation dialog for the specified test result report.
+        /// </summary>
         public void PopupDeleteReportView(TestResultReport testResultReport)
         {
             _dialogService.ShowDeleteView(testResultReport);

@@ -30,6 +30,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             this._reportService = reportService;
         }
 
+        /// <summary>
+        /// Deletes the selected test result report asynchronously.
+        /// Displays a wait cursor during the operation, shows a success notification if the report is deleted,
+        /// and handles errors by displaying appropriate error messages and logging exceptions.
+        /// </summary>
         public async void DeleteTestResultReport()
         {
             CursorUtility.DisplayCursor(true);

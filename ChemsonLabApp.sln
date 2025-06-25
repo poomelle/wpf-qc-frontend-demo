@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChemsonLabApp", "ChemsonLab
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "ChemsonLabApplication", "ChemsonLabApplication\ChemsonLabApplication.wapproj", "{77C89EBE-157A-463D-9918-7552583FA66C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChemsonLabApp.Tests", "ChemsonLabApp.Tests\ChemsonLabApp.Tests.csproj", "{F34CEBCC-A774-4646-8A2D-FD987B2955EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,26 @@ Global
 		{77C89EBE-157A-463D-9918-7552583FA66C}.Release|x86.ActiveCfg = Release|x86
 		{77C89EBE-157A-463D-9918-7552583FA66C}.Release|x86.Build.0 = Release|x86
 		{77C89EBE-157A-463D-9918-7552583FA66C}.Release|x86.Deploy.0 = Release|x86
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|ARM.Build.0 = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|ARM64.Build.0 = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|x64.Build.0 = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{F34CEBCC-A774-4646-8A2D-FD987B2955EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -28,7 +28,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<Coa>> GetAllCoasAsync(string filter = "", string sort = ""   )
+        /// <summary>
+        /// Retrieves all Coa records from the API, with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of Coa objects.</returns>
+        public async Task<List<Coa>> GetAllCoasAsync(string filter = "", string sort = "")
         {
             Coas = new List<Coa>();
             string url = $"{baseUrl}{filter}{sort}";
@@ -41,6 +47,11 @@ namespace ChemsonLabApp.RestAPI
             return Coas;
         }
 
+        /// <summary>
+        /// Retrieves a single Coa record by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the Coa.</param>
+        /// <returns>The Coa object if found; otherwise, null.</returns>
         public async Task<Coa> GetCoaByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -53,6 +64,11 @@ namespace ChemsonLabApp.RestAPI
             return Coa;
         }
 
+        /// <summary>
+        /// Creates a new Coa record via the API.
+        /// </summary>
+        /// <param name="coa">The Coa object to create.</param>
+        /// <returns>The created Coa object as returned by the API.</returns>
         public async Task<Coa> CreateCoaAsync(Coa coa)
         {
             string url = $"{baseUrl}";
@@ -67,6 +83,11 @@ namespace ChemsonLabApp.RestAPI
             return Coa;
         }
 
+        /// <summary>
+        /// Updates an existing Coa record via the API.
+        /// </summary>
+        /// <param name="coa">The Coa object with updated values.</param>
+        /// <returns>The updated Coa object as returned by the API.</returns>
         public async Task<Coa> UpdateCoaAsync(Coa coa)
         {
             string url = $"{baseUrl}/{coa.id}";
@@ -81,6 +102,11 @@ namespace ChemsonLabApp.RestAPI
             return Coa;
         }
 
+        /// <summary>
+        /// Deletes a Coa record via the API.
+        /// </summary>
+        /// <param name="coa">The Coa object to delete.</param>
+        /// <returns>The deleted Coa object as returned by the API.</returns>
         public async Task<Coa> DeleteCoaAsync(Coa coa)
         {
             string url = $"{baseUrl}/{coa.id}";

@@ -27,7 +27,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<BatchTestResult>> GetAllBatchTestResultsAsync(string filter="", string sort = "")
+        /// <summary>
+        /// Retrieves all BatchTestResult records from the API with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of BatchTestResult objects.</returns>
+        public async Task<List<BatchTestResult>> GetAllBatchTestResultsAsync(string filter = "", string sort = "")
         {
             BatchTestResults = new List<BatchTestResult>();
             string url = $"{baseUrl}{filter}{sort}";
@@ -41,6 +47,11 @@ namespace ChemsonLabApp.RestAPI
             return BatchTestResults;
         }
 
+        /// <summary>
+        /// Retrieves a single BatchTestResult by its unique identifier.
+        /// </summary>
+        /// <param name="id">The ID of the BatchTestResult to retrieve.</param>
+        /// <returns>The BatchTestResult object if found; otherwise, null.</returns>
         public async Task<BatchTestResult> GetBatchTestResultById(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -54,6 +65,11 @@ namespace ChemsonLabApp.RestAPI
             return BatchTestResult;
         }
 
+        /// <summary>
+        /// Creates a new BatchTestResult record via the API.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult object to create.</param>
+        /// <returns>The created BatchTestResult object as returned by the API.</returns>
         public async Task<BatchTestResult> CreateBatchTestResultAsync(BatchTestResult batchTestResult)
         {
             string url = $"{baseUrl}";
@@ -69,21 +85,31 @@ namespace ChemsonLabApp.RestAPI
             return BatchTestResult;
         }
 
+        /// <summary>
+        /// Updates an existing BatchTestResult record via the API.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult object with updated values.</param>
+        /// <returns>The updated BatchTestResult object as returned by the API.</returns>
         public async Task<BatchTestResult> UpdateBatchTestResultAsync(BatchTestResult batchTestResult)
         {
             string url = $"{baseUrl}/{batchTestResult.id}";
             var json = JsonSerializer.Serialize<BatchTestResult>(batchTestResult, options);
-            StringContent content = new StringContent (json, Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PutAsync(url, content);
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                BatchTestResult = JsonSerializer.Deserialize<BatchTestResult>(data,options);
+                BatchTestResult = JsonSerializer.Deserialize<BatchTestResult>(data, options);
             }
             return BatchTestResult;
         }
 
+        /// <summary>
+        /// Deletes a BatchTestResult record via the API.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult object to delete.</param>
+        /// <returns>The deleted BatchTestResult object as returned by the API.</returns>
         public async Task<BatchTestResult> DeleteBatchTestResultAsync(BatchTestResult batchTestResult)
         {
             string url = $"{baseUrl}/{batchTestResult.id}";
@@ -92,7 +118,7 @@ namespace ChemsonLabApp.RestAPI
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                BatchTestResult = JsonSerializer.Deserialize<BatchTestResult>(data,options);
+                BatchTestResult = JsonSerializer.Deserialize<BatchTestResult>(data, options);
             }
             return BatchTestResult;
         }

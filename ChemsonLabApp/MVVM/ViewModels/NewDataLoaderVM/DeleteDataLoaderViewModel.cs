@@ -37,6 +37,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             DeleteTestResultCommand = new DeleteTestResultCommand(this);
         }
 
+        /// <summary>
+        /// Deletes the selected batch test results using the delete data loader service.
+        /// Displays a busy cursor during the operation, shows a success notification on completion,
+        /// and handles errors by displaying appropriate error messages and logging them.
+        /// </summary>
         public async void DeleteBatchTestResultsCommand()
         {
             CursorUtility.DisplayCursor(true);

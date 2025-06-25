@@ -29,16 +29,32 @@ namespace ChemsonLabApp.Services.DataLoaderService
             this._batchTestResultRestAPI = batchTestResultRestAPI;
         }
 
+        /// <summary>
+        /// Retrieves batch information for the specified BatchTestResult.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult containing the batch reference.</param>
+        /// <returns>The Batch associated with the BatchTestResult.</returns>
         public async Task<Batch> GetBatchInformation(BatchTestResult batchTestResult)
         {
             return await _batchRestAPI.GetBatchByIdAsync(batchTestResult.batch.id);
         }
 
+        /// <summary>
+        /// Retrieves test result information for the specified BatchTestResult.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult containing the test result reference.</param>
+        /// <returns>The TestResult associated with the BatchTestResult.</returns>
         public async Task<TestResult> GetTestResultInformation(BatchTestResult batchTestResult)
         {
             return await _testResultRestAPI.GetTestResultByIdAsync(batchTestResult.testResult.id);
         }
 
+        /// <summary>
+        /// Retrieves the Evaluation at a specific point for the given BatchTestResult.
+        /// </summary>
+        /// <param name="batchTestResult">The BatchTestResult containing the test result reference.</param>
+        /// <param name="point">The point name to filter evaluations.</param>
+        /// <returns>The Evaluation at the specified point.</returns>
         public async Task<Evaluation> GetEvaluationAtPoint(BatchTestResult batchTestResult, string point)
         {
             string pointFilter = $"?testResultId={batchTestResult.testResult.id}&pointName={point}";
@@ -48,6 +64,15 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return evaluations.Last();
         }
 
+        /// <summary>
+        /// Updates the data loader with the provided test result, batch, batch test result, and evaluations.
+        /// Ensures uniqueness by product name, batch name, and test number before updating.
+        /// </summary>
+        /// <param name="testResult">The TestResult to update.</param>
+        /// <param name="batch">The Batch to update.</param>
+        /// <param name="batchTestResult">The BatchTestResult for uniqueness checking.</param>
+        /// <param name="evaluationX">The Evaluation at point X to update.</param>
+        /// <param name="evaluationT">The Evaluation at point T to update.</param>
         public async Task UpdateDataLoader(TestResult testResult, Batch batch, BatchTestResult batchTestResult, Evaluation evaluationX, Evaluation evaluationT)
         {
             // Checking Uniqueness by product name, exact batch name and testNumber

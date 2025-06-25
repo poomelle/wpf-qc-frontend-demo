@@ -36,6 +36,12 @@ namespace ChemsonLabApp.Services.DialogService
             this._serviceScopeFactory = serviceScopeFactory;
         }
 
+        /// <summary>
+        /// Displays a dialog window based on the specified view name.
+        /// Supported view names: "AddCustomer", "AddCustomerOrder", "AddInstrument", "AddProduct", "AddSpecification", "PrintSpecification".
+        /// Shows an error notification if the view name is invalid.
+        /// </summary>
+        /// <param name="viewName">The name of the view to display.</param>
         public void ShowView(string viewName)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -79,6 +85,13 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a delete confirmation dialog for the specified item type.
+        /// Supported types: Customer, CustomerOrder, Instrument, Product, TestResultReport, Specification.
+        /// Shows an error notification if the item type is invalid.
+        /// </summary>
+        /// <typeparam name="T">The type of the item to delete.</typeparam>
+        /// <param name="item">The item instance to delete.</param>
         public void ShowDeleteView<T>(T item) where T : class
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -128,6 +141,10 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a dialog to confirm deletion of the specified batch test results.
+        /// </summary>
+        /// <param name="batchTestResults">The list of batch test results to delete.</param>
         public void ShowDeleteDataLoaderView(List<BatchTestResult> batchTestResults)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -140,6 +157,11 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a dialog to create QC labels for the provided list of QCLabel objects.
+        /// Shows an error notification if the list is empty.
+        /// </summary>
+        /// <param name="qcLabels">The list of QC labels to create.</param>
         public void ShowMakeQcLabels(List<QCLabel> qcLabels)
         {
             if (qcLabels.Count() == 0)
@@ -159,6 +181,11 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a dialog to create a report for the provided list of batch test results.
+        /// Shows an error notification if the list is empty.
+        /// </summary>
+        /// <param name="batchTestResults">The list of batch test results to include in the report.</param>
         public void ShowMakeReportView(List<BatchTestResult> batchTestResults)
         {
             if (batchTestResults.Count() == 0)
@@ -179,6 +206,11 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a dialog to create a Certificate of Analysis (COA) for the provided test result reports and PO number.
+        /// </summary>
+        /// <param name="resultReports">The list of test result reports to include in the COA.</param>
+        /// <param name="poNumber">The purchase order number associated with the COA.</param>
         public void ShowMakeCoaView(List<TestResultReport> resultReports, string poNumber)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -195,6 +227,10 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a dialog to open a report view for the specified file location.
+        /// </summary>
+        /// <param name="fileLocation">The file path of the report to open.</param>
         public void ShowOpenReportView(string fileLocation)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -207,6 +243,10 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Asynchronously displays a dialog to generate and show a report graph for the specified test result report.
+        /// </summary>
+        /// <param name="testResultReport">The test result report to generate the graph for.</param>
         public async Task ShowMakeReportGraphView(TestResultReport testResultReport)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -223,6 +263,10 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a dialog to view and edit the specified specification in view mode.
+        /// </summary>
+        /// <param name="specification">The specification to view or edit.</param>
         public void ShowEditSpecificationView(Specification specification)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -242,6 +286,10 @@ namespace ChemsonLabApp.Services.DialogService
             }
         }
 
+        /// <summary>
+        /// Displays a dialog to edit the specified batch test result in the data loader view.
+        /// </summary>
+        /// <param name="batchTestResult">The batch test result to edit.</param>
         public void ShowEditDataLoaderView(BatchTestResult batchTestResult)
         {
             using (var scope = _serviceScopeFactory.CreateScope())

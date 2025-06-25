@@ -47,6 +47,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             DeleteSpecificationViewCommand = new DeleteSpecificationViewCommand(this);
         }
 
+        /// <summary>
+        /// Toggles the edit mode for the Specification.
+        /// When entering edit mode, updates the UI to allow editing and loads the edit view for the current specification.
+        /// When exiting edit mode, reverts the UI to view mode and loads the display view for the current specification.
+        /// Updates the Edit button text accordingly.
+        /// </summary>
         public void SpecificationEditModeToggle()
         {
             Specification.isEditMode = !Specification.isEditMode;
@@ -76,6 +82,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Switches the Specification to view mode.
+        /// Sets isEditMode to false and isViewMode to true, then loads the display view for the current specification.
+        /// </summary>
         public void SpecificationViewModeToggle()
         {
             Specification.isEditMode = false;
@@ -90,6 +100,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Opens the delete confirmation dialog for the current Specification.
+        /// </summary>
         public void PopupDeleteSpecificationView()
         {
             _dialogService.ShowDeleteView(Specification);

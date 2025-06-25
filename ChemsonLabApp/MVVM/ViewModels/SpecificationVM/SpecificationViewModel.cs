@@ -90,6 +90,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             InitializeParameter();
         }
 
+        /// <summary>
+        /// Initializes parameters for the SpecificationViewModel, including loading all active specifications,
+        /// products, and instruments. Handles exceptions and manages the cursor state during the operation.
+        /// </summary>
         public async void InitializeParameter()
         {
             CursorUtility.DisplayCursor(true);
@@ -117,21 +121,34 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Opens the Add Specification dialog view using the dialog service.
+        /// </summary>
         public void PopupAddSpecificationView()
         {
             _dialogService.ShowView("AddSpecification");
         }
 
+        /// <summary>
+        /// Opens the Edit Specification dialog view for the specified specification using the dialog service.
+        /// </summary>
+        /// <param name="specification">The specification to be edited.</param>
         public void PopupEditSpecificationView(Specification specification)
         {
             _dialogService.ShowEditSpecificationView(specification);
         }
 
+        /// <summary>
+        /// Opens the Print Specification dialog view using the dialog service.
+        /// </summary>
         public void PopupPrintSpecificationView()
         {
             _dialogService.ShowView("PrintSpecification");
         }
 
+        /// <summary>
+        /// Resets the selected product, instrument, and status to their default values and reloads the specifications.
+        /// </summary>
         public void ReloadSpecification()
         {
             SelectedProduct = null;
@@ -140,6 +157,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             InitializeParameter();
         }
 
+        /// <summary>
+        /// Filters the specifications based on the selected product, instrument, and status.
+        /// Constructs a filter string using the selected values and retrieves the filtered specifications
+        /// from the specification service. Handles exceptions by displaying error notifications and logs errors.
+        /// Manages the cursor state during the operation.
+        /// </summary>
         public async void SpecificationFilter()
         {
             string productName = SelectedProduct == null ? "" : SelectedProduct.name;
@@ -168,9 +191,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             {
                 CursorUtility.DisplayCursor(false);
             }
-
         }
 
+        /// <summary>
+        /// Imports product specifications from an Excel file selected by the user.
+        /// Displays a file dialog for Excel file selection, validates the file, reads and saves the specifications,
+        /// and provides user feedback on success or failure. Manages the cursor state during the operation.
+        /// </summary>
         public async void ImportSpecificationExcelFile()
         {
             CursorUtility.DisplayCursor(true);
@@ -198,6 +225,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Reads product specifications from the specified Excel file and saves them using the specification service.
+        /// Displays a progress bar and status messages during the import process.
+        /// Validates the Excel file and each row before processing.
+        /// Handles exceptions by showing error notifications and logging errors.
+        /// Updates UI state to indicate importing progress and completion.
+        /// </summary>
         private async Task ReadAndSaveSpecificationExcelFile(string filePath)
         {
             try
@@ -251,6 +285,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             }
         }
 
+        /// <summary>
+        /// Verifies if the given Excel row contains valid data for processing, specifically checking
+        /// that the "Product" column is not empty or whitespace. Returns true if the row contains
+        /// a valid product name; otherwise, returns false.
+        /// </summary>
         private bool IsRowDataVerified(IXLRow row)
         {
             // Check if the row has data in it (especially product name in cell 1)
@@ -259,6 +298,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return hasProductData;
         }
 
+        /// <summary>
+        /// Validates the Excel file by confirming with the user if they want to import the specified number of product specifications.
+        /// Checks if the file contains any data and shows an error if not.
+        /// Returns true if the user confirms and the file has data; otherwise, false.
+        /// </summary>
         private bool IsExcelFileValidated(int totalProductSpecifications)
         {
             var isUserConfirmed = NotificationUtility.ShowConfirmation($"Do you want to import {totalProductSpecifications} product specifications?");
@@ -271,6 +315,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             return isUserConfirmed && hasDataInFile;
         }
 
+        /// <summary>
+        /// Clears the current Specifications collection and populates it with the provided list of specifications.
+        /// </summary>
+        /// <param name="specifications">The list of specifications to add to the collection.</param>
         private void PopulateSpecifications(List<Specification> specifications)
         {
             Specifications.Clear();

@@ -8,8 +8,19 @@ using System.Threading.Tasks;
 
 namespace ChemsonLabApp.Services.EmailServices
 {
+    /// <summary>
+    /// Provides methods to send emails and create report emails using Microsoft Outlook.
+    /// </summary>
     public class OutlookEmailService : IEmailService.IEmailService
     {
+        /// <summary>
+        /// Asynchronously creates and displays a new Outlook email with the specified parameters and optional attachments.
+        /// </summary>
+        /// <param name="sender">The sender's email address.</param>
+        /// <param name="recipient">The recipient's email address.</param>
+        /// <param name="subject">The subject of the email.</param>
+        /// <param name="body">The body content of the email.</param>
+        /// <param name="attachments">A list of file paths to attach to the email.</param>
         public async Task SendEmailAsync(string sender, string recipient, string subject, string body, List<string> attachments = null)
         {
             CursorUtility.DisplayCursor(true);
@@ -24,13 +35,13 @@ namespace ChemsonLabApp.Services.EmailServices
                     mailItem.SentOnBehalfOfName = sender ?? "";
 
                     // subject
-                    mailItem.Subject = subject?? "";
+                    mailItem.Subject = subject ?? "";
 
                     // body
                     mailItem.Body = body ?? "";
                     mailItem.To = recipient ?? "";
 
-                    if (attachments.Count > 0)
+                    if (attachments != null && attachments.Count > 0)
                     {
                         foreach (var attach in attachments)
                         {
@@ -52,6 +63,12 @@ namespace ChemsonLabApp.Services.EmailServices
             }
         }
 
+        /// <summary>
+        /// Creates a new Outlook email for a report, embeds an image in the body, and displays the email.
+        /// </summary>
+        /// <param name="subject">The subject of the email.</param>
+        /// <param name="imagePath">The file path of the image to embed in the email body.</param>
+        /// <param name="sender">The sender's email address.</param>
         public void CreateReportEmailAndOpenOutlook(string subject, string imagePath, string sender)
         {
             // Create an Outlook Application instance

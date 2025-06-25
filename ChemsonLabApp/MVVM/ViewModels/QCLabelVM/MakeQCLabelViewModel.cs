@@ -52,6 +52,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             PrintQCLabelsCommand = new PrintQCLabelsCommand(this);
         }
 
+        /// <summary>
+        /// Creates the QC label pages by generating grids for each QC label, organizing them into pages,
+        /// and converting each page grid into a FlowDocument for display or printing.
+        /// Each QC label is represented by two grids, and up to 8 labels are placed on a single page.
+        /// Updates the current page document and total page count accordingly.
+        /// </summary>
         public void CreateQCLabelsPage()
         {
             try
@@ -100,6 +106,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
 
         }
 
+        /// <summary>
+        /// Distributes the provided QC label grids into the page grids, placing up to 8 QC label grids per page.
+        /// Each label grid is positioned within the page grid using row and column indices.
+        /// When a page is filled (8 labels), moves to the next page grid.
+        /// </summary>
         private void InputQCLabelPages(List<Grid> qcLabelGrids)
         {
             // input qc label grids to qc label page grids (8 qc label grids in one page)
@@ -133,6 +144,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             }
         }
 
+        /// <summary>
+        /// Creates the required number of page grids for QC labels, based on the total number of label grids and the configured number of labels per page.
+        /// Each page grid is initialized with a specific layout (4 columns, 2 rows) to accommodate the labels.
+        /// The created page grids are added to the QCLabelPageGrids collection for further processing or display.
+        /// </summary>
         private void CreateQCLabelPageGrids(List<Grid> qcLabelGrids)
         {
             var numberOfPages = (int)Math.Ceiling(qcLabelGrids.Count / NumberOfLabelsPerPage);
@@ -148,6 +164,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             }
         }
 
+        /// <summary>
+        /// Configures a single QC label grid by setting its size, margin, layout, header, and product details.
+        /// The grid is sized in millimeters (converted to device-independent pixels), and its layout is prepared
+        /// for display or printing. The method adds header and product detail sections to the grid.
+        /// </summary>
         private void CreateQCLabelGrid(Grid qcLabelGrid, QCLabel qcLabel)
         {
             double widthInMM = 73.818;
@@ -168,12 +189,15 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             // Step2 Populate QC Label Grid Header
             InputHeaderTemplate(qcLabelGrid);
 
-
             // Step3 Populate QC Label Grid Product detail
             InputQCLabelPages(qcLabelGrid, qcLabel);
-
         }
 
+        /// <summary>
+        /// Adds the product detail section to the specified QC label grid.
+        /// This method creates a detail grid, sets up its layout, populates it with header and product information
+        /// from the provided QCLabel, and inserts it into the main QC label grid at the appropriate position.
+        /// </summary>
         private void InputQCLabelPages(Grid qcLabelGrid, QCLabel qcLabel)
         {
             Grid labelDetailGrid = new Grid();
@@ -186,6 +210,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             qcLabelGrid.Children.Add(labelDetailGrid);
         }
 
+        /// <summary>
+        /// Populates the product detail section of the QC label detail grid with product name, weight, total weight, and batch name.
+        /// Each detail is added as a label to the appropriate row and column, and a lower border is added for visual separation.
+        /// </summary>
         private void InputDetailProduct(Grid labelDetailGrid, QCLabel qcLabel)
         {
             Label productNameLabel = CreateProductDetailLabel(qcLabel.product.name);
@@ -211,10 +239,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             Grid.SetColumn(batchName, 1);
             labelDetailGrid.Children.Add(batchName);
             AddLowerBorder(labelDetailGrid, 3, 1);
-
         }
 
-        private Label CreateProductDetailLabel(string content, int upperMargin = 20, int fontSize=14)
+        /// <summary>
+        /// Creates a Label control for displaying product detail information on a QC label.
+        /// The label is styled with bold Arial font, customizable top margin, and font size.
+        /// The content is left-aligned and vertically centered, with stretch alignment for both axes.
+        /// </summary>
+        private Label CreateProductDetailLabel(string content, int upperMargin = 20, int fontSize = 14)
         {
             return new Label
             {
@@ -231,6 +263,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             };
         }
 
+        /// <summary>
+        /// Adds header labels ("PRODUCT:", "NET WT.:", "BATCH No.:") to the specified QC label detail grid.
+        /// Each label is placed in the first column of its respective row to provide descriptive headers
+        /// for the product details section of the QC label.
+        /// </summary>
         private void InputDetailHeader(Grid labelDetailGrid)
         {
             Label labelProduct = CreateHeaderLabel("PRODUCT:");
@@ -249,6 +286,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             labelDetailGrid.Children.Add(labelBatchName);
         }
 
+        /// <summary>
+        /// Creates a Label control styled for use as a header in the QC label detail grid.
+        /// The label uses bold Arial font, right-aligned content, and a top margin for spacing.
+        /// </summary>
         private static Label CreateHeaderLabel(string headerName)
         {
             return new Label
@@ -266,6 +307,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             };
         }
 
+        /// <summary>
+        /// Configures the layout of the QC label detail grid by adding the required number of column and row definitions.
+        /// The grid is set up with two columns (one for headers, one for values) and four rows (for product name, weight, total weight, and batch name).
+        /// </summary>
         private void CreateLabelDetailGridLayout(Grid qcLabelGrid, int rows)
         {
             qcLabelGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -275,9 +320,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             qcLabelGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             qcLabelGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             qcLabelGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-
         }
 
+        /// <summary>
+        /// Adds the header section to the specified QC label grid.
+        /// This includes a "QUALITY CONTROL" text block with underline decoration and a large "OK" label,
+        /// both styled and positioned appropriately within the grid.
+        /// </summary>
         private void InputHeaderTemplate(Grid qcLabelGrid)
         {
             TextBlock qcWord = new TextBlock
@@ -312,6 +361,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             qcLabelGrid.Children.Add(OKWord);
         }
 
+        /// <summary>
+        /// Configures the overall layout of a QC label grid by adding three row definitions.
+        /// The first row is set to auto height for the header, and the next two rows use star sizing
+        /// to proportionally fill the remaining space for the main content and details.
+        /// </summary>
         private void CreateLabelGridOverallLayout(Grid grid)
         {
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
@@ -319,6 +373,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
         }
 
+        /// <summary>
+        /// Configures the layout of the specified grid by adding the given number of columns and rows.
+        /// Each column and row is set to auto size. This method is used to prepare a grid for placing
+        /// child elements in a structured layout, such as for label pages or detail sections.
+        /// </summary>
         private void CreateGridLayout(Grid grid, int columns, int rows)
         {
             int totalColumns = columns;
@@ -335,6 +394,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             }
         }
 
+        /// <summary>
+        /// Calculates and returns the total weight string for a given weight input.
+        /// If the weight string contains 'x', it is interpreted as a multiplication of the number of bags and the weight per bag (e.g., "3x25" means 3 bags of 25 Kg each).
+        /// The method multiplies these values and returns the result in the format "= {totalWeight} (Kg)".
+        /// If the input does not contain 'x', an empty string is returned.
+        /// Handles exceptions by logging and showing an error notification.
+        /// </summary>
         private string GetTotalWeight(string weight)
         {
             try
@@ -359,6 +425,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             }
         }
 
+        /// <summary>
+        /// Adds a lower border to the specified cell in a Grid.
+        /// The border is applied to the bottom edge of the cell at the given row and column indices.
+        /// </summary>
+        /// <param name="grid">The Grid to which the border will be added.</param>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="column">The column index of the cell.</param>
         private void AddLowerBorder(Grid grid, int row, int column)
         {
             Border border = new Border
@@ -371,6 +444,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             grid.Children.Add(border);
         }
 
+        /// <summary>
+        /// Advances to the next QC label page if available.
+        /// Increments the CurrentPage property and updates the QCLabelPageDoc to display the next page of QC labels.
+        /// Handles exceptions by showing an error notification and logging the error.
+        /// </summary>
         public void NextQCLabels()
         {
             try
@@ -386,9 +464,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
                 NotificationUtility.ShowError("Error in NextQCLabels");
                 LoggerUtility.LogError(ex);
             }
-
         }
 
+        /// <summary>
+        /// Navigates to the previous QC label page if available.
+        /// Decrements the CurrentPage property and updates the QCLabelPageDoc to display the previous page of QC labels.
+        /// Handles exceptions by showing an error notification and logging the error.
+        /// </summary>
         public void PreviousQCLabels()
         {
             try
@@ -404,10 +486,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
                 NotificationUtility.ShowError("Error in PreviousQCLabels");
                 LoggerUtility.LogError(ex);
             }
-
         }
 
-        // Print QC Labels function by printing each QC Label page from QCLabelPageGrids
+        /// <summary>
+        /// Prints the QC labels by sending the current QC label page grids to the print function
+        /// and then creates QC label records in the backend service for the printed labels.
+        /// Handles exceptions by displaying an error notification and logging the error.
+        /// </summary>
         public async void PrintQCLabels()
         {
             try
@@ -423,127 +508,5 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
                 LoggerUtility.LogError(ex);
             }
         }
-
-        //private async Task RecordPrintedQCLabels()
-        //{
-        //    foreach (var qcLabel in QCLabels)
-        //    {
-        //        // get batch name of print qc label
-        //        string batchName = GetBatchName(qcLabel.batchName);
-        //        // get product name of print qc label
-        //        string productName = qcLabel.product.name;
-        //        int productId = qcLabel.product.id;
-
-        //        // check if the qc label is already printed
-        //        string qcLabelFilter = $"?batchName={batchName}&productName={productName}";
-        //        var qcLabels = await _qcLabelService.GetAllQcLabelsAsync(filter: qcLabelFilter);
-
-        //        // if not, create record of the printed qc label
-        //        if (qcLabels.Count == 0 || qcLabels == null)
-        //        {
-        //            var newQCLabel = new QCLabel
-        //            {
-        //                batchName = batchName,
-        //                productId = productId,
-        //                printed = true,
-        //            };
-        //            await _qcLabelService.CreateQcLabelAsync(newQCLabel);
-        //        }
-        //    }
-        //}
-
-        //private string GetBatchName(string batchName)
-        //{
-        //    if (batchName.Contains("-"))
-        //    {
-        //        string yearMonth = batchName.Substring(0,3);
-        //        string batchNumber = batchName.Split('-')[1].Trim();
-        //        return $"{yearMonth}{batchNumber}";
-        //    }
-        //    return batchName;
-        //}
-
-        //public void PrintCombinedGrids(List<Grid> gridsToPrint, string documentTitle)
-        //{
-        //    PrintDialog printDialog = new PrintDialog();
-        //    if (printDialog.ShowDialog() == true)
-        //    {
-        //        // Set the print ticket to landscape
-        //        printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-
-        //        FixedDocument fixedDoc = new FixedDocument();
-        //        fixedDoc.DocumentPaginator.PageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-
-        //        foreach (Grid grid in gridsToPrint)
-        //        {
-        //            // Create a FixedPage and add the prepared grid
-        //            FixedPage fixedPage = new FixedPage();
-        //            fixedPage.Width = printDialog.PrintableAreaWidth;
-        //            fixedPage.Height = printDialog.PrintableAreaHeight;
-
-        //            // Add content
-        //            UIElement preparedElement = Application.Current.Dispatcher.Invoke(() => PrepareGridForPrinting(grid, printDialog));
-        //            Size elementSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-        //            preparedElement.Measure(elementSize);
-        //            preparedElement.Arrange(new Rect(elementSize));
-
-        //            // Add the prepared element to the FixedPage
-        //            fixedPage.Children.Add(preparedElement);
-
-        //            // Add the FixedPage to the FixedDocument
-        //            PageContent pageContent = new PageContent();
-        //            ((IAddChild)pageContent).AddChild(fixedPage);
-        //            fixedDoc.Pages.Add(pageContent);
-        //        }
-
-        //        // Print the document
-        //        Application.Current.Dispatcher.Invoke(() => printDialog.PrintDocument(fixedDoc.DocumentPaginator, documentTitle));
-        //    }
-        //}
-
-        //private UIElement PrepareGridForPrinting(Grid originalGrid, PrintDialog printDialog)
-        //{
-        //    Grid printGrid = CloneGrid(originalGrid);
-
-        //    Grid wrapperGrid = new Grid();
-        //    wrapperGrid.Children.Add(printGrid);
-
-        //    printGrid.Margin = new Thickness(12, 24, 12, 12);
-
-        //    ScaleTransform scaleTransform = FitGridToPageSize(wrapperGrid, printDialog);
-        //    wrapperGrid.LayoutTransform = scaleTransform;
-
-        //    Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-        //    wrapperGrid.Measure(pageSize);
-        //    wrapperGrid.Arrange(new Rect(new Point(0, 0), pageSize));
-
-        //    return wrapperGrid;
-        //}
-
-        //private Grid CloneGrid(Grid originalGrid)
-        //{
-        //    string gridXaml = XamlWriter.Save(originalGrid);
-        //    StringReader stringReader = new StringReader(gridXaml);
-        //    XmlReader xmlReader = XmlReader.Create(stringReader);
-        //    Grid clonedGrid = (Grid)XamlReader.Load(xmlReader);
-        //    return clonedGrid;
-        //}
-
-        //private ScaleTransform FitGridToPageSize(Grid grid, PrintDialog printDialog)
-        //{
-        //    double printableWidth = printDialog.PrintableAreaWidth;
-        //    double printableHeight = printDialog.PrintableAreaHeight;
-
-        //    grid.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-
-        //    double scaleX = printableWidth / grid.DesiredSize.Width;
-        //    double scaleY = printableHeight / grid.DesiredSize.Height;
-
-        //    scaleX *= 1;
-
-        //    double scale = Math.Min(scaleX, scaleY);
-
-        //    return new ScaleTransform(scale, scale);
-        //}
     }
 }

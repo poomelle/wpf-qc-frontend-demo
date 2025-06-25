@@ -35,6 +35,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
             SaveNewProductCommand = new SaveNewProductCommand(this);
         }
 
+        /// <summary>
+        /// Adds a new product using the provided product name.
+        /// Displays a loading cursor during the operation.
+        /// Shows a success notification if the product is created successfully.
+        /// Handles and logs HTTP and general exceptions, displaying appropriate error notifications.
+        /// </summary>
         public async void AddNewProduct()
         {
             CursorUtility.DisplayCursor(true);

@@ -75,6 +75,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             this._makeCoaService = makeCoaService;
         }
 
+        /// <summary>
+        /// Initializes the parameters for the COA view model.
+        /// Loads customer orders based on the product name from the first test result report.
+        /// Sets the selected customer order to the first in the list.
+        /// Handles network and general exceptions with user notifications and logging.
+        /// </summary>
         public async void InitializeParameter()
         {
             CursorUtility.DisplayCursor(true);
@@ -103,6 +109,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Generates and displays the COA (Certificate of Analysis) report(s) in the UI.
+        /// Clears previous reports, creates new report grids based on the CombineCOA setting,
+        /// wraps each grid in a FlowDocument, and updates the current report and total count.
+        /// </summary>
         public void ShowingCOAReport()
         {
             COAReports.Clear();
@@ -124,6 +135,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             TotalTestReports = COAReports.Count;
         }
 
+        /// <summary>
+        /// Adds the provided list of COA grids to the COAReportDocs collection if the list is not empty.
+        /// </summary>
         private void AddCOAGridsToCOAReportDocs(List<Grid> coaGrids)
         {
             if (coaGrids.Count > 0)
@@ -132,6 +146,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Creates a list of COA (Certificate of Analysis) page grids, each containing up to the specified number of batch test results per page.
+        /// Splits the TestResultReports into pages, generates a grid for each page with headers and data, and returns the list of grids.
+        /// </summary>
+        /// <param name="numberOfBatchPerPage">The maximum number of batch test results to include on each COA page.</param>
+        /// <returns>A list of Grid objects, each representing a COA page.</returns>
         private List<Grid> CreateCOAPageGrid(int numberOfBatchPerPage)
         {
             // Create COA report for every 20 batches in TestResultReports
@@ -142,7 +162,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             int totalCOAPages = (int)Math.Ceiling((double)totalBatches / numberOfBatchPerPage);
 
             // Create COA report for every 20 batches and add to combineCOAGrids
-
             for (int page = 0; page < totalCOAPages; page++)
             {
                 List<TestResultReport> testResultReports = TestResultReports.Skip(page * numberOfBatchPerPage).Take(numberOfBatchPerPage).ToList();
@@ -159,6 +178,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             return combineCOAGrids;
         }
 
+        /// <summary>
+        /// Creates the header and layout for the COA (Certificate of Analysis) grid.
+        /// This includes setting up the grid structure, adding the company logo and address,
+        /// displaying the month of test, specification details, product name, and the specification header row.
+        /// </summary>
         private void CreateCOAHeaderAndLayout(Grid combineCOAGrid)
         {
             CreateGridLayout(combineCOAGrid);
@@ -169,6 +193,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             CreateSpecificationHeader(combineCOAGrid);
         }
 
+        /// <summary>
+        /// Adds 5 rows and 5 columns to the provided grid to set up the header layout
+        /// for the COA (Certificate of Analysis) report.
+        /// </summary>
         private void CreateGridLayout(Grid combineCOAGrid)
         {
             // Adding 5 rows and 5 columns for header
@@ -186,6 +214,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Populates the COA grid with test result data for a single page.
+        /// Iterates through the provided test result reports, adds each to the grid,
+        /// and then decorates the grid with borders.
+        /// </summary>
         private void PopulateCombineTestResultDataPage(Grid combineCOAGrid, List<TestResultReport> testResultReports)
         {
             // iterate testResultReports and populate the grid from index
@@ -200,6 +233,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             DecorateBorder(combineCOAGrid, totalRows, totalColumns);
         }
 
+        /// <summary>
+        /// Adds borders to the specified COA grid to visually separate the header and data rows/columns.
+        /// Draws upper and lower borders for the header and last row, and left/right borders for each data row.
+        /// </summary>
         private void DecorateBorder(Grid combineCOAGrid, int totalRows, int totalColumns)
         {
             // add upper and lower border
@@ -247,6 +284,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Populates a single row in the COA grid with the batch number, torque deviation, and fusion time deviation
+        /// for the provided test result report. If there are duplicate test results (by file name), and this is not
+        /// the first occurrence, the torque and fusion deviations are randomly altered within the allowed limits.
+        /// The method then creates and adds the corresponding UI elements to the grid.
+        /// </summary>
         private void PopulateEachTestResultReport(Grid combineCOAGrid, TestResultReport testResultReport, int order = 0)
         {
             int startRow = 5 + order;
@@ -260,9 +303,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             var sameTestResult = TestResultReports.Where(t => t.batchTestResult.testResult.fileName == testResultReport.batchTestResult.testResult.fileName).ToList();
 
             // index of the current test result in the same test result list
-
             int index = sameTestResult.IndexOf(testResultReport);
-
 
             if (sameTestResult.Count > 1 && index != 0)
             {
@@ -273,7 +314,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
                 var lowerLimitFusion = -sameTestResult[0].batchTestResult.testResult.product.fusionFail;
 
                 if (upperLimitTorque != null && lowerLimitTorque != null && upperLimitFusion != null && lowerLimitFusion != null)
-                { 
+                {
                     torqueDiff = CalculateRandomAlterValue(torqueDiff, (double)upperLimitTorque, (double)lowerLimitTorque);
                     fusionDiff = CalculateRandomAlterValue(fusionDiff, (double)upperLimitFusion, (double)lowerLimitFusion);
                 }
@@ -294,16 +335,25 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
 
             var fusionDevContent = CreateContent(fusionTimeDeviation, 1);
             AddCellToGrid(combineCOAGrid, fusionDevContent, startColumn++, startRow);
-
         }
 
+        /// <summary>
+        /// Alters the given value by a random amount within the specified upper and lower limits.
+        /// The method repeatedly generates a random alteration between -1.0 and +0.9 (in 0.1 increments),
+        /// adds it to the original value, and checks if the new value is within the provided limits.
+        /// If not, it repeats the process until a valid value is found.
+        /// </summary>
+        /// <param name="value">The original value to alter.</param>
+        /// <param name="upperLimit">The maximum allowed value after alteration.</param>
+        /// <param name="lowerLimit">The minimum allowed value after alteration.</param>
+        /// <returns>A new value within the specified limits, randomly altered from the original.</returns>
         private double CalculateRandomAlterValue(double value, double upperLimit, double lowerLimit)
         {
             double newValue;
             do
             {
                 int randomAlterValue = random.Next(-10, 10);
-                double alterValue = (double)randomAlterValue/10;
+                double alterValue = (double)randomAlterValue / 10;
                 newValue = value;
                 newValue += alterValue;
 
@@ -312,6 +362,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             return newValue;
         }
 
+        /// <summary>
+        /// Advances to the next individual COA (Certificate of Analysis) report in the list, 
+        /// if not already at the last report. Updates the SelectedTestReport index and sets the current COAReport.
+        /// </summary>
         public void NextIndividualCOA()
         {
             if (SelectedTestReport < COAReports.Count)
@@ -321,6 +375,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Moves to the previous individual COA (Certificate of Analysis) report in the list,
+        /// if not already at the first report. Updates the SelectedTestReport index and sets the current COAReport.
+        /// </summary>
         public void PreviousIndividualCOA()
         {
             if (SelectedTestReport > 1)
@@ -330,6 +388,15 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Adds a UIElement to the specified Grid at the given column and row, with optional column and row spans.
+        /// </summary>
+        /// <param name="grid">The Grid to add the element to.</param>
+        /// <param name="element">The UIElement to add.</param>
+        /// <param name="column">The column index.</param>
+        /// <param name="row">The row index.</param>
+        /// <param name="columnSpan">The number of columns the element should span. Default is 1.</param>
+        /// <param name="rowSpan">The number of rows the element should span. Default is 1.</param>
         private void AddCellToGrid(Grid grid, UIElement element, int column, int row, int columnSpan = 1, int rowSpan = 1)
         {
             Grid.SetColumn(element, column);
@@ -339,6 +406,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             grid.Children.Add(element);
         }
 
+        /// <summary>
+        /// Creates a TextBox UI element with the specified text and border thickness.
+        /// The TextBox is styled for use in COA report grids, with centered content,
+        /// Arial font, and stretch alignment. Used for displaying cell content in the COA.
+        /// </summary>
         private TextBox CreateContent(string text, double borderThickness = 0)
         {
             return new TextBox
@@ -356,6 +428,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             };
         }
 
+        /// <summary>
+        /// Adds the company logo, address, and "Certification of Analysis" header to the specified grid.
+        /// The logo is placed in the top-left, the address spans the next row, and the header is styled and centered.
+        /// </summary>
         private void CreateLogoAddressHeader(Grid grid)
         {
             // Adding Company Logo Header
@@ -384,6 +460,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             AddCellToGrid(grid, coa, 0, 2, 5);
         }
 
+        /// <summary>
+        /// Adds the month and year of the test (or PO number if available) to the specified grid.
+        /// Determines the month and year from the batch group name of the first test result report.
+        /// If a PO number is provided, it displays the PO number instead.
+        /// Styles the cell with a larger, bold font and a gray background.
+        /// </summary>
         private void CreateMonthOfTest(Grid grid)
         {
             //COAReportGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -399,6 +481,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             AddCellToGrid(grid, monthYear, 0, 3, 2);
         }
 
+        /// <summary>
+        /// Adds the specification section to the COA grid.
+        /// This includes the test method, torque and fusion specifications, and sample weight.
+        /// The specification is displayed in a styled cell spanning three columns.
+        /// </summary>
         private void CreateSpecification(Grid grid)
         {
             string testMethod = TestResultReports[0].batchTestResult.testResult.testMethod;
@@ -416,9 +503,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             specification.FontSize = fontSize;
             specification.Background = new SolidColorBrush(Color.FromRgb(191, 191, 191));
             AddCellToGrid(grid, specification, 2, 3, 3);
-
         }
 
+        /// <summary>
+        /// Adds the product name to the specified grid as a styled cell.
+        /// The product name is retrieved from the first TestResultReport and displayed
+        /// with a bold font, left alignment, and a blue background.
+        /// </summary>
         private void CreateProductName(Grid grid)
         {
             string productName = TestResultReports[0].batchTestResult.testResult.product.name;
@@ -430,6 +521,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             AddCellToGrid(grid, content, 0, 4, 2);
         }
 
+        /// <summary>
+        /// Adds the specification header row to the COA grid.
+        /// This row contains column headers for batch numbers, torque deviation, and fusion time deviation.
+        /// Each header cell is styled with bold font and a gray background.
+        /// </summary>
         private void CreateSpecificationHeader(Grid grid)
         {
             List<string> headers = new List<string>
@@ -450,6 +546,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Saves the generated COA PDF file, stores the COA data in the database, and sends the COA via email to the selected customer.
+        /// Displays appropriate notifications and handles errors and cursor state.
+        /// </summary>
         public async Task SaveAndSendCOA()
         {
             if (SelectedCustomerOrder == null)
@@ -479,11 +579,18 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Saves the COA data to the database by calling the service method with the current list of TestResultReports.
+        /// </summary>
         private async Task SaveCoaToDatabase()
         {
             await _makeCoaService.CreateCOAFromTestResultReportAsync(TestResultReports);
         }
 
+        /// <summary>
+        /// Creates the COA PDF file(s) from the current COA report grids, saves them to disk, and updates the file paths list.
+        /// Displays a success notification if successful, or an error notification if an exception occurs.
+        /// </summary>
         private void CreateCOAPDFFile()
         {
             CursorUtility.DisplayCursor(true);
@@ -507,6 +614,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+        /// <summary>
+        /// Sends the generated COA (Certificate of Analysis) PDF file(s) as email attachments
+        /// to the selected customer's email address using the configured email service.
+        /// The sender, recipient, subject, and body are set, and the COA file paths are attached.
+        /// </summary>
         private async Task SendCoAEmail()
         {
             var sender = Constants.Constants.FromAddress;

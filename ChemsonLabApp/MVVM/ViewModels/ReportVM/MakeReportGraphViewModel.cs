@@ -67,6 +67,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             this._specificationRestAPI = specificationRestAPI;
         }
 
+        /// <summary>
+        /// Generates the torque graph by loading measurement and evaluation data from the database,
+        /// populating the graph data, assigning the data to the chart series, and setting the chart title.
+        /// </summary>
         public async Task GenerateTorqueGraph()
         {
             // Load measurement and evaluation data from database
@@ -76,6 +80,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             AssignChartTitle();
         }
 
+        /// <summary>
+        /// Assigns the chart title and footer for the torque graph using the current product, batch, and test result data.
+        /// The title displays the product name, standard reference, and batch name.
+        /// The footer includes the test date, instrument name, test conditions (temperature, weight, rpm), and interval seconds.
+        /// </summary>
         private void AssignChartTitle()
         {
             ChartTitle = $"{ProductName} - {TestResultReport.standardReference} vs {BatchName}";
@@ -90,6 +99,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             ChartFooter = $"{testDate} | {instrumentName} Condition: {testTemp}°C {testWeight}g {testRPM}rpm | {secondIntervals} second intervals";
         }
 
+        /// <summary>
+        /// Assigns the batch and standard torque data to the SeriesCollection for chart rendering.
+        /// Configures the appearance and labeling of each line series, and sets up the Y-axis properties and value formatter.
+        /// </summary>
         private void AssignDataToSeriesCollection()
         {
             SeriesCollection.Add(new LineSeries
@@ -126,6 +139,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             Formatter = value => value.ToString("N2");
         }
 
+        /// <summary>
+        /// Returns the formatted Y value as a string for the standard line series label at the given chart point,
+        /// but only if the X-axis label at the point's position matches a time point in the standard evaluation time points list.
+        /// Otherwise, returns an empty string to suppress the label.
+        /// </summary>
         private string GetStdLabelPoint(ChartPoint point)
         {
             var xValue = XAxisLabels[(int)point.X];
@@ -138,6 +156,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             return string.Empty;
         }
 
+        /// <summary>
+        /// Returns the formatted Y value as a string for the batch line series label at the given chart point,
+        /// but only if the X-axis label at the point's position matches a time point in the batch evaluation time points list.
+        /// Otherwise, returns an empty string to suppress the label.
+        /// </summary>
         private string GetBatchLabelPoint(ChartPoint point)
         {
             // Show label only for specific seconds
@@ -150,6 +173,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             return string.Empty;
         }
 
+        /// <summary>
+        /// Populates the graph data collections with measurement and evaluation data for both the batch and standard.
+        /// Fills XAxisLabels and BatchTorqueData from batch measurements, and batchEvaluationTimePoints from batch evaluations.
+        /// Fills StdTorqueData from standard measurements, and stdEvaluationTimePoints from standard evaluations.
+        /// Only evaluation points with pointName not equal to "t", "G", or "B" are included in the evaluation time points lists.
+        /// </summary>
         private void PopulateDataToGraphData()
         {
             if (measurements != null)
@@ -192,6 +221,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Loads measurement, evaluation, standard batch test result, and specification data from the database
+        /// for both the current batch and its standard reference. Populates the corresponding local variables
+        /// with the retrieved data for use in graph generation and reporting.
+        /// </summary>
         private async Task LoadDataFromDatabase()
         {
             // Load Batch Data

@@ -26,6 +26,12 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
+        /// <summary>
+        /// Retrieves all QC Performance KPI records from the REST API, with optional filtering and sorting.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of <see cref="QcPerformanceKpi"/> objects retrieved from the API.</returns>
         public async Task<List<QcPerformanceKpi>> GetAllQcPerformanceKpisAsync(string filter = "", string sort = "")
         {
             List<QcPerformanceKpi> qcPerformanceKpis = new List<QcPerformanceKpi>();

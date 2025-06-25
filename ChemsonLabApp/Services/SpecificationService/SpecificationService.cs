@@ -23,11 +23,22 @@ namespace ChemsonLabApp.Services
             this._productRestAPI = productRestAPI;
         }
 
+        /// <summary>
+        /// Creates a new specification asynchronously by calling the specification REST API.
+        /// </summary>
+        /// <param name="specification">The specification to create.</param>
+        /// <returns>The created <see cref="Specification"/> object.</returns>
         public async Task<Specification> CreateSpecificationAsync(Specification specification)
         {
             return await _specificationRestAPI.CreateSpecificationAsync(specification);
         }
 
+        /// <summary>
+        /// Creates a new product and then creates a specification for that product.
+        /// </summary>
+        /// <param name="product">The product to create.</param>
+        /// <param name="specification">The specification to create for the product.</param>
+        /// <returns>True if both product and specification are created successfully; otherwise, false.</returns>
         public async Task<bool> CreateSpecificationAndCreateProduct(Product product, Specification specification)
         {
             var createdProduct = await _productRestAPI.CreateProductAsync(product);
@@ -46,6 +57,12 @@ namespace ChemsonLabApp.Services
             return false;
         }
 
+        /// <summary>
+        /// Updates an existing product and then creates a specification for it.
+        /// </summary>
+        /// <param name="product">The product to update.</param>
+        /// <param name="specification">The specification to create for the updated product.</param>
+        /// <returns>True if both product update and specification creation are successful; otherwise, false.</returns>
         public async Task<bool> CreateSpecificationAndUpdateProduct(Product product, Specification specification)
         {
             specification.productId = product.id;
@@ -60,17 +77,33 @@ namespace ChemsonLabApp.Services
             return false;
         }
 
+        /// <summary>
+        /// Deletes a specification after confirming the delete action.
+        /// </summary>
+        /// <param name="specification">The specification to delete.</param>
+        /// <param name="deleteConfirm">The confirmation string for deletion.</param>
+        /// <returns>The deleted <see cref="Specification"/> object, or null if not confirmed.</returns>
         public async Task<Specification> DeleteSpecificationAsync(Specification specification, string deleteConfirm)
         {
             if (!InputValidationUtility.DeleteConfirmation(deleteConfirm)) return null;
             return await _specificationRestAPI.DeleteSpecificationAsync(specification);
         }
 
+        /// <summary>
+        /// Retrieves all specifications with optional filtering and sorting.
+        /// </summary>
+        /// <param name="filter">The filter string for querying specifications.</param>
+        /// <param name="sort">The sort string for ordering specifications.</param>
+        /// <returns>A list of <see cref="Specification"/> objects.</returns>
         public async Task<List<Specification>> GetAllSpecificationsAsync(string filter = "", string sort = "")
         {
             return await _specificationRestAPI.GetAllSpecificationsAsync(filter, sort);
         }
 
+        /// <summary>
+        /// Retrieves all active specifications, sorted by product name in ascending order.
+        /// </summary>
+        /// <returns>A list of active <see cref="Specification"/> objects.</returns>
         public async Task<List<Specification>> GetAllActiveSpecificationsAsync()
         {
             string filter = "?inUse=true";
@@ -79,16 +112,31 @@ namespace ChemsonLabApp.Services
             return await GetAllSpecificationsAsync(filter, sort);
         }
 
+        /// <summary>
+        /// Retrieves a specification by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the specification.</param>
+        /// <returns>The <see cref="Specification"/> object with the specified ID.</returns>
         public async Task<Specification> GetSpecificationByIdAsync(int id)
         {
             return await _specificationRestAPI.GetSpecificationByIdAsync(id);
         }
 
+        /// <summary>
+        /// Updates an existing specification asynchronously.
+        /// </summary>
+        /// <param name="specification">The specification to update.</param>
+        /// <returns>The updated <see cref="Specification"/> object.</returns>
         public async Task<Specification> UpdateSpecificationAsync(Specification specification)
         {
             return await _specificationRestAPI.UpdateSpecificationAsync(specification);
         }
 
+        /// <summary>
+        /// Updates all specifications associated with the given product.
+        /// Sets the specification's inUse, productId, and machineId fields to match the updated product.
+        /// </summary>
+        /// <param name="updateProduct">The product with updated information.</param>
         public async Task UpdateSpecificationFromProductUpdated(Product updateProduct)
         {
             string filter = $"?productName={updateProduct.name}";
@@ -108,6 +156,11 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Updates both the product and its associated specification in the database.
+        /// </summary>
+        /// <param name="specification">The specification containing updated product and specification data.</param>
+        /// <returns>True if both product and specification are updated successfully; otherwise, false.</returns>
         public async Task<bool> UpdateSpecificationAndUpdateProduct(Specification specification)
         {
             Product updateProduct = new Product()
@@ -150,6 +203,14 @@ namespace ChemsonLabApp.Services
             return false;
         }
 
+        /// <summary>
+        /// Creates or updates a product and its associated specifications (B3, Hapro, Hap2) from an Excel row.
+        /// For each machine type, creates a specification object and saves it to the database if data is present.
+        /// Logs any exceptions encountered during the process.
+        /// </summary>
+        /// <param name="row">The Excel row containing product and specification data.</param>
+        /// <param name="columnNames">The list of column names for mapping cell values.</param>
+        /// <param name="instruments">The list of available instruments (machines).</param>
         public async Task CreateOrUpdateSpecificationFromExcel(IXLRow row, List<string> columnNames, List<MVVM.Models.Instrument> instruments)
         {
             try
@@ -183,9 +244,15 @@ namespace ChemsonLabApp.Services
                 LoggerUtility.LogError(ex);
                 return;
             }
-
         }
 
+        /// <summary>
+        /// Creates a Product object from an Excel row using the provided column names.
+        /// Maps each relevant cell value to the corresponding Product property, performing type conversions as needed.
+        /// </summary>
+        /// <param name="row">The Excel row containing product data.</param>
+        /// <param name="columnNames">A list of column names to map cell values.</param>
+        /// <returns>A populated Product object.</returns>
         private Product CreateProductObject(IXLRow row, List<string> columnNames)
         {
             var product = new Product();
@@ -205,6 +272,12 @@ namespace ChemsonLabApp.Services
             return product;
         }
 
+        /// <summary>
+        /// Creates or updates a product in the database based on its existence.
+        /// If a product with the same name exists, updates its properties; otherwise, creates a new product.
+        /// </summary>
+        /// <param name="importProduct">The Product object to create or update.</param>
+        /// <returns>The created or updated Product object from the database.</returns>
         private async Task<Product> CreateOrUpdateProductToDatabase(Product importProduct)
         {
             string productName = importProduct.name;
@@ -241,10 +314,19 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Creates a Specification object from an Excel row for a given machine and product.
+        /// Maps temperature, load, and RPM values from the row using the provided column names and instruments list.
+        /// </summary>
+        /// <param name="row">The Excel row containing specification data.</param>
+        /// <param name="product">The associated Product object.</param>
+        /// <param name="machineName">The name of the machine (instrument) for which the specification is created.</param>
+        /// <param name="columnNames">A list of column names to map cell values.</param>
+        /// <param name="instruments">A list of available instruments (machines).</param>
+        /// <returns>A populated Specification object.</returns>
         private Specification CreateSpecificationObject(IXLRow row, Product product, string machineName, List<string> columnNames, List<MVVM.Models.Instrument> instruments)
         {
             // search for the machine in the Instruments list
-
 
             var specification = new Specification();
             specification.productId = product.id;
@@ -257,6 +339,13 @@ namespace ChemsonLabApp.Services
             return specification;
         }
 
+        /// <summary>
+        /// Saves a Specification object to the database.
+        /// If a specification for the given product and machine exists, updates it; otherwise, creates a new specification if data is present.
+        /// </summary>
+        /// <param name="specification">The Specification object to save.</param>
+        /// <param name="updatedProduct">The associated Product object.</param>
+        /// <param name="instruments">A list of available instruments (machines).</param>
         private async Task SaveSpecificationToDatabase(Specification specification, Product updatedProduct, List<MVVM.Models.Instrument> instruments)
         {
             try

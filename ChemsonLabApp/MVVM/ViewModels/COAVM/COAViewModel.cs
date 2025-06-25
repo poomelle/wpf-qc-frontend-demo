@@ -62,6 +62,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             ToBatchCOACommand = new ToBatchCOACommand(this);
         }
 
+        /// <summary>
+        /// Searches for test result reports based on the selected product and batch range.
+        /// </summary>
         public async void SearchTestResultReport()
         {
             CursorUtility.DisplayCursor(true);
@@ -90,6 +93,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
 
         }
 
+        /// <summary>
+        /// Validates the user input for product selection and batch number range.
+        /// Ensures that the 'FromBatch' is not null and has a valid format, the 'SelectedProduct' is not null,
+        /// and if 'ToBatch' is provided, it also has a valid batch number format.
+        /// Returns true if all validations pass; otherwise, false.
+        /// </summary>
         private bool InputProductBatchValidation()
         {
             bool fromBatchValidation;
@@ -111,6 +120,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             return fromBatchValidation && selectedProductValidation && toBatchValidation;
         }
 
+
+        /// <summary>
+        /// Populates the TestResultReports collection with the provided list of reports.
+        /// If no reports are found, displays a warning message.
+        /// Sets the torque and fusion threshold values from the first report's product.
+        /// Sorts the reports by batch number before adding them to the collection.
+        /// </summary>
         private void PopulateTestResultReports(List<TestResultReport> reports)
         {
             if (reports.Count == 0)
@@ -135,6 +151,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             }
         }
 
+
+        /// <summary>
+        /// Opens the Make COA view dialog with the currently selected test result reports.
+        /// If no reports are available, shows a warning notification.
+        /// Only reports with a positive result are passed to the dialog.
+        /// </summary>
         public void PopupMakeCOAView()
         {
             if (TestResultReports.Count == 0)
@@ -148,6 +170,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.COAVM
             _dialogService.ShowMakeCoaView(resultReports, PONumber);
         }
 
+        /// <summary>
+        /// Removes the specified test result report from the TestResultReports collection.
+        /// </summary>
         public void RemoveTestReport(TestResultReport testResultReport)
         {
             for (int i = 0; i < TestResultReports.Count; i++)

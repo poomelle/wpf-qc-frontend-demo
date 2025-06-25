@@ -174,3 +174,19 @@ Parameter name: index
    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at ChemsonLabApp.MVVM.ViewModels.ReportVM.NewReportViewModel.<SearchTestResults>d__91.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\MVVM\ViewModels\ReportVM\NewReportViewModel.cs:line 101
+2025-06-25 7:22:25 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-25 7:23:32 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-25 7:42:32 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-25 7:43:11 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-25 7:43:53 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-25 7:46:15 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-25 7:51:32 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-25 7:51:54 AM: Object reference not set to an instance of an object.
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36

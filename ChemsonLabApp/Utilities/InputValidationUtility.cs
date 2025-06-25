@@ -58,6 +58,9 @@ namespace ChemsonLabApp.Utilities
             return true;
         }
 
+        /// <summary>
+        /// Validates the format of an email address.
+        /// </summary>
         public static bool ValidateEmailFormat(string email)
         {
             var rexPattern = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -72,6 +75,9 @@ namespace ChemsonLabApp.Utilities
 
         }
 
+        /// <summary>
+        /// Confirms deletion by checking if the input message is "DELETE".
+        /// </summary>
         public static bool DeleteConfirmation(string message)
         {
             if (message != "DELETE")

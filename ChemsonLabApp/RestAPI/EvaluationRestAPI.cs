@@ -26,7 +26,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<Evaluation>> GetAllEvaluationsAsync(string filter="", string sort = "")
+        /// <summary>
+        /// Retrieves all evaluations from the API with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of Evaluation objects.</returns>
+        public async Task<List<Evaluation>> GetAllEvaluationsAsync(string filter = "", string sort = "")
         {
             Evaluations = new List<Evaluation>();
             string url = $"{baseUrl}{filter}{sort}";
@@ -40,6 +46,11 @@ namespace ChemsonLabApp.RestAPI
             return Evaluations;
         }
 
+        /// <summary>
+        /// Retrieves a single evaluation by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the evaluation.</param>
+        /// <returns>The Evaluation object if found; otherwise, null.</returns>
         public async Task<Evaluation> GetEvaluationByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -53,6 +64,11 @@ namespace ChemsonLabApp.RestAPI
             return Evaluation;
         }
 
+        /// <summary>
+        /// Creates a new evaluation by sending a POST request to the API.
+        /// </summary>
+        /// <param name="evaluation">The Evaluation object to create.</param>
+        /// <returns>The created Evaluation object as returned by the API.</returns>
         public async Task<Evaluation> CreateEvaluationAsync(Evaluation evaluation)
         {
             string url = $"{baseUrl}";
@@ -68,6 +84,11 @@ namespace ChemsonLabApp.RestAPI
             return Evaluation;
         }
 
+        /// <summary>
+        /// Updates an existing evaluation by sending a PUT request to the API.
+        /// </summary>
+        /// <param name="evaluation">The Evaluation object with updated data.</param>
+        /// <returns>The updated Evaluation object as returned by the API.</returns>
         public async Task<Evaluation> UpdateEvaluationAsync(Evaluation evaluation)
         {
             string url = $"{baseUrl}/{evaluation.id}";
@@ -83,6 +104,11 @@ namespace ChemsonLabApp.RestAPI
             return Evaluation;
         }
 
+        /// <summary>
+        /// Deletes an evaluation by sending a DELETE request to the API.
+        /// </summary>
+        /// <param name="evaluation">The Evaluation object to delete.</param>
+        /// <returns>The deleted Evaluation object as returned by the API.</returns>
         public async Task<Evaluation> DeleteEvaluationAsync(Evaluation evaluation)
         {
             string url = $"{baseUrl}/{evaluation.id}";

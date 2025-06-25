@@ -34,6 +34,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             this._customerService = customerService;
         }
 
+        /// <summary>
+        /// ViewModel responsible for handling the deletion of customer orders and optionally the associated customer.
+        /// Provides logic to confirm and execute deletions, and notifies the user upon successful operations.
+        /// </summary>
         public async void DeleteCustomerOrder()
         {
             if (IsDeleteCustomerOrderOnly)

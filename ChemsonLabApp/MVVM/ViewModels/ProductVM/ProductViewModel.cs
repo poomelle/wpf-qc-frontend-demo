@@ -69,6 +69,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
             InitializeParameter();
         }
 
+        /// <summary>
+        /// Initializes parameters for the ProductViewModel, including populating the product combo box,
+        /// setting default selections for product and status, and loading all products.
+        /// Handles exceptions and manages the cursor state during the operation.
+        /// </summary>
         public async void InitializeParameter()
         {
             CursorUtility.DisplayCursor(true);
@@ -97,11 +102,18 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
             }
         }
 
+        /// <summary>
+        /// Populates the ComboBoxProducts list with all active product names, including an "All" option.
+        /// </summary>
         private async Task PopulateProductComboBox()
         {
             ComboBoxProducts = new List<string> { "All" }.Concat(await _productService.GetAllActiveProductName()).ToList();
         }
 
+        /// <summary>
+        /// Retrieves all products from the service based on the selected product and status filters,
+        /// sorts them by name in ascending order, and updates the Products collection.
+        /// </summary>
         public async Task GetAllProductsAsync()
         {
             var sort = "&sortBy=Name&isAscending=true";
@@ -117,6 +129,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
             }
         }
 
+        /// <summary>
+        /// Updates the specified product asynchronously using the product service.
+        /// Displays a loading cursor during the operation, handles exceptions by showing error notifications,
+        /// and reinitializes parameters upon completion to refresh the product list.
+        /// </summary>
         public async void UpdateProductAsync(Product product)
         {
             CursorUtility.DisplayCursor(true);
@@ -141,16 +158,28 @@ namespace ChemsonLabApp.MVVM.ViewModels.ProductVM
             }
         }
 
+        /// <summary>
+        /// Opens the Add Product dialog window using the dialog service.
+        /// </summary>
         public void PopupAddProductWindow()
         {
             _dialogService.ShowView("AddProduct");
         }
 
+        /// <summary>
+        /// Opens the Delete Product dialog window for the specified product using the dialog service.
+        /// </summary>
+        /// <param name="product">The product to be deleted.</param>
         public void PopupDeleteProductWindow(Product product)
         {
             _dialogService.ShowDeleteView(product);
         }
 
+        /// <summary>
+        /// Toggles the view and edit modes for the specified product.
+        /// If switched to view mode, refreshes the product list from the service.
+        /// </summary>
+        /// <param name="product">The product whose mode is to be toggled.</param>
         public async void isVewModeToggle(Product product)
         {
             product.isViewMode = !product.isViewMode;

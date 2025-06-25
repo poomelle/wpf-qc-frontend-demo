@@ -10,6 +10,10 @@ namespace ChemsonLabApp.Utilities
 {
     public static class CursorUtility
     {
+        /// <summary>
+        /// Sets the mouse cursor to a wait cursor if processing is true, or restores the default cursor if false.
+        /// </summary>
+        /// <param name="processing">If true, sets the cursor to wait; otherwise, restores the default cursor.</param>
         public static void DisplayCursor(bool processing)
         {
             Application.Current.Dispatcher.Invoke(() =>

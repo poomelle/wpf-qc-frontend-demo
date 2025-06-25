@@ -28,7 +28,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<Customer>> GetAllCustomersAsync(string filter="", string sort = "")
+        /// <summary>
+        /// Retrieves all customers from the API with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request.</param>
+        /// <param name="sort">Optional sort string to apply to the request.</param>
+        /// <returns>A list of Customer objects.</returns>
+        public async Task<List<Customer>> GetAllCustomersAsync(string filter = "", string sort = "")
         {
             string url = $"{baseUrl}{filter}{sort}";
 
@@ -41,6 +47,11 @@ namespace ChemsonLabApp.RestAPI
             return Customers;
         }
 
+        /// <summary>
+        /// Retrieves a customer by their unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the customer.</param>
+        /// <returns>The Customer object if found; otherwise, null.</returns>
         public async Task<Customer> GetCustomerByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -54,6 +65,11 @@ namespace ChemsonLabApp.RestAPI
             return Customer;
         }
 
+        /// <summary>
+        /// Creates a new customer using the provided customer object.
+        /// </summary>
+        /// <param name="customer">The Customer object to create.</param>
+        /// <returns>The created Customer object returned from the API.</returns>
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
             string url = $"{baseUrl}";
@@ -69,6 +85,11 @@ namespace ChemsonLabApp.RestAPI
             return Customer;
         }
 
+        /// <summary>
+        /// Updates an existing customer using the provided customer object.
+        /// </summary>
+        /// <param name="customer">The Customer object with updated information.</param>
+        /// <returns>The updated Customer object returned from the API.</returns>
         public async Task<Customer> UpdateCustomerAsync(Customer customer)
         {
             string url = $"{baseUrl}/{customer.id}";
@@ -84,6 +105,11 @@ namespace ChemsonLabApp.RestAPI
             return Customer;
         }
 
+        /// <summary>
+        /// Deletes a customer using the provided customer object.
+        /// </summary>
+        /// <param name="customer">The Customer object to delete.</param>
+        /// <returns>The deleted Customer object returned from the API.</returns>
         public async Task<Customer> DeleteCustomerAsync(Customer customer)
         {
             string url = $"{baseUrl}/{customer.id}";

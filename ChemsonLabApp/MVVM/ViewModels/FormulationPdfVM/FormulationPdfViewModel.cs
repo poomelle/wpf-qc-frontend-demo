@@ -73,6 +73,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             InitializeParameters();
         }
 
+        /// <summary>
+        /// Opens a file dialog for the user to select an Excel file, extracts relevant batch and date information,
+        /// and updates the provided <see cref="FormulationPdf"/> instance with the selected file's details.
+        /// </summary>
+        /// <param name="formulationPdf">The <see cref="FormulationPdf"/> object to update with the selected file's information.</param>
         public void BrowseExcelFile(FormulationPdf formulationPdf)
         {
             try
@@ -104,6 +109,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             }
         }
 
+        /// <summary>
+        /// Iterates through the collection of <see cref="FormulationPdf"/> objects, and for each entry with a valid Excel file path,
+        /// generates PDF files for the selected worksheets (QC and/or DPC) and saves them to the output folder.
+        /// Displays notifications for success or failure, and manages the cursor state during the operation.
+        /// </summary>
         public void SavePDF()
         {
             try
@@ -147,6 +157,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             }
         }
 
+        /// <summary>
+        /// Returns a list of worksheet names to print as PDF based on the selected options in the given <see cref="FormulationPdf"/> instance.
+        /// Adds the QC worksheet if <c>isQcPdfChecked</c> is true, and the DPC worksheet if <c>isDpcPdfChecked</c> is true.
+        /// </summary>
+        /// <param name="formulationPdf">The <see cref="FormulationPdf"/> object containing the selection state.</param>
+        /// <returns>A list of worksheet names to print as PDF.</returns>
         private List<string> GetAllPrintWorksheet(FormulationPdf formulationPdf)
         {
             List<string> printWorksheet = new List<string>();
@@ -164,7 +180,16 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             return printWorksheet;
         }
 
-        private void PrintOutPDF(string fileName, string outputFolder ,List<string> printWorksheet, string productName)
+        /// <summary>
+        /// Exports specified worksheets from an Excel file to PDF format and saves them in the given output folder.
+        /// For each worksheet name in <paramref name="printWorksheet"/>, attempts to export as PDF using the product name in the output file name.
+        /// Displays warnings if a worksheet is not found, and handles errors during the export process.
+        /// </summary>
+        /// <param name="fileName">The name of the Excel file to open (not full path).</param>
+        /// <param name="outputFolder">The folder where the PDF files will be saved.</param>
+        /// <param name="printWorksheet">A list of worksheet names to export as PDF.</param>
+        /// <param name="productName">The product name to use in the output PDF file names.</param>
+        private void PrintOutPDF(string fileName, string outputFolder, List<string> printWorksheet, string productName)
         {
             var excelApp = new Application();
             excelApp.Visible = false;
@@ -214,9 +239,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             {
                 excelApp.Quit();
             }
-
         }
 
+        /// <summary>
+        /// Searches for Excel files in the specified folder and attempts to match each file to a product in the <see cref="FormulationPdfs"/> collection
+        /// by comparing potential product names extracted from the Excel files. If a match is found, updates the corresponding <see cref="FormulationPdf"/>
+        /// instance with the Excel file path, batch, and date information. Displays a success notification when all products are matched, or a warning if the collection is empty.
+        /// </summary>
         public void SearchExcelFileName()
         {
             try
@@ -233,8 +262,8 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
                         try
                         {
                             // Create a formulationPdfExcel object
-                            FormulationPdfExcel formulationPdfExcel = CreateFormulationPdfExcel(excelFile, productWorksheetName, 
-                                                                                                potentialProductNameLocations, batchDateWorksheetName, 
+                            FormulationPdfExcel formulationPdfExcel = CreateFormulationPdfExcel(excelFile, productWorksheetName,
+                                                                                                potentialProductNameLocations, batchDateWorksheetName,
                                                                                                 batchLocation, dateLocation);
 
                             // compare the product name with the list of products
@@ -287,6 +316,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             }
         }
 
+        /// <summary>
+        /// Reads product names, batch, and date information from specified worksheets and cell locations in an Excel file.
+        /// Returns a <see cref="FormulationPdfExcel"/> object containing a list of potential product names, batch, and date values.
+        /// </summary>
+        /// <param name="excelFile">The full path to the Excel file.</param>
+        /// <param name="productWorksheetName">The worksheet name containing product information.</param>
+        /// <param name="potentialProductNameLocation">A list of cell addresses to check for potential product names.</param>
+        /// <param name="batchDateWorksheetName">The worksheet name containing batch and date information.</param>
+        /// <param name="batchLocation">The cell address for the batch value.</param>
+        /// <param name="dateLocation">The cell address for the date value.</param>
+        /// <returns>A <see cref="FormulationPdfExcel"/> object with extracted product names, batch, and date; or null if the product worksheet is not found.</returns>
         private FormulationPdfExcel CreateFormulationPdfExcel(string excelFile, string productWorksheetName, List<string> potentialProductNameLocation, string batchDateWorksheetName, string batchLocation, string dateLocation)
         {
             var formulationPdfExcel = new FormulationPdfExcel();
@@ -344,6 +384,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             return formulationPdfExcel;
         }
 
+        /// <summary>
+        /// Opens the Excel file associated with the given <see cref="FormulationPdf"/> instance.
+        /// If the file exists, it launches Microsoft Excel and opens the file for user interaction.
+        /// Displays a warning if the file is not found, and handles errors during the process.
+        /// </summary>
+        /// <param name="formulationPdf">The <see cref="FormulationPdf"/> object containing the Excel file path to open.</param>
         public void OpenExcelFile(FormulationPdf formulationPdf)
         {
             if (!string.IsNullOrWhiteSpace(formulationPdf.excelFilePath))
@@ -379,10 +425,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
                 finally
                 {
                     CursorUtility.DisplayCursor(false);
-                }        
+                }
             }
         }
 
+        /// <summary>
+        /// Retrieves all Excel files with the .xlsx extension from the specified folder.
+        /// Returns a list of file paths for each Excel file found in the top directory.
+        /// Throws an exception if the folder path is invalid or inaccessible.
+        /// </summary>
+        /// <param name="excelFolderLocation">The path to the folder containing Excel files.</param>
+        /// <returns>A list of file paths to Excel files in the specified folder.</returns>
         private List<string> GetAllExcelFilesInFolder(string excelFolderLocation)
         {
             // Get all excel files in the folder
@@ -410,6 +463,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             }
         }
 
+        /// <summary>
+        /// Modifies the given product name by removing specific substrings defined in <c>clippingProductName</c> and the prefix "ORG ".
+        /// Trims the result and returns the cleaned product name.
+        /// </summary>
+        /// <param name="productName">The original product name to be modified.</param>
+        /// <returns>The modified product name with specified substrings removed and trimmed.</returns>
         private string ModifiedProductName(string productName)
         {
             // exclude the words from the product name
@@ -424,43 +483,68 @@ namespace ChemsonLabApp.MVVM.ViewModels.FormulationPdfVM
             return modifiedProductName.Trim();
         }
 
+        /// <summary>
+        /// Sets the <c>isQcPdfChecked</c> property for all <see cref="FormulationPdf"/> items in <see cref="FormulationPdfs"/>
+        /// to the value of <see cref="IsQcPdfCheckedAll"/>.
+        /// </summary>
         public void TriggerQcPdfAll()
         {
-            foreach(var formulationPdf in FormulationPdfs)
+            foreach (var formulationPdf in FormulationPdfs)
             {
                 formulationPdf.isQcPdfChecked = IsQcPdfCheckedAll;
             }
         }
 
+        /// <summary>
+        /// Sets the <c>isDpcPdfChecked</c> property for all <see cref="FormulationPdf"/> items in <see cref="FormulationPdfs"/>
+        /// to the value of <see cref="IsDpcPdfCheckedAll"/>.
+        /// </summary>
         public void TriggerDpcPdfAll()
         {
-            foreach(var formulationPdf in FormulationPdfs)
+            foreach (var formulationPdf in FormulationPdfs)
             {
                 formulationPdf.isDpcPdfChecked = IsDpcPdfCheckedAll;
             }
         }
 
+        /// <summary>
+        /// Toggles the <c>isQcPdfChecked</c> property for the specified <see cref="FormulationPdf"/> item.
+        /// </summary>
+        /// <param name="formulationPdf">The <see cref="FormulationPdf"/> item to update.</param>
         public void TriggerQcPdf(FormulationPdf formulationPdf)
         {
             formulationPdf.isQcPdfChecked = !formulationPdf.isQcPdfChecked;
         }
 
+        /// <summary>
+        /// Toggles the <c>isDpcPdfChecked</c> property for the specified <see cref="FormulationPdf"/> item.
+        /// </summary>
+        /// <param name="formulationPdf">The <see cref="FormulationPdf"/> item to update.</param>
         public void TriggerDpcPdf(FormulationPdf formulationPdf)
         {
             formulationPdf.isDpcPdfChecked = !formulationPdf.isDpcPdfChecked;
         }
 
+        /// <summary>
+        /// Initializes parameters by loading products and setting the Excel folder location.
+        /// </summary>
         private async void InitializeParameters()
         {
             await LoadProducts();
             GetExcelFolderLocation();
         }
 
+        /// <summary>
+        /// Sets the Excel folder location to the constant path defined in the application constants.
+        /// </summary>
         private void GetExcelFolderLocation()
         {
             ExcelFolderLocation = Constants.Constants.FormulationExcelPath;
         }
 
+        /// <summary>
+        /// Asynchronously loads the list of active products from the product service and updates the Products property.
+        /// </summary>
         private async Task LoadProducts()
         {
             var products = await _productService.LoadActiveProducts();

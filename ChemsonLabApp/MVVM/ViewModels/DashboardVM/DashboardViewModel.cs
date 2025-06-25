@@ -84,6 +84,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             GenerateKPI();
         }
 
+        /// <summary>
+        /// Initializes dashboard parameters such as menus, years, and months.
+        /// Handles exceptions and manages the cursor display during initialization.
+        /// </summary>
         private void initializeParameter()
         {
             CursorUtility.DisplayCursor(true);
@@ -108,6 +112,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Loads the dashboard menu options and attempt selections into their respective properties.
+        /// Sets default selections for menu and attempt.
+        /// </summary>
         private void LoadDashboardMenusComboBoxes()
         {
             DashboardMenus = new List<string>
@@ -128,6 +136,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             SelectedAttempt = "3";
         }
 
+        /// <summary>
+        /// Loads the available years and months for dashboard filtering.
+        /// Sets the range of years from 2020 to the current year, and initializes the months list.
+        /// Also sets the default selection for FromYear, ToYear, FromMonth, and ToMonth.
+        /// </summary>
         private void LoadYearsMonths()
         {
             string startYear = "2020";
@@ -147,6 +160,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             ToMonth = "All";
         }
 
+        /// <summary>
+        /// Generates the KPI (Key Performance Indicator) data and updates the KPIContentControl
+        /// with the appropriate ConformanceView. This method creates a new scope for dependency
+        /// injection, configures the ConformanceViewModel with the current dashboard selections,
+        /// initializes its parameters, generates the KPI graph, and sets the KPIContentControl
+        /// to display the resulting view. Handles and logs any exceptions that occur during the process.
+        /// </summary>
         public void GenerateKPI()
         {
             try
@@ -159,7 +179,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
                     conformanceViewModel.SelectedInstrument = SelectedInstrument;
                     conformanceViewModel.FromMonth = FromMonth;
                     conformanceViewModel.ToMonth = ToMonth;
-                    conformanceViewModel.SelectedAttempt = SelectedMenu == "QC First Time Pass"? "1" : SelectedAttempt;
+                    conformanceViewModel.SelectedAttempt = SelectedMenu == "QC First Time Pass" ? "1" : SelectedAttempt;
                     conformanceViewModel.IsYearly = IsYearly;
 
                     conformanceViewModel.InitializeParameters(FromYear, ToYear, SelectedMenu);
@@ -176,7 +196,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
-        // Export Dashboard to Excel
+        /// <summary>
+        /// Exports the current dashboard KPI data to an Excel file.
+        /// Prompts the user to select a save location, retrieves KPI data from the database
+        /// based on the current dashboard filters, generates data tables and charts for each KPI,
+        /// and saves the results in an Excel workbook. Notifies the user of success or failure.
+        /// </summary>
         public async void ExportKPI()
         {
             // 3. Create Excel file
@@ -242,7 +267,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
                             PopulateWorksheet(worksheet, kpiData.Key, kpiData.Value, IsYearly, years, tableStartRow, tableStartColumn, tableGap);
 
                             // Create Chart for each worksheet
-                            CreateKPIChart(worksheet, kpiData.Key, kpiData.Value, IsYearly, years, graphStartRow, graphStartColumn, 
+                            CreateKPIChart(worksheet, kpiData.Key, kpiData.Value, IsYearly, years, graphStartRow, graphStartColumn,
                                 chartPlotWidth, chartPlotHeight, chartPlotGap, tableStartRow, tableGap);
                         }
 
@@ -261,7 +286,25 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
-        private void CreateKPIChart(ExcelWorksheet worksheet, string key, List<QcPerformanceGraphData> value, bool isYearly, List<string> years, int chartPlotStartRow, int chartPlotStartColumn, int chartPlotWidth, int chartPlotHeight, int chartPlotGap, int tableStartRow, int tableGap)
+        /// <summary>
+        /// Creates a KPI chart in the specified Excel worksheet for the given KPI data.
+        /// Handles both yearly and monthly chart generation, including setting chart titles, axis labels, data series, and formatting.
+        /// For yearly charts, a single clustered column chart is created for all years.
+        /// For monthly charts, a separate clustered column chart is created for each year, each displaying monthly data.
+        /// </summary>
+        private void CreateKPIChart(
+            ExcelWorksheet worksheet,
+            string key,
+            List<QcPerformanceGraphData> value,
+            bool isYearly,
+            List<string> years,
+            int chartPlotStartRow,
+            int chartPlotStartColumn,
+            int chartPlotWidth,
+            int chartPlotHeight,
+            int chartPlotGap,
+            int tableStartRow,
+            int tableGap)
         {
             var dataStartRow = tableStartRow + 1;
 
@@ -319,11 +362,17 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
                     chartPlotStartRow += (12 + chartPlotGap);
 
                     dataStartRow += (12 + tableGap + 1);
-                    
+
                 }
             }
         }
 
+        /// <summary>
+        /// Populates the specified Excel worksheet with KPI data for either yearly or monthly views.
+        /// For yearly data, writes a header row and then one row per year with the KPI value.
+        /// For monthly data, writes a header row for each year, then one row per month with the KPI value, and adds a gap between years.
+        /// The columns are auto-fitted after data is written.
+        /// </summary>
         private void PopulateWorksheet(ExcelWorksheet worksheet, string key, List<QcPerformanceGraphData> value, bool isYearly, List<string> years, int startRow, int startColumn, int gap)
         {
             if (isYearly)
@@ -349,7 +398,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
                     worksheet.Cells[startRow, startColumn].Value = year;
                     worksheet.Cells[startRow++, startColumn + 1].Value = key == "Average Test Time" ? $"{key} (mm:ss)" : $"{key} (%)";
 
-
                     for (int i = 1; i < Constants.Constants.Months.Count; i++)
                     {
                         var graphData = value.Find(qc => qc.XAxisValue.Contains(year) && qc.XAxisValue.Contains(Constants.Constants.Months[i]));
@@ -365,6 +413,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             worksheet.Cells.AutoFitColumns(2);
         }
 
+        /// <summary>
+        /// Loads KPI-related data from the database for the specified product, instrument, year, and month range.
+        /// Clears existing KPI data lists, generates filter queries, and asynchronously loads performance, label, and average test time data.
+        /// </summary>
         private async Task LoadDataFromDatabase(string selectedProduct, string selectedInstrument, string fromYear, string toYear, string fromMonth, string toMonth)
         {
             qcPerformanceKpis.Clear();
@@ -378,6 +430,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             qcAveTestTimeKpis = await LoadQcAveTestTimeFromDatabase(filters);
         }
 
+        /// <summary>
+        /// Creates a list of QcPerformanceGraphData objects from a list of QcAveTestTimeKpi records.
+        /// If isYearly is true, aggregates average test time per year; otherwise, aggregates per month.
+        /// Adds a constant sample preparation time to each average test time.
+        /// The XAxisValue is set to the year or year/month, and YAxisValue is the total minutes.
+        /// </summary>
         private List<QcPerformanceGraphData> CreateQcPerformanceData(List<QcAveTestTimeKpi> qcAveTestTimeKpis, bool isYearly)
         {
             List<QcPerformanceGraphData> qcPerformanceGraphDatas = new List<QcPerformanceGraphData>();
@@ -443,8 +501,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
             return qcPerformanceGraphDatas;
         }
-        
 
+        /// <summary>
+        /// Creates a list of QcPerformanceGraphData objects from a list of QcPerformanceKpi records.
+        /// If isYearly is true, aggregates conformance or first time pass percentage per year; otherwise, aggregates per month.
+        /// The XAxisValue is set to the year or year/month, and YAxisValue is the calculated percentage.
+        /// The 'performance' parameter determines whether to use total passes (Conformance) or only first passes (QC First Time Pass).
+        /// </summary>
         private List<QcPerformanceGraphData> CreateQcPerformanceData(List<QcPerformanceKpi> qcPerformanceKpis, bool isYearly, string performance)
         {
             List<QcPerformanceGraphData> qcPerformanceGraphDatas = new List<QcPerformanceGraphData>();
@@ -518,6 +581,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcPerformanceGraphDatas;
         }
 
+        /// <summary>
+        /// Creates a list of QcPerformanceGraphData objects from a list of QCLabel records.
+        /// If isYearly is true, aggregates the number of labels printed per year as a percentage of total passes; otherwise, aggregates per month.
+        /// The XAxisValue is set to the year or year/month, and YAxisValue is the calculated percentage.
+        /// This method uses the local qcPerformanceKpis list to determine the total number of passes for the calculation.
+        /// </summary>
         private List<QcPerformanceGraphData> CreateQcPerformanceData(List<QCLabel> qCLabels, bool isYearly)
         {
             List<QcPerformanceGraphData> qcPerformanceGraphDatas = new List<QcPerformanceGraphData>();
@@ -568,6 +637,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcPerformanceGraphDatas;
         }
 
+        /// <summary>
+        /// Loads QC performance KPI data from the database using the provided filters.
+        /// For each filter, retrieves the corresponding KPI data asynchronously and aggregates the results into a single list.
+        /// </summary>
         private async Task<List<QcPerformanceKpi>> LoadQcPerformanceFromDatabase(List<string> filters)
         {
             List<QcPerformanceKpi> qcKpis = new List<QcPerformanceKpi>();
@@ -584,6 +657,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcKpis;
         }
 
+        /// <summary>
+        /// Loads QC label data from the database using the provided filters.
+        /// For each filter, retrieves the corresponding label data asynchronously and aggregates the results into a single list.
+        /// </summary>
         private async Task<List<QCLabel>> LoadQcLabelFromDatabase(List<string> filters)
         {
             List<QCLabel> qCLabels = new List<QCLabel>();
@@ -599,6 +676,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qCLabels;
         }
 
+        /// <summary>
+        /// Loads QC average test time KPI data from the database using the provided filters.
+        /// For each filter, retrieves the corresponding KPI data asynchronously and aggregates the results into a single list.
+        /// </summary>
         private async Task<List<QcAveTestTimeKpi>> LoadQcAveTestTimeFromDatabase(List<string> filters)
         {
             List<QcAveTestTimeKpi> qcAveTestTimeKpis = new List<QcAveTestTimeKpi>();
@@ -615,6 +696,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcAveTestTimeKpis;
         }
 
+        /// <summary>
+        /// Generates a list of filter query strings for loading KPI data from the database
+        /// based on the selected product, instrument, year, and month range.
+        /// Handles "All" selections for product and instrument by omitting those filters.
+        /// For each year in the range, constructs filters for the appropriate months
+        /// (from the selected start month to December for the first year, from January to the selected end month for the last year,
+        /// and from January to December for intermediate years).
+        /// </summary>
         private List<string> GetLoadDataFilter(string selectedProduct, string selectedInstrument, string fromYear, string toYear, string fromMonth, string toMonth)
         {
             List<string> filterList = new List<string>();
@@ -627,7 +716,7 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
                 if (i == int.Parse(fromYear))
                 {
                     // filter from "fromMonth" to "December"
-                    int startMonthIndex = fromMonth == "All"? 1 : Constants.Constants.Months.IndexOf(fromMonth);
+                    int startMonthIndex = fromMonth == "All" ? 1 : Constants.Constants.Months.IndexOf(fromMonth);
                     int endMonthIndex = 12;
 
                     for (int j = startMonthIndex; j <= endMonthIndex; j++)

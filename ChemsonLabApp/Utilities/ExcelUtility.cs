@@ -9,6 +9,10 @@ namespace ChemsonLabApp.Utilities
 {
     public static class ExcelUtility
     {
+        /// <summary>
+        /// Opens a file dialog for the user to select an Excel file and returns the selected file path.
+        /// </summary>
+        /// <returns>The full path of the selected Excel file, or an empty string if no file was selected.</returns>
         public static string GetExcelFilePath()
         {
             string filePath = string.Empty;

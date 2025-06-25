@@ -73,6 +73,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             this._qcAveTimeKpiRestApi = qcAveTimeKpiRestApi;
         }
 
+        /// <summary>
+        /// Initializes the parameters required for generating the conformance graph.
+        /// Parses the provided year strings, determines the month indices for the range,
+        /// and sets the column series title based on the selected product.
+        /// </summary>
+        /// <param name="fromYear">The starting year as a string.</param>
+        /// <param name="toYear">The ending year as a string.</param>
+        /// <param name="selectedProduct">The selected product name.</param>
         public void InitializeParameters(string fromYear, string toYear, string selectedProduct)
         {
             fromStartYear = int.TryParse(fromYear, out fromStartYear) ? fromStartYear : 0;
@@ -82,6 +90,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             columnSeriesTitle = selectedProduct == "All" ? "All Products" : selectedProduct;
         }
 
+        /// <summary>
+        /// Updates the Y-axis formatting for the conformance graph based on the selected performance metric.
+        /// Sets the Y-axis title and value formatter according to the type of performance selected.
+        /// Also updates the maximum value of the Y-axis based on the current data values.
+        /// </summary>
         private void UpdateYAxisFormat()
         {
             switch (SelectedPerformance)
@@ -106,18 +119,28 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             YAxisMaxValue = ConformanceDataValues.Max() + 10;
         }
 
+        /// <summary>
+        /// Asynchronously loads QC performance KPI data and generates the QC conformance graph.
+        /// </summary>
         public async void CreateGrph()
         {
             await LoadQcPerformanceKpis();
             GenerateQcConformanceGraph();
         }
 
+        /// <summary>
+        /// Asynchronously loads QC performance KPI data and populates the export data for Excel.
+        /// </summary>
         public async Task LoadDataForExportAsync()
         {
             await LoadQcPerformanceKpis();
             PopulateExportData();
         }
 
+        /// <summary>
+        /// Populates the export data collections for Excel export.
+        /// Sets the X-axis values from the chart labels and the Y-axis values from the conformance data values.
+        /// </summary>
         private void PopulateExportData()
         {
             // Data for exporting to excel
@@ -127,9 +150,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             // Add Y Axis Value
             ExportYAxisValues = ConformanceDataValues.Select(x => x).ToList();
             //ExportYAxisAveTimeValues = AveTestTimeDataValues.Select(x => x).ToList();
-
         }
 
+        /// <summary>
+        /// Generates the QC conformance graph by populating the data for either yearly or monthly view,
+        /// adds a column series to the chart with appropriate labels and formatting, and updates the Y-axis format.
+        /// </summary>
         public void GenerateQcConformanceGraph()
         {
             if (IsYearly)
@@ -146,17 +172,21 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
                 Title = columnSeriesTitle,
                 Values = ConformanceDataValues,
                 DataLabels = true,
-                LabelPoint = point => point.Y == 0 ? "No Data" 
-                    :SelectedPerformance == "Average Test Time" ? TimeSpan.FromMinutes(point.Y).ToString(@"mm\:ss") 
-                    :SelectedPerformance == "Conformance" || SelectedPerformance == "QC First Time Pass" ? point.Y.ToString("N") + "%"
-                    :SelectedPerformance == "QC Label Printed" ? point.Y.ToString("N") + "%"
-                    :point.Y.ToString("N")
+                LabelPoint = point => point.Y == 0 ? "No Data"
+                    : SelectedPerformance == "Average Test Time" ? TimeSpan.FromMinutes(point.Y).ToString(@"mm\:ss")
+                    : SelectedPerformance == "Conformance" || SelectedPerformance == "QC First Time Pass" ? point.Y.ToString("N") + "%"
+                    : SelectedPerformance == "QC Label Printed" ? point.Y.ToString("N") + "%"
+                    : point.Y.ToString("N")
             });
 
             // Assign Y Axis Title and Y Axis Min and Max Value
             UpdateYAxisFormat();
         }
 
+        /// <summary>
+        /// Populates the yearly QC conformance graph data by iterating from the starting year to the ending year.
+        /// For each year in the range, it fetches and adds the corresponding data point to the graph.
+        /// </summary>
         private void PopulateYearlyQcConformanceGraphData()
         {
             // Yearly data
@@ -166,6 +196,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Populates the monthly QC conformance graph data by iterating through the specified range of years and months.
+        /// For the case where the start and end years are the same, it fetches data for the months between the start and end month indices.
+        /// If the range spans multiple years, it fetches data for each year, handling the first and last years with their respective month ranges,
+        /// and all intermediate years with the full range of months.
+        /// </summary>
         private void PopulateMonthlyQcConformanceGraphData()
         {
             // monthly data
@@ -191,6 +227,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Populates the graph data for the specified year and month range.
+        /// If both startMonth and endMonth are provided (non-zero), it populates monthly data for each month in the range.
+        /// Otherwise, it populates yearly data for the given year.
+        /// For each data point, it fetches the corresponding QC performance graph data and adds the Y-axis value and X-axis label to the chart collections.
+        /// </summary>
         private void FetchDataToGraphData(int year, int startMonth = 0, int endMonth = 0)
         {
             if (startMonth != 0 && endMonth != 0) // Populate monthly data
@@ -210,6 +252,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Fetches and constructs the data point for the QC performance graph for a given year and month index.
+        /// Determines which type of data to fetch (Average Test Time, Conformance, QC First Time Pass, or QC Label Printed)
+        /// based on the selected performance metric, and returns the corresponding QcPerformanceGraphData object.
+        /// </summary>
+        /// <param name="year">The year for which to fetch the data.</param>
+        /// <param name="monthIndex">The month index (0 for yearly data, otherwise the month number).</param>
+        /// <returns>A QcPerformanceGraphData object containing the X and Y axis values for the graph.</returns>
         private QcPerformanceGraphData FetchDataToGraphDataEachPoint(int year, int monthIndex)
         {
             var month = TestMonthUtility.ConvertMonth(Constants.Constants.Months[monthIndex]);
@@ -234,6 +284,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcPerformanceGraphData;
         }
 
+        /// <summary>
+        /// Fetches and prepares the data required for the "QC Label Printed" performance metric.
+        /// For monthly data (when monthIndex is not zero), it filters QC labels and performance KPIs by year and month.
+        /// For yearly data (when monthIndex is zero), it filters only by year.
+        /// Returns a QcPerformanceGraphData object containing the calculated percentage of printed QC labels
+        /// relative to the total number of passed tests for the specified period.
+        /// </summary>
         private QcPerformanceGraphData FetchQcLabelData(int year, int monthIndex, string month)
         {
             List<QCLabel> qcLabels = new List<QCLabel>();
@@ -253,6 +310,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Fetches and prepares the data required for the "Average Test Time" performance metric.
+        /// For monthly data (when monthIndex is not zero), it filters average test time KPIs by year and month.
+        /// For yearly data (when monthIndex is zero), it filters only by year.
+        /// Returns a QcPerformanceGraphData object containing the calculated average test time
+        /// for the specified period.
+        /// </summary>
         private QcPerformanceGraphData FetchAverageTestTimeData(int year, int monthIndex, string month)
         {
             List<QcAveTestTimeKpi> qcAveTestTimeKpis = new List<QcAveTestTimeKpi>();
@@ -269,6 +333,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Fetches and prepares the data required for the "Conformance" or "QC First Time Pass" performance metrics.
+        /// For monthly data (when monthIndex is not zero), it filters QC performance KPIs by year and month.
+        /// For yearly data (when monthIndex is zero), it filters only by year.
+        /// Returns a QcPerformanceGraphData object containing the calculated pass percentage
+        /// for the specified period.
+        /// </summary>
         private QcPerformanceGraphData FetchConformanceData(int year, int monthIndex, string month)
         {
             List<QcPerformanceKpi> qcPerformanceKpis = new List<QcPerformanceKpi>();
@@ -285,6 +356,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Creates a QcPerformanceGraphData model for a given year and month using a list of QcPerformanceKpi.
+        /// Sets the X axis value as "MM/YY" if month is provided, otherwise as the year.
+        /// Calculates the total number of tests and the number of passes (first, second, third) from the KPI list,
+        /// then computes the pass percentage using GetPassPercentageValue and assigns it to the Y axis value.
+        /// </summary>
         private QcPerformanceGraphData CreateQcPerformanceGraphDataModel(int year, string month, List<QcPerformanceKpi> qcPerformanceKpis)
         {
             var qcPerformanceGraphData = new QcPerformanceGraphData();
@@ -301,6 +378,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcPerformanceGraphData;
         }
 
+        /// <summary>
+        /// Creates a QcPerformanceGraphData model for a given year and month using a list of QcAveTestTimeKpi.
+        /// Sets the X axis value as "MM/YYYY" if month is provided, otherwise as the year.
+        /// Calculates the average test time in ticks, converts it to a TimeSpan, and adds a constant sample preparation time if applicable.
+        /// The Y axis value is set to the total minutes of the resulting TimeSpan.
+        /// </summary>
         private QcPerformanceGraphData CreateQcPerformanceGraphDataModel(int year, string month, List<QcAveTestTimeKpi> qcAveTestTimeKpis)
         {
             var qcPerformanceGraphData = new QcPerformanceGraphData();
@@ -325,6 +408,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcPerformanceGraphData;
         }
 
+        /// <summary>
+        /// Creates a QcPerformanceGraphData model for a given year and month using lists of QCLabel and QcPerformanceKpi.
+        /// Sets the X axis value as "MM/YYYY" if month is provided, otherwise as the year.
+        /// Calculates the number of printed QC labels and the total number of passed tests (first, second, and third pass) from the KPI list.
+        /// Computes the percentage of printed labels relative to the total passed tests and assigns it to the Y axis value.
+        /// </summary>
         private QcPerformanceGraphData CreateQcPerformanceGraphDataModel(int year, string month, List<QCLabel> qCLabels, List<QcPerformanceKpi> qcPerformanceKpis)
         {
             var qcPerformanceGraphData = new QcPerformanceGraphData();
@@ -343,6 +432,14 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return qcPerformanceGraphData;
         }
 
+        /// <summary>
+        /// Calculates the pass percentage value based on the total number of tests and the number of passes for each attempt.
+        /// The calculation depends on the selected attempt:
+        /// - "1": Only first pass is considered.
+        /// - "2": First and second passes are summed.
+        /// - Any other value: First, second, and third passes are summed.
+        /// Returns 0 if the total number of tests is zero.
+        /// </summary>
         private double GetPassPercentageValue(int totalTest, int firstPass, int secondPass, int thirdPass)
         {
             if (totalTest != 0)
@@ -353,6 +450,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             return 0;
         }
 
+        /// <summary>
+        /// Asynchronously loads QC performance KPI data for the specified year and month range.
+        /// If the start year is greater than the end year, a warning is shown and the operation is aborted.
+        /// If the start and end years are the same, data is loaded for each month in the range.
+        /// If the range spans multiple years, data is loaded for each relevant month and year, including partial years at the start and end.
+        /// </summary>
         public async Task LoadQcPerformanceKpis()
         {
             if (fromStartYear > toEndYear)
@@ -401,6 +504,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Asynchronously fetches and loads QC performance KPI, average test time KPI, or printed QC label data
+        /// for a given year and month index, depending on the selected performance metric.
+        /// Constructs the appropriate filter string based on the selected product, instrument, year, and month.
+        /// Calls the relevant data retrieval methods for the selected performance type.
+        /// </summary>
         private async Task FetchDataToQcPerformanceKpis(int year, int monthIndex)
         {
             string filterProductName = SelectedProduct == "All" ? "" : SelectedProduct;
@@ -429,6 +538,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Asynchronously retrieves all QC performance KPI records using the provided filter and sort parameters,
+        /// and adds them to the QcPerformanceKpis collection if any are returned.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the query.</param>
+        /// <param name="sort">Optional sort string to apply to the query.</param>
         public async Task GetAllQcPerformanceKpis(string filter = "", string sort = "")
         {
             var qcPerformanceKpis = await _qcPerformanceKpiRestAPI.GetAllQcPerformanceKpisAsync(filter, sort);
@@ -442,6 +557,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Asynchronously retrieves all QC average test time KPI records using the provided filter and sort parameters,
+        /// and adds them to the QcAveTestTimeKpis collection if any are returned.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the query.</param>
+        /// <param name="sort">Optional sort string to apply to the query.</param>
         public async Task GetAllQcAveTestTimeKpis(string filter = "", string sort = "")
         {
             var qcAveTestTimeKpis = await _qcAveTimeKpiRestApi.GetAllQcAveTestTimeKpisAsync(filter, sort);
@@ -455,6 +576,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.DashboardVM
             }
         }
 
+        /// <summary>
+        /// Asynchronously retrieves all printed QC label records using the provided filter and sort parameters,
+        /// and adds them to the QcLabels collection if any are returned.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the query.</param>
+        /// <param name="sort">Optional sort string to apply to the query.</param>
         public async Task GetAllPrintedQcLabels(string filter = "", string sort = "")
         {
             var qcLabels = await _qcLabelRestAPI.GetAllQCLabelsAsync(filter, sort);

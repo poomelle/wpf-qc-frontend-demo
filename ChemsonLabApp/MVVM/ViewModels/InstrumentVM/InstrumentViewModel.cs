@@ -56,6 +56,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             InitializeParameter();
         }
 
+        /// <summary>
+        /// Initializes the parameters for the InstrumentViewModel by loading all instruments asynchronously.
+        /// Displays a loading cursor during the operation and handles any exceptions by showing appropriate error notifications.
+        /// </summary>
         public async void InitializeParameter()
         {
             CursorUtility.DisplayCursor(true);
@@ -79,6 +83,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             }
         }
 
+        /// <summary>
+        /// Asynchronously retrieves all instruments from the instrument service using optional filter and sort parameters.
+        /// Clears the current Instruments collection and repopulates it with the retrieved instruments.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the instrument query.</param>
+        /// <param name="sort">Optional sort string to order the instrument results.</param>
+        /// <returns>A Task representing the asynchronous operation.</returns>
         public async Task GetAllInstrumentsAsync(string filter = "", string sort = "")
         {
             var instruments = await _instrumentService.GetAllInstrumentsAsync(filter, sort);
@@ -89,6 +100,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             }
         }
 
+        /// <summary>
+        /// Asynchronously updates the specified instrument using the instrument service.
+        /// Shows a success notification if the update is successful and refreshes the Instruments collection.
+        /// </summary>
+        /// <param name="instrument">The instrument to update.</param>
         public async void UpdateInstrumentAsync(Instrument instrument)
         {
             var isUpdateSuccess = await _instrumentService.UpdateInstrumentAsync(instrument);
@@ -96,16 +112,27 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             await GetAllInstrumentsAsync();
         }
 
+        /// <summary>
+        /// Displays the Add Instrument dialog view using the dialog service.
+        /// </summary>
         public void PopupAddInstrumentView()
         {
             _dialogService.ShowView("AddInstrument");
         }
 
+        /// <summary>
+        /// Displays the Delete Instrument dialog view for the specified instrument using the dialog service.
+        /// </summary>
         public void PopupDeleteInstrumentView(Instrument instrument)
         {
             _dialogService.ShowDeleteView(instrument);
         }
 
+        /// <summary>
+        /// Toggles the view and edit mode states for the specified instrument.
+        /// If toggled to view mode, refreshes the Instruments collection asynchronously.
+        /// </summary>
+        /// <param name="instrument">The instrument whose mode is to be toggled.</param>
         public async void isVewModeToggle(Instrument instrument)
         {
             instrument.isViewMode = !instrument.isViewMode;
@@ -117,6 +144,13 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             }
         }
 
+        /// <summary>
+        /// Filters the Instruments collection based on the selected instrument and status.
+        /// Constructs a filter string using the selected instrument's name and the specified status,
+        /// then asynchronously retrieves and updates the Instruments collection with the filtered results.
+        /// </summary>
+        /// <param name="selectedInstrument">The instrument selected for filtering, or null to ignore this filter.</param>
+        /// <param name="status">The status to filter by ("All", "Active", "Inactive", or empty for no filter).</param>
         public async void ComboBoxInstrumentFilter(Instrument selectedInstrument = null, string status = "")
         {
             //SelectedInstrument = selectedInstrument;

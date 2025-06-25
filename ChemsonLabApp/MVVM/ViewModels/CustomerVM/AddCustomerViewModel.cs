@@ -32,6 +32,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             this._customerViewService = customerViewService;
         }
 
+        /// <summary>
+        /// Saves a new customer using the provided customer name and email.
+        /// If the customer is successfully created, a success notification is shown.
+        /// </summary>
         public async void SaveNewCustomer()
         {
             var createdCustomer = await _customerViewService.CreateCustomerAsync(CustomerName, CustomerEmail);
@@ -40,7 +44,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             {
                 NotificationUtility.ShowSuccess(CustomerName + " has been added");
             }
-
         }
     }
 }

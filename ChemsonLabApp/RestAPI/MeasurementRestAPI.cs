@@ -26,7 +26,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<Measurement>> GetAllMeasurementsAsync(string filter="", string sort = "")
+        /// <summary>
+        /// Retrieves all measurements from the API with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request URL.</param>
+        /// <param name="sort">Optional sort string to apply to the request URL.</param>
+        /// <returns>A list of Measurement objects.</returns>
+        public async Task<List<Measurement>> GetAllMeasurementsAsync(string filter = "", string sort = "")
         {
             string url = $"{baseUrl}{filter}{sort}";
 
@@ -39,6 +45,11 @@ namespace ChemsonLabApp.RestAPI
             return Measurements;
         }
 
+        /// <summary>
+        /// Retrieves a measurement by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the measurement.</param>
+        /// <returns>The Measurement object if found; otherwise, null.</returns>
         public async Task<Measurement> GetMeasurementByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -52,6 +63,11 @@ namespace ChemsonLabApp.RestAPI
             return Measurement;
         }
 
+        /// <summary>
+        /// Creates a new measurement by sending a POST request to the API.
+        /// </summary>
+        /// <param name="measurement">The Measurement object to create.</param>
+        /// <returns>The created Measurement object as returned by the API.</returns>
         public async Task<Measurement> CreateMeasurementAsync(Measurement measurement)
         {
             string url = $"{baseUrl}";
@@ -67,6 +83,11 @@ namespace ChemsonLabApp.RestAPI
             return Measurement;
         }
 
+        /// <summary>
+        /// Updates an existing measurement by sending a PUT request to the API.
+        /// </summary>
+        /// <param name="measurement">The Measurement object with updated values.</param>
+        /// <returns>The updated Measurement object as returned by the API.</returns>
         public async Task<Measurement> UpdateMeasurementAsync(Measurement measurement)
         {
             string url = $"{baseUrl}/{measurement.id}";
@@ -82,6 +103,11 @@ namespace ChemsonLabApp.RestAPI
             return Measurement;
         }
 
+        /// <summary>
+        /// Deletes a measurement by sending a DELETE request to the API.
+        /// </summary>
+        /// <param name="measurement">The Measurement object to delete.</param>
+        /// <returns>The deleted Measurement object as returned by the API.</returns>
         public async Task<Measurement> DeleteMeasurementAsync(Measurement measurement)
         {
             string url = $"{baseUrl}/{measurement.id}";

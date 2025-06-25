@@ -63,9 +63,16 @@ namespace ChemsonLabApp.Services.DataLoaderService
         }
 
 
-        //////////////////////////////////////////////////////////////////////////////////////
-        //////////////////// New Data Loader Service ////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Processes MTF test results from the specified OleDbConnection and populates a TestResult object.
+        /// Reads parameter values from the "Testparameters" table and maps them to the corresponding properties of TestResult.
+        /// Determines product and machine information from the provided lists.
+        /// </summary>
+        /// <param name="connection">The OleDbConnection to the MTF data source.</param>
+        /// <param name="fileName">The name of the file being processed.</param>
+        /// <param name="products">A list of available products to match against.</param>
+        /// <param name="instruments">A list of available instruments to match against.</param>
+        /// <returns>A populated TestResult object with values from the MTF data.</returns>
         public TestResult ProcessMTFTestResults(OleDbConnection connection, string fileName, List<Product> products, List<MVVM.Models.Instrument> instruments)
         {
             //var testResults = new List<TestResult>();
@@ -166,6 +173,15 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return result;
         }
 
+        /// <summary>
+        /// Processes a TXT test result file and populates a TestResult object with default and inferred values.
+        /// Determines product and machine information from the provided lists, sets the operator, and initializes all other properties to default or empty values.
+        /// The test date is set to the file's last write time.
+        /// </summary>
+        /// <param name="file">The path to the TXT file being processed.</param>
+        /// <param name="products">A list of available products to match against.</param>
+        /// <param name="instruments">A list of available instruments to match against.</param>
+        /// <returns>A populated TestResult object with values inferred from the TXT file and defaults.</returns>
         public TestResult ProcessTxtTestResult(string file, List<Product> products, List<MVVM.Models.Instrument> instruments)
         {
             TestResult result = new TestResult();
@@ -213,6 +229,19 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return result;
         }
 
+        /// <summary>
+        /// Processes a TXT measurement file, extracting measurement data, times, and torques.
+        /// Reads the header to determine column indices, then parses each line to create Measurement objects
+        /// and collects corresponding time and torque values.
+        /// Returns a tuple containing the list of measurements, times, and torques.
+        /// </summary>
+        /// <param name="file">The path to the TXT file to process.</param>
+        /// <returns>
+        /// A tuple containing:
+        /// - List of Measurement objects parsed from the file.
+        /// - List of integer time values.
+        /// - List of double torque values.
+        /// </returns>
         public (List<Measurement> Measurements, List<int> Times, List<double> Torques) ProcessTXTMeasurement(string file)
         {
             var measurements = new List<Measurement>();
@@ -273,6 +302,11 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return (measurements, times, torques);
         }
 
+        /// <summary>
+        /// Processes a TXT evaluation file by extracting evaluation points (A, B, X, t) from the provided time and torque lists.
+        /// For each evaluation point, creates an Evaluation object with calculated or default values and adds it to the result list.
+        /// Returns a list of Evaluation objects corresponding to the evaluation points found in the TXT data.
+        /// </summary>
         public List<Evaluation> ProcessTXTEvaluation(string file, List<int> times, List<double> torques)
         {
             var evaluations = new List<Evaluation>();
@@ -322,12 +356,26 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return evaluations;
         }
 
+        /// <summary>
+        /// Converts a total number of seconds into a formatted time string (hh:mm:ss).
+        /// </summary>
+        /// <param name="totalSecond">The total number of seconds to convert.</param>
+        /// <returns>A string representing the time in "hh:mm:ss" format.</returns>
         private string GetTimeFormatFromInt(int totalSecond)
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(totalSecond);
             return timeSpan.ToString(@"hh\:mm\:ss");
         }
 
+        /// <summary>
+        /// Analyzes lists of time and torque values from TXT measurement data to identify key evaluation points (A, B, X, t).
+        /// - 'A': Peak torque and its time.
+        /// - 'B': First local minimum after A, where torque drops below A and is less than the previous value plus 0.5.
+        /// - 'X': First local maximum after B, where torque rises above B and is greater than previous X.
+        ///   If the curve is flat, recalculates X by averaging times where torque is within a tolerance of the found X value.
+        /// - 't': Fusion point, calculated as the time and torque difference between X and A.
+        /// Returns a dictionary mapping each point ('A', 'B', 'X', 't') to a dictionary of time and torque values.
+        /// </summary>
         private Dictionary<char, Dictionary<int, double>> GetTorqueTxt(List<int> times, List<double> torques)
         {
             var torquesTimesDict = new Dictionary<char, Dictionary<int, double>>();
@@ -335,7 +383,6 @@ namespace ChemsonLabApp.Services.DataLoaderService
             var bPoint = new Dictionary<int, double>();
             var xPoint = new Dictionary<int, double>();
             var tPoint = new Dictionary<int, double>();
-
 
             // Find A (Peak) Torque
             double aTorque = torques.Max();
@@ -376,9 +423,7 @@ namespace ChemsonLabApp.Services.DataLoaderService
             bPoint.Add(bTime, bTorque);
             torquesTimesDict.Add('B', bPoint);
 
-
             // Re-calculate X Torque and X time in case flat curve
-
             List<int> xPointTimesList = bPointTimesList.GetRange(indexOfBPoint + 1, bPointTimesList.Count - (indexOfBPoint + 1));
             List<double> xPointTorquesList = bPointTorquesList.GetRange(indexOfBPoint + 1, bPointTorquesList.Count - (indexOfBPoint + 1));
 
@@ -412,7 +457,6 @@ namespace ChemsonLabApp.Services.DataLoaderService
                 var firstIndex = relevantIndices.First().Index;
                 var lastIndex = relevantIndices.Last().Index;
 
-
                 var firstTimeX = xPointTimesList[firstIndex];
                 var lastTimeX = xPointTimesList[lastIndex];
 
@@ -436,6 +480,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return torquesTimesDict;
         }
 
+        /// <summary>
+        /// Finds and returns a Product from the provided list that matches the product name extracted from the given parameter value.
+        /// The product name is determined by splitting the parameter value at the underscore and comparing the first segment
+        /// (case-insensitive) to the processed product names in the list.
+        /// </summary>
+        /// <param name="paramValue">The parameter value containing the product name, typically in the format "ProductName_...".</param>
+        /// <param name="products">The list of available Product objects to search.</param>
+        /// <returns>The matching Product object if found; otherwise, null.</returns>
         private Product FindProduct(string paramValue, List<Product> products)
         {
             var sample = paramValue as string;
@@ -453,6 +505,12 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return null;
         }
 
+        /// <summary>
+        /// Processes the product name by removing any words specified in the ClippingProductName constant list.
+        /// This is used to normalize product names for comparison or matching purposes.
+        /// </summary>
+        /// <param name="productName">The original product name to process.</param>
+        /// <returns>The processed product name with excluded words removed.</returns>
         private string ProcessProductName(string productName)
         {
             foreach (var wordToExclude in Constants.Constants.ClippingProductName)
@@ -462,6 +520,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return productName;
         }
 
+        /// <summary>
+        /// Determines the batch group from either a machine value or a file name.
+        /// If a file name is provided, extracts the batch group from the file name; otherwise, uses the machine value.
+        /// Returns the batch group, preferring the value from the file name if it differs from the machine value.
+        /// </summary>
+        /// <param name="v">The machine value or string containing batch group information.</param>
+        /// <param name="fileName">Optional file name to extract batch group from.</param>
+        /// <returns>The determined batch group string.</returns>
         private string FindBatchGroup(object v, string fileName = "")
         {
             var batchGroupFromMachine = v as string;
@@ -485,6 +551,12 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return batchGroupFromFileName;
         }
 
+        /// <summary>
+        /// Finds and returns an Instrument from the provided list that matches the given machine name (case-insensitive).
+        /// </summary>
+        /// <param name="paramValue">The machine name to search for.</param>
+        /// <param name="instruments">The list of available Instrument objects to search.</param>
+        /// <returns>The matching Instrument object if found; otherwise, null.</returns>
         private MVVM.Models.Instrument FindMachine(string paramValue, List<MVVM.Models.Instrument> instruments)
         {
             var machineName = paramValue as string;
@@ -499,6 +571,17 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return null;
         }
 
+        /// <summary>
+        /// Assigns default values and arranges the list of TestResult objects for further processing.
+        /// - Sets the first test as a warm-up (W/U) with test number 0.
+        /// - Determines if the product is a "2X" type (based on product comment).
+        /// - Checks for existing standard tests in the database for the same product, batch group, and machine.
+        /// - If no standard test exists, assigns the next two tests as standard (STD1, STD2) with test number 0.
+        /// - Assigns batch test types (BCH) and generates batch names for the remaining tests, handling "2X" products by creating double batch names.
+        /// - If standard tests already exist, assigns all but the first test as batch tests (BCH) with appropriate batch names.
+        /// </summary>
+        /// <param name="testResults">The list of TestResult objects to process and arrange.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the arranged list of TestResult objects, or null if the product is not found or inactive.</returns>
         public async Task<List<TestResult>> AssignDefaultValuesAndArrangeResults(List<TestResult> testResults)
         {
             if (testResults[0].product == null)
@@ -563,6 +646,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return testResults;
         }
 
+        /// <summary>
+        /// Finds the next available batch number for a given year/month batch prefix and product name.
+        /// Queries the database for existing batches with the specified prefix and product, extracts their numeric batch numbers,
+        /// and returns the next available number (max + 1). If no batches exist, returns 1.
+        /// </summary>
+        /// <param name="yearMonthBatch">The year/month batch prefix (first 3 characters of the batch name).</param>
+        /// <param name="productName">The name of the product.</param>
+        /// <returns>The next available batch number as an integer.</returns>
         private async Task<int> FindNextBatchName(string yearMonthBatch, string productName)
         {
             List<int> currentBatchesNumber = new List<int>();
@@ -588,6 +679,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return 1;
         }
 
+        /// <summary>
+        /// Processes MTF evaluation data from the specified OleDbConnection and file name.
+        /// Reads all rows from the evaluation table, mapping each row to an Evaluation object.
+        /// Each Evaluation is populated with values from the database and added to the result list.
+        /// </summary>
+        /// <param name="connection">The OleDbConnection to the MTF data source.</param>
+        /// <param name="fileName">The name of the file being processed.</param>
+        /// <returns>A list of Evaluation objects populated with values from the MTF evaluation data.</returns>
         public List<Evaluation> ProcessMTFEvaluations(OleDbConnection connection, string fileName)
         {
             var evaluations = new List<Evaluation>();
@@ -622,6 +721,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return evaluations;
         }
 
+        /// <summary>
+        /// Processes measurement data from the specified OleDbConnection and file name.
+        /// Reads all rows from the measurement table, mapping each row to a Measurement object.
+        /// Each Measurement is populated with values from the database and added to the result list.
+        /// </summary>
+        /// <param name="connection">The OleDbConnection to the MTF data source.</param>
+        /// <param name="fileName">The name of the file being processed.</param>
+        /// <returns>A list of Measurement objects populated with values from the MTF measurement data.</returns>
         public List<Measurement> ProcessMTFMeasurements(OleDbConnection connection, string fileName)
         {
             var measurements = new List<Measurement>();
@@ -647,6 +754,16 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return measurements;
         }
 
+        /// <summary>
+        /// Automatically reassigns batch names for all test results of type "BCH" in the provided list.
+        /// Determines the starting batch name and number from the first "BCH" test result, then sequentially
+        /// assigns new batch names to each "BCH" test result. For "2X" products, assigns double batch names
+        /// (e.g., "ABC1+2", "ABC3+4"); otherwise, assigns single batch names (e.g., "ABC1", "ABC2").
+        /// Returns the updated list of test results with reassigned batch names.
+        /// </summary>
+        /// <param name="testResults">The list of TestResult objects to update.</param>
+        /// <param name="isTwoX">Indicates whether the product is a "2X" type, requiring double batch names.</param>
+        /// <returns>The list of TestResult objects with updated batch names.</returns>
         public List<TestResult> AutoReBatchName(List<TestResult> testResults, bool isTwoX)
         {
             try
@@ -691,6 +808,16 @@ namespace ChemsonLabApp.Services.DataLoaderService
             }
         }
 
+        /// <summary>
+        /// Saves test results, evaluations, and measurements to the database.
+        /// Arranges test results, verifies batch names, and determines whether to create new records or update existing ones
+        /// based on batch type and allowed duplicate suffixes. Handles both creation and update of TestResult, Batch, BatchTestResult,
+        /// Evaluation, and Measurement entities as needed. Returns true if the operation succeeds, otherwise logs and reports errors.
+        /// </summary>
+        /// <param name="testResults">List of TestResult objects to save.</param>
+        /// <param name="evaluations">List of Evaluation objects to save.</param>
+        /// <param name="measurements">List of Measurement objects to save.</param>
+        /// <returns>True if saving is successful; otherwise, false.</returns>
         public async Task<bool> SavingDataLoader(List<TestResult> testResults, List<Evaluation> evaluations, List<Measurement> measurements)
         {
             try
@@ -734,6 +861,17 @@ namespace ChemsonLabApp.Services.DataLoaderService
             }
         }
 
+        /// <summary>
+        /// Creates and saves a new TestResult, Batch, BatchTestResult, Evaluation, and Measurement in the database.
+        /// - Persists the TestResult and retrieves its generated ID.
+        /// - Creates a new Batch record based on the TestResult and retrieves its ID.
+        /// - Links the Batch and TestResult by creating a BatchTestResult record.
+        /// - Saves all Evaluation records associated with the file and TestResult.
+        /// - Saves all Measurement records associated with the file and TestResult.
+        /// </summary>
+        /// <param name="result">The TestResult to save.</param>
+        /// <param name="evaluations">List of Evaluation objects to save.</param>
+        /// <param name="measurements">List of Measurement objects to save.</param>
         private async Task CreateNewData(TestResult result, List<Evaluation> evaluations, List<Measurement> measurements)
         {
             // Save TestResult data to database
@@ -750,6 +888,13 @@ namespace ChemsonLabApp.Services.DataLoaderService
             await CreateMeasurement(result.fileName, createdTestResult.id, measurements);
         }
 
+        /// <summary>
+        /// Creates a new Batch record in the database using the provided TestResult information.
+        /// The batch is initialized with the sampleBy, productId, batchName (converted to uppercase), and suffix from the TestResult.
+        /// Returns the created Batch object as returned by the API.
+        /// </summary>
+        /// <param name="result">The TestResult containing batch information.</param>
+        /// <returns>The created Batch object.</returns>
         private async Task<Batch> CreateBatchFunction(TestResult result)
         {
             Batch createdBatch = new Batch
@@ -764,6 +909,11 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return createdBatch;
         }
 
+        /// <summary>
+        /// Creates a new BatchTestResult record in the database linking the specified batch and test result.
+        /// </summary>
+        /// <param name="batchId">The ID of the batch to link.</param>
+        /// <param name="testResultId">The ID of the test result to link.</param>
         private async Task CreateBatchTestResultFunction(int batchId, int testResultId)
         {
             BatchTestResult batchTestResult = new BatchTestResult
@@ -775,6 +925,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             await _batchTestResultRestAPI.CreateBatchTestResultAsync(batchTestResult);
         }
 
+        /// <summary>
+        /// Creates and saves Evaluation records for the specified file and test result ID.
+        /// Filters the provided evaluations list by file name, assigns the testResultId to each,
+        /// and calls the API to persist each Evaluation.
+        /// </summary>
+        /// <param name="fileName">The file name to match evaluations.</param>
+        /// <param name="testResultId">The ID of the associated test result.</param>
+        /// <param name="evaluations">The list of Evaluation objects to process.</param>
         private async Task CreateEvaluation(string fileName, int testResultId, List<Evaluation> evaluations)
         {
             var createEvaluations = evaluations.FindAll(ev => ev.fileName == fileName);
@@ -789,6 +947,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             }
         }
 
+        /// <summary>
+        /// Creates and saves Measurement records for the specified file and test result ID.
+        /// Filters the provided measurements list by file name, assigns the testResultId to each,
+        /// and calls the API to persist each Measurement.
+        /// </summary>
+        /// <param name="fileName">The file name to match measurements.</param>
+        /// <param name="testResultId">The ID of the associated test result.</param>
+        /// <param name="measurements">The list of Measurement objects to process.</param>
         private async Task CreateMeasurement(string fileName, int testResultId, List<Measurement> measurements)
         {
             var createMeasurements = measurements.FindAll(ms => ms.fileName == fileName);
@@ -803,6 +969,15 @@ namespace ChemsonLabApp.Services.DataLoaderService
         }
 
 
+        /// <summary>
+        /// Updates existing test result, batch, evaluations, and measurements in the database.
+        /// Uses the last BatchTestResult in the provided list to determine the IDs for update operations.
+        /// Calls update methods for TestResult, Batch, Evaluation, and Measurement entities using the provided data.
+        /// </summary>
+        /// <param name="result">The TestResult object containing updated data.</param>
+        /// <param name="existingBatchTestResult">A list of existing BatchTestResult objects to determine IDs for update.</param>
+        /// <param name="evaluations">A list of Evaluation objects to update.</param>
+        /// <param name="measurements">A list of Measurement objects to update.</param>
         private async Task UpdateOldData(TestResult result, List<BatchTestResult> existingBatchTestResult, List<Evaluation> evaluations, List<Measurement> measurements)
         {
             var testResultId = existingBatchTestResult.LastOrDefault().testResult.id;
@@ -822,6 +997,12 @@ namespace ChemsonLabApp.Services.DataLoaderService
             await UpdateMeasurementData(result.fileName, testResultId, measurements);
         }
 
+        /// <summary>
+        /// Updates an existing TestResult in the database with new values from the provided result object.
+        /// Retrieves the TestResult by its ID, updates all relevant properties, and persists the changes using the API.
+        /// </summary>
+        /// <param name="result">The TestResult object containing updated values.</param>
+        /// <param name="testResultId">The ID of the TestResult to update.</param>
         private async Task UpdateTestResultData(TestResult result, int testResultId)
         {
             var existingTestResult = await _testResultRestAPI.GetTestResultByIdAsync(testResultId);
@@ -862,6 +1043,13 @@ namespace ChemsonLabApp.Services.DataLoaderService
             }
         }
 
+        /// <summary>
+        /// Updates an existing Batch in the database with new values from the provided TestResult object.
+        /// Retrieves the Batch by its ID, updates relevant properties (sampleBy, productId, batchName, suffix),
+        /// and persists the changes using the Batch REST API.
+        /// </summary>
+        /// <param name="result">The TestResult object containing updated batch information.</param>
+        /// <param name="batchId">The ID of the Batch to update.</param>
         private async Task UpdateBatchData(TestResult result, int batchId)
         {
             var existingBatch = await _batchRestAPI.GetBatchByIdAsync(batchId);
@@ -877,6 +1065,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             }
         }
 
+        /// <summary>
+        /// Updates existing Evaluation records in the database for a given test result and file name.
+        /// Retrieves all evaluations for the specified testResultId, matches them by point name with the provided evaluations list,
+        /// updates their properties, and persists the changes using the Evaluation REST API.
+        /// </summary>
+        /// <param name="fileName">The file name to match evaluations.</param>
+        /// <param name="testResultId">The ID of the associated test result.</param>
+        /// <param name="evaluations">The list of Evaluation objects containing updated data.</param>
         private async Task UpdateEvaluationsData(string fileName, int testResultId, List<Evaluation> evaluations)
         {
             string evaluationFilter = $"?testResultId={testResultId}";
@@ -916,6 +1112,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             }
         }
 
+        /// <summary>
+        /// Updates existing Measurement records in the database for a given test result and file name.
+        /// Retrieves all measurements for the specified testResultId, matches them by timeAct with the provided measurements list,
+        /// updates their properties, and persists the changes using the Measurement REST API.
+        /// </summary>
+        /// <param name="fileName">The file name to match measurements.</param>
+        /// <param name="testResultId">The ID of the associated test result.</param>
+        /// <param name="measurements">The list of Measurement objects containing updated data.</param>
         private async Task UpdateMeasurementData(string fileName, int testResultId, List<Measurement> measurements)
         {
             string measurementFilter = $"?testResultId={testResultId}";
@@ -945,6 +1149,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
 
         }
 
+        /// <summary>
+        /// Rearranges the provided list of TestResult objects by normalizing batch names and duplicating results for double batch tests.
+        /// For each result, updates the batch name based on its test type and removes any suffix.
+        /// If a batch test result contains a "+" or "-", it is treated as a double batch and split into two separate TestResult objects
+        /// with the corresponding batch names. Returns the rearranged list of TestResult objects.
+        /// </summary>
+        /// <param name="results">The list of TestResult objects to rearrange.</param>
+        /// <returns>A new list of TestResult objects with normalized and duplicated batch names as needed.</returns>
         private List<TestResult> ReArrangeTestResults(List<TestResult> results)
         {
             var testResults = new List<TestResult>();
@@ -975,6 +1187,14 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return testResults;
         }
 
+        /// <summary>
+        /// Returns the normalized batch name for a given TestResult based on its test type.
+        /// For "W/U", returns the test type as the batch name.
+        /// For "STD", returns the test type concatenated with the batch name.
+        /// For "BCH" and other types, removes any trailing alphabet from the batch name and trims whitespace.
+        /// </summary>
+        /// <param name="result">The TestResult object to process.</param>
+        /// <returns>The normalized batch name as a string.</returns>
         private string GetBatchName(TestResult result)
         {
             string batchName;
@@ -997,6 +1217,13 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return batchName;
         }
 
+        /// <summary>
+        /// Creates a duplicate of the given TestResult with a new batch name.
+        /// Copies all properties from the original TestResult, replacing the batch name with the specified newBatchName.
+        /// </summary>
+        /// <param name="result">The original TestResult to duplicate.</param>
+        /// <param name="newBatchName">The new batch name to assign to the duplicated TestResult.</param>
+        /// <returns>A new TestResult object with the updated batch name.</returns>
         private TestResult DuplicateTestResultWithNewBatchName(TestResult result, string newBatchName)
         {
             return new TestResult
@@ -1042,6 +1269,12 @@ namespace ChemsonLabApp.Services.DataLoaderService
         }
 
 
+        /// <summary>
+        /// Verifies the validity of batch names for a list of test results.
+        /// Checks for duplicate batch names, product names, and test numbers within the new input (excluding allowed suffixes),
+        /// and also checks for duplicates against existing batch names in the database (excluding certain suffixes).
+        /// Returns true if both standard and batch test names are valid; otherwise, false.
+        /// </summary>
         private async Task<bool> BatchNameVerification(List<TestResult> results)
         {
             // check if new input batch names, product name, test number are duplicated each other in the new input batch names except the suffix is 2.00min or 4.00min or Cal.
@@ -1055,6 +1288,11 @@ namespace ChemsonLabApp.Services.DataLoaderService
 
         }
 
+        /// <summary>
+        /// Verifies the validity of standard batch names within the provided test results.
+        /// Ensures that standard batch names are not duplicated within the new input and do not already exist in the database.
+        /// Returns true if valid; otherwise, false.
+        /// </summary>
         private async Task<bool> IsStandardBatchNameVerified(List<TestResult> results)
         {
             // check if new input batch names duplicated each other in the new input batch names (for the standard test type such as STD1, STD2, STD3 and so on)
@@ -1071,6 +1309,12 @@ namespace ChemsonLabApp.Services.DataLoaderService
 
         }
 
+        /// <summary>
+        /// Verifies the validity of batch test ("BCH") names within the provided test results.
+        /// Checks that all BCH test results have valid suffix formats, do not contain duplicate batch names (except for allowed suffixes),
+        /// and do not already exist in the database (except for allowed duplicate suffixes).
+        /// Returns true if all checks pass; otherwise, false.
+        /// </summary>
         private async Task<bool> IsBCHBatchNameVerified(List<TestResult> results)
         {
             var bchTestResults = results.Where(TestResults => TestResults.testType == _batchTestType).ToList();
@@ -1081,10 +1325,15 @@ namespace ChemsonLabApp.Services.DataLoaderService
             else
             {
                 return IsSuffixFormatValid(bchTestResults) && IsNewInputBCHValid(bchTestResults) && !await IsExistingBCHExisted(bchTestResults);
-
             }
         }
 
+        /// <summary>
+        /// Checks if any of the provided BCH (batch test) results already exist in the database, excluding those with allowed duplicate suffixes.
+        /// For each result, queries the database for an existing batch test result with the same batch name, product name, and test number.
+        /// If any matches are found, displays a confirmation message listing the duplicates and asks the user whether to replace them.
+        /// Returns true if the user chooses not to replace (i.e., duplicates exist and user selects "No"), otherwise false.
+        /// </summary>
         private async Task<bool> IsExistingBCHExisted(List<TestResult> bchTestResults)
         {
             // condition:
@@ -1140,6 +1389,11 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return false;
         }
 
+        /// <summary>
+        /// Checks if any of the provided standard test results already exist in the database.
+        /// For each standard batch name, queries the database for an existing batch test result with the same batch name, product name, and batch group.
+        /// If any matches are found, displays a warning and returns true; otherwise, returns false.
+        /// </summary>
         private async Task<bool> IsNewInputSTDExisted(List<TestResult> standardTestResults)
         {
             var standardBatchNames = standardTestResults.Select(TestResults => TestResults.batchName).ToList();
@@ -1158,6 +1412,10 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return false;
         }
 
+        /// <summary>
+        /// Verifies that the provided standard test results do not contain duplicate batch names within the new input.
+        /// If duplicates are found, displays a warning and returns false; otherwise, returns true.
+        /// </summary>
         private bool IsNewInputSTDVerified(List<TestResult> standardTestResults)
         {
             var standardBatchNames = standardTestResults.Select(TestResults => TestResults.batchName).ToList();
@@ -1171,6 +1429,12 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return true;
         }
 
+        /// <summary>
+        /// Checks if the provided BCH (batch test) results have valid batch names within the new input.
+        /// Duplicate batch names are not allowed within the new input, except for those with allowed duplicate suffixes
+        /// (such as "2.00min", "4.00min", or "Cal").
+        /// Returns false and shows a warning if duplicates are found; otherwise, returns true.
+        /// </summary>
         private bool IsNewInputBCHValid(List<TestResult> bchTestResults)
         {
             // check if the suffix is not 2.00min or 4.00min or Cal, duplicate batch name is not allow (check with in the new input batch names)
@@ -1194,6 +1458,11 @@ namespace ChemsonLabApp.Services.DataLoaderService
             return true;
         }
 
+        /// <summary>
+        /// Checks if the suffix format for each BCH (batch test) result is valid.
+        /// The suffix must be either empty or present in the SuffixTestAttemptPair constant dictionary.
+        /// Returns false and shows a warning if any invalid suffix is found; otherwise, returns true.
+        /// </summary>
         private bool IsSuffixFormatValid(List<TestResult> bchTestResults)
         {
             foreach (var result in bchTestResults)

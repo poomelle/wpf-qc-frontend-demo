@@ -45,6 +45,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             InitializeParameters();
         }
 
+        /// <summary>
+        /// Initializes the Products and Customers lists by loading active products and customers asynchronously.
+        /// Handles errors by displaying notifications and logging them.
+        /// Shows a loading cursor during the operation.
+        /// </summary>
         private async void InitializeParameters()
         {
             CursorUtility.DisplayCursor(true);
@@ -69,6 +74,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             }
         }
 
+        /// <summary>
+        /// Saves a customer order asynchronously. If using an existing customer, assigns the selected customer.
+        /// Otherwise, creates a new customer with the provided name and email. Then creates the customer order
+        /// and displays a notification upon success.
+        /// </summary>
         public async Task SaveCustomerOrderAsync()
         {
             Customer customer = new Customer();
@@ -85,6 +95,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.CustomerVM
             await CreateAndNotifyCustomerOrderAsync(customer);
         }
 
+        /// <summary>
+        /// Creates a customer order asynchronously for the specified customer and selected product.
+        /// Displays a success notification if the order is created successfully.
+        /// </summary>
         private async Task CreateAndNotifyCustomerOrderAsync(Customer customer)
         {
             var createdCustomerOrder = await _customerOrderService.CreateCustomerOrderAsync(customer, SelectedProduct);

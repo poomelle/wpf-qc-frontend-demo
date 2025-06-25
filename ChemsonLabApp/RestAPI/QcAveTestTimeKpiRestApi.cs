@@ -25,6 +25,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
+        /// <summary>
+        /// Retrieves all QC average test time KPI records asynchronously from the REST API.
+        /// Optional filter and sort parameters can be provided to refine the results.
+        /// </summary>
+        /// <param name="filter">A string representing filter criteria to be appended to the request URL.</param>
+        /// <param name="sort">A string representing sort criteria to be appended to the request URL.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a list of QcAveTestTimeKpi objects.</returns>
         public async Task<List<QcAveTestTimeKpi>> GetAllQcAveTestTimeKpisAsync(string filter = "", string sort = "")
         {
             List<QcAveTestTimeKpi> qcAveTestTimeKpis = new List<QcAveTestTimeKpi>();

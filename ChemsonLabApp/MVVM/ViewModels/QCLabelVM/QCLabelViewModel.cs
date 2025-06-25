@@ -62,6 +62,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             ToBatchChangeQCLabelCommand = new ToBatchChangeQCLabelCommand(this);
         }
 
+        /// <summary>
+        /// Handles logic when a product is selected in the QC Label view.
+        /// Sets the SelectedProduct property, updates BulkWeight and PaperBagWeight display strings,
+        /// and determines the default InputWeight and IsSelectedPaperBagWeight state based on available product weights.
+        /// </summary>
         public void ProductSelectionChanged(Product product)
         {
             //if (SelectedProduct == null) return;
@@ -92,7 +97,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             }
         }
 
-        // Toggle weight between bulk and paper bag function
+
+        /// <summary>
+        /// Toggles the input weight between BulkWeight and PaperBagWeight.
+        /// Updates the InputWeight and IsSelectedPaperBagWeight properties accordingly.
+        /// </summary>
         public void InputWeightToggle()
         {
             if (IsSelectedPaperBagWeight)
@@ -107,7 +116,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             }
         }
 
-        // populate QCLabel data to ObservableCollection QCLabels
+        /// <summary>
+        /// Adds QCLabel objects to the QCLabels collection based on the selected product, batch number range, and input weight.
+        /// Utilizes the IQcLabelService to generate a list of QCLabel objects and appends them to the ObservableCollection for display and further processing.
+        /// </summary>
         public void AddQCLabel()
         {
             var qCLabels = _qcLabelService.PopulateQcLabels(SelectedProduct, BatchNumberStart, BatchNumberEnd, InputWeight);
@@ -121,7 +133,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             }
         }
 
-        // Batch Name Toggle function
+
+        /// <summary>
+        /// Toggles the batch name format for a given QCLabel in the QCLabels collection.
+        /// Updates the batchName property of the specified QCLabel by generating a new batch name
+        /// using the GetNewBatchName method, and replaces the item in the ObservableCollection to trigger UI updates.
+        /// </summary>
         public void BatchNameToggle(QCLabel qcLabel)
         {
             string batchName = GetNewBatchName(qcLabel);
@@ -132,6 +149,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             QCLabels[index] = qcLabel;
         }
 
+        /// <summary>
+        /// Generates a new batch name for the specified QCLabel.
+        /// If the current batch name contains a hyphen, it trims the batch name to the prefix before the hyphen.
+        /// Otherwise, it creates a new batch name in the format "PrefixNumber - NextNumber".
+        /// </summary>
         private string GetNewBatchName(QCLabel qcLabel)
         {
             var batchName = qcLabel.batchName;
@@ -151,16 +173,25 @@ namespace ChemsonLabApp.MVVM.ViewModels.QCLabelVM
             return batchName;
         }
 
+        /// <summary>
+        /// Removes the specified QCLabel from the QCLabels collection.
+        /// </summary>
         public void RemoveQCLabel(QCLabel qcLabel)
         {
             QCLabels.Remove(qcLabel);
         }
 
+        /// <summary>
+        /// Clears all QCLabel objects from the QCLabels collection.
+        /// </summary>
         public void ClearQCLabels()
         {
             QCLabels.Clear();
         }
 
+        /// <summary>
+        /// Displays the dialog for making QC labels using the current QCLabels collection.
+        /// </summary>
         public void MakeQCLabels()
         {
             _dialogService.ShowMakeQcLabels(QCLabels.ToList());

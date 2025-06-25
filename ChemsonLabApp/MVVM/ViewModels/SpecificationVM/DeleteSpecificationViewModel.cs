@@ -31,6 +31,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.SpecificationVM
             DeletedSpecificationCommand = new DeletedSpecificationCommand(this);
         }
 
+        /// <summary>
+        /// Asynchronously deletes the current specification using the provided confirmation string.
+        /// Displays a busy cursor during the operation, shows success or error notifications,
+        /// and logs errors as appropriate.
+        /// </summary>
         public async void DeleteSpecificationAsync()
         {
             CursorUtility.DisplayCursor(true);

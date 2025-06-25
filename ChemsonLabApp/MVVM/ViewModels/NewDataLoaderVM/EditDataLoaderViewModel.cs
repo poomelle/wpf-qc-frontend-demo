@@ -51,6 +51,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
         }
 
 
+        /// <summary>
+        /// Initializes the parameters for the EditDataLoaderViewModel by loading batch and test result data.
+        /// Displays a loading cursor during the operation and handles errors by showing notifications.
+        /// </summary>
         public async void InitializeParameters()
         {
             CursorUtility.DisplayCursor(true);
@@ -74,6 +78,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Loads the batch, test result, and evaluation data for the current BatchTestResult.
+        /// Retrieves Batch, TestResult, EvaluationX (at point "X"), and EvaluationT (at point "t") asynchronously
+        /// using the IEditDataLoaderService and assigns them to the corresponding properties.
+        /// </summary>
         public async Task GetBatchAndTestResult()
         {
             Batch = await _editDataLoaderService.GetBatchInformation(BatchTestResult);
@@ -82,6 +91,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             EvaluationT = await _editDataLoaderService.GetEvaluationAtPoint(BatchTestResult, "t");
         }
 
+        /// <summary>
+        /// Updates the data loader with the current TestResult, Batch, BatchTestResult, EvaluationX, and EvaluationT.
+        /// Displays a loading cursor during the update operation, shows a success notification on completion,
+        /// and handles errors by displaying appropriate error notifications and logging them.
+        /// After the update, toggles the edit mode.
+        /// </summary>
         public async void UpdateDataLoader()
         {
             CursorUtility.DisplayCursor(true);
@@ -107,6 +122,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Toggles between edit and view modes for the data loader.
+        /// When switching to view mode, reloads the batch and test result data asynchronously.
+        /// </summary>
         public async void EditModeToggle()
         {
             EditMode = !EditMode;
@@ -117,6 +136,9 @@ namespace ChemsonLabApp.MVVM.ViewModels.NewDataLoaderVM
             }
         }
 
+        /// <summary>
+        /// Opens the delete data loader dialog for the current BatchTestResult.
+        /// </summary>
         public void PopupDeleteDataLoaderView()
         {
             var batchTestResults = new List<BatchTestResult>() { BatchTestResult };

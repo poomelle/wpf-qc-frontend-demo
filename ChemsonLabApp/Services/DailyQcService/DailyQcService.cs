@@ -35,11 +35,18 @@ namespace ChemsonLabApp.Services
             this._batchTestResultRestAPI = batchTestResultRestAPI;
             this._productRestAPI = productRestAPI;
         }
+        /// <summary>
+        /// Creates a new DailyQc entry asynchronously using the REST API.
+        /// </summary>
         public async Task<DailyQc> CreateDailyQcAsync(DailyQc dailyQc)
         {
             return await _dailyQcRestAPI.CreateDailyQcAsync(dailyQc);
         }
 
+        /// <summary>
+        /// Deletes a list of DailyQc entries asynchronously using the REST API.
+        /// Skips entries with id 0. Returns true if all deletions succeed, false otherwise.
+        /// </summary>
         public async Task<bool> DeleteDailyQcAsync(List<DailyQc> dailyQcs)
         {
             try
@@ -58,16 +65,26 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves all DailyQc entries asynchronously, with optional filter and sort parameters.
+        /// </summary>
         public async Task<List<DailyQc>> GetAllDailyQcsAsync(string filter = "", string sort = "")
         {
             return await _dailyQcRestAPI.GetAllDailyQcsAsync(filter, sort);
         }
 
+        /// <summary>
+        /// Retrieves a DailyQc entry by its ID asynchronously.
+        /// </summary>
         public async Task<DailyQc> GetDailyQcByIdAsync(int id)
         {
             return await _dailyQcRestAPI.GetDailyQcByIdAsync(id);
         }
 
+        /// <summary>
+        /// Loads DailyQc entries for today's dashboard, including in-progress and tested-today entries,
+        /// and populates additional properties such as COA, label, batch, and mixes required.
+        /// </summary>
         public async Task<List<DailyQc>> LoadTodayDashboardDailyQcAsync(string productName, string year, string month, string status)
         {
             var inProgressDailyQcs = await GetDailyQcs(productName, year, month, status);
@@ -81,6 +98,10 @@ namespace ChemsonLabApp.Services
             return dailyQcsWithCOALabelBatchMixReqd;
         }
 
+        /// <summary>
+        /// Populates the given list of DailyQc entries with last COA batch name, last label, last batch, and mixes required.
+        /// Updates flags indicating if last label and last batch are loaded.
+        /// </summary>
         public async Task<List<DailyQc>> PopulateCOALabelBatchMixReqd(List<DailyQc> dailyQcs)
         {
             CursorUtility.DisplayCursor(true);
@@ -97,7 +118,7 @@ namespace ChemsonLabApp.Services
 
                     if (!string.IsNullOrWhiteSpace(dailyQc.lastLabel)) dailyQc.isLastLabelLoaded = true;
                     if (!string.IsNullOrWhiteSpace(dailyQc.lastBatch)) dailyQc.isLastBatchLoaded = true;
-                } 
+                }
                 catch
                 {
                     continue;
@@ -108,6 +129,12 @@ namespace ChemsonLabApp.Services
             return dailyQcs;
         }
 
+        /// <summary>
+        /// Retrieves the last COA (Certificate of Analysis) batch name for the specified DailyQc entry.
+        /// If COA is required for the product, it searches for the most recent COA batch name based on the batch year and month.
+        /// Returns "Reqd" if COA is required but not found, or an empty string if not required.
+        /// Handles errors related to batch name format or missing batches gracefully.
+        /// </summary>
         public async Task<string> GetLastCoaBatchName(DailyQc dailyQc)
         {
             var coaRequired = (bool)dailyQc.product.coa;
@@ -156,6 +183,11 @@ namespace ChemsonLabApp.Services
             return lastCoaBatchName;
         }
 
+        /// <summary>
+        /// Retrieves the last tested batch name for the specified DailyQc entry.
+        /// Searches for the most recent batch test result based on the batch year and month.
+        /// Returns the batch name of the last test if found, otherwise returns an empty string.
+        /// </summary>
         public async Task<string> GetLastTest(DailyQc dailyQc)
         {
             string lastTestBatchName = "";
@@ -179,7 +211,7 @@ namespace ChemsonLabApp.Services
 
                     if (batchTestResultsByMonth.Count > 0 && batchTestResultsByMonth != null)
                     {
-                        var lastBatchTestResult = batchTestResultsByMonth.OrderByDescending(batchTestResult => 
+                        var lastBatchTestResult = batchTestResultsByMonth.OrderByDescending(batchTestResult =>
                         int.Parse(BatchUtility.RemoveTrailingAlphabetBatchName(batchTestResult.batch.batchName.Substring(3)))).FirstOrDefault();
 
                         lastTestBatchName = lastBatchTestResult.batch.batchName;
@@ -191,6 +223,12 @@ namespace ChemsonLabApp.Services
             return lastTestBatchName;
         }
 
+        /// <summary>
+        /// Retrieves the last QC label batch name for the specified DailyQc entry.
+        /// Constructs a filter using the product name, year, and month extracted from the batch name.
+        /// Queries the QC label REST API for matching labels, orders them by batch number in descending order,
+        /// and returns the batch name of the most recent label if found; otherwise, returns an empty string.
+        /// </summary>
         public async Task<string> GetDailyQcLabel(DailyQc dailyQc)
         {
             string lastQcLabelBatchName = "";
@@ -204,16 +242,21 @@ namespace ChemsonLabApp.Services
 
             if (qcLabels.Count > 0 && qcLabels != null)
             {
-                var lastQcLabel = qcLabels.OrderByDescending(qcLabel => 
+                var lastQcLabel = qcLabels.OrderByDescending(qcLabel =>
                 int.Parse(BatchUtility.RemoveTrailingAlphabetBatchName(qcLabel.batchName.Substring(3)))).FirstOrDefault();
 
                 lastQcLabelBatchName = BatchUtility.RemoveTrailingAlphabetBatchName(lastQcLabel.batchName);
             }
 
-
             return lastQcLabelBatchName;
         }
 
+        /// <summary>
+        /// Calculates the number of mixes required for a given DailyQc entry.
+        /// Considers if a standard is required and whether the product is a double batch mix ("x2" in product comment).
+        /// If double batch mix, divides total batches by 2 and rounds up, then adds standard required if applicable.
+        /// Otherwise, returns total batches plus standard required.
+        /// </summary>
         public int GetMixReqd(DailyQc dailyQc)
         {
             int stdReqd = !string.IsNullOrWhiteSpace(dailyQc.stdReqd) ? 1 : 0;
@@ -232,6 +275,12 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Calculates the total number of batches for a given DailyQc entry.
+        /// Parses the batches string, handling both individual batches and batch ranges (e.g., "25A1,25A2-4").
+        /// For batch ranges, computes the count as the difference between start and end plus one.
+        /// Returns the total count of batches.
+        /// </summary>
         private int GetTotalBatches(DailyQc dailyQc)
         {
             int totalBatches = 0;
@@ -254,6 +303,11 @@ namespace ChemsonLabApp.Services
             return totalBatches;
         }
 
+        /// <summary>
+        /// Parses a batch range string (e.g., "1-3") and returns the total number of batches in the range.
+        /// </summary>
+        /// <param name="batch">A string representing a batch range, formatted as "start-end".</param>
+        /// <returns>The total number of batches in the specified range.</returns>
         private int GetTotalBatchesFromRange(string batch)
         {
             string[] batches = batch.Split('-');
@@ -264,6 +318,10 @@ namespace ChemsonLabApp.Services
             return endBatch - startBatch + 1;
         }
 
+        /// <summary>
+        /// Retrieves all DailyQc entries that were tested today.
+        /// </summary>
+        /// <returns>A list of DailyQc entries with today's tested date.</returns>
         private async Task<List<DailyQc>> GetTestedTodayDailyQcs()
         {
             string today = DateTime.Now.ToString("yyyy-MM-dd");
@@ -271,6 +329,14 @@ namespace ChemsonLabApp.Services
             return await _dailyQcRestAPI.GetAllDailyQcsAsync(todayDailyQcFilter);
         }
 
+        /// <summary>
+        /// Retrieves DailyQc entries filtered by product name, year, month, and status.
+        /// </summary>
+        /// <param name="productName">The product name to filter by.</param>
+        /// <param name="year">The year to filter by.</param>
+        /// <param name="month">The month to filter by.</param>
+        /// <param name="status">The test status to filter by.</param>
+        /// <returns>A list of DailyQc entries matching the specified filters.</returns>
         public async Task<List<DailyQc>> GetDailyQcs(string productName, string year, string month, string status)
         {
             string modifiedProductName = productName == null || productName == "All" ? "" : productName;
@@ -282,6 +348,11 @@ namespace ChemsonLabApp.Services
             return await _dailyQcRestAPI.GetAllDailyQcsAsync(filter);
         }
 
+        /// <summary>
+        /// Updates an existing DailyQc entry asynchronously using the REST API.
+        /// </summary>
+        /// <param name="dailyQc">The DailyQc entry to update.</param>
+        /// <returns>The updated DailyQc entry.</returns>
         public async Task<DailyQc> UpdateDailyQcAsync(DailyQc dailyQc)
         {
             return await _dailyQcRestAPI.UpdateDailyQcAsync(dailyQc);
@@ -352,6 +423,12 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Validates the format of the batches string.
+        /// If the string does not contain a range ('-'), it checks if the format is valid using the utility method.
+        /// If the string contains a range, it splits the string and validates the first batch format and ensures the last batch is numeric.
+        /// Returns true if the format is valid, otherwise false.
+        /// </summary>
         private bool IsBatchesFormatValid(string batches)
         {
             // if batches is not range, check if the format is valid
@@ -370,6 +447,11 @@ namespace ChemsonLabApp.Services
             return isFirstBatchValid && isLastBatchValid;
         }
 
+        /// <summary>
+        /// Determines if the DPC (stdReqd) value has been updated for the given DailyQc entry.
+        /// Fetches the original DailyQc from the database and compares the stdReqd property.
+        /// Returns true if the value has changed, otherwise false.
+        /// </summary>
         private async Task<bool> IsDPCUpdated(DailyQc dailyQc)
         {
             var originalDailyQc = await GetDailyQcByIdAsync(dailyQc.id);
@@ -383,6 +465,11 @@ namespace ChemsonLabApp.Services
             return originalDailyQc.stdReqd != dailyQc.stdReqd;
         }
 
+        /// <summary>
+        /// Updates the DB date for the specified product in the database to the current date.
+        /// If the product is not found, shows a warning notification.
+        /// Handles and logs exceptions that may occur during the update process.
+        /// </summary>
         private async Task UpdateDBDateInProduct(DailyQc dailyQc)
         {
             // Get product from database by product id
@@ -414,6 +501,11 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Updates the "DB Date (6 mths)" column for the specified product in the "Brabender Conditions.xlsx" Excel file
+        /// to the current date. If the product row is found, the date is updated and the file is saved.
+        /// Handles and logs exceptions that may occur during the update process.
+        /// </summary>
         private async Task UpdateDBDateInExcelFile(DailyQc dailyQc)
         {
             try
@@ -450,6 +542,11 @@ namespace ChemsonLabApp.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the first Product entity that matches the specified product name using the Product REST API.
+        /// </summary>
+        /// <param name="productName">The name of the product to search for.</param>
+        /// <returns>The first matching Product, or null if no match is found.</returns>
         private async Task<Product> GetProductFromProductName(string productName)
         {
             var filter = $"?name={productName}";

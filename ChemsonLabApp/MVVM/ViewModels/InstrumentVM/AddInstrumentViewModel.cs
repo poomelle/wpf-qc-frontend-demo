@@ -31,6 +31,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             SaveNewInstrumentCommand = new SaveNewInstrumentCommand(this);
         }
 
+        /// <summary>
+        /// Adds a new instrument by calling the instrument service. 
+        /// Displays a loading cursor during the operation, shows a success notification if the instrument is created, 
+        /// and handles errors by displaying appropriate error messages and logging them.
+        /// </summary>
         public async void AddNewInstrument()
         {
             CursorUtility.DisplayCursor(true);
@@ -53,7 +58,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             {
                 CursorUtility.DisplayCursor(false);
             }
-
         }
     }
 }

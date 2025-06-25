@@ -26,7 +26,13 @@ namespace ChemsonLabApp.RestAPI
             };
         }
 
-        public async Task<List<Report>> GetAllReportAsync(string filter="", string sort = "")
+        /// <summary>
+        /// Retrieves all reports from the API with optional filter and sort parameters.
+        /// </summary>
+        /// <param name="filter">Optional filter string to apply to the request.</param>
+        /// <param name="sort">Optional sort string to apply to the request.</param>
+        /// <returns>A list of Report objects.</returns>
+        public async Task<List<Report>> GetAllReportAsync(string filter = "", string sort = "")
         {
             Reports = new List<Report>();
             string url = $"{baseUrl}{filter}{sort}";
@@ -39,6 +45,11 @@ namespace ChemsonLabApp.RestAPI
             return Reports;
         }
 
+        /// <summary>
+        /// Retrieves a report by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the report.</param>
+        /// <returns>The Report object if found; otherwise, null.</returns>
         public async Task<Report> GetReportByIdAsync(int id)
         {
             string url = $"{baseUrl}/{id}";
@@ -51,6 +62,11 @@ namespace ChemsonLabApp.RestAPI
             return Report;
         }
 
+        /// <summary>
+        /// Creates a new report by sending a POST request to the API.
+        /// </summary>
+        /// <param name="report">The Report object to create.</param>
+        /// <returns>The created Report object returned by the API.</returns>
         public async Task<Report> CreateReportAsync(Report report)
         {
             string url = $"{baseUrl}";
@@ -66,6 +82,11 @@ namespace ChemsonLabApp.RestAPI
             return Report;
         }
 
+        /// <summary>
+        /// Updates an existing report by sending a POST request to the API.
+        /// </summary>
+        /// <param name="report">The Report object with updated data.</param>
+        /// <returns>The updated Report object returned by the API.</returns>
         public async Task<Report> UpdateReportAsync(Report report)
         {
             string url = $"{baseUrl}/{report.id}";
@@ -81,6 +102,11 @@ namespace ChemsonLabApp.RestAPI
             return Report;
         }
 
+        /// <summary>
+        /// Deletes a report by its unique identifier.
+        /// </summary>
+        /// <param name="report">The Report object to delete.</param>
+        /// <returns>The deleted Report object returned by the API.</returns>
         public async Task<Report> DeleteReportAsync(Report report)
         {
             string url = $"{baseUrl}/{report.id}";

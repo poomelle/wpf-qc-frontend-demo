@@ -72,6 +72,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             this._reportService = reportService;
         }
 
+        /// <summary>
+        /// Searches for batch test results based on the selected product, batch number range, test date, test number, and suffix.
+        /// Loads the batch test results using the report service, populates the standards combo box, and calculates torque and fusion differences.
+        /// Populates the BatchTestResults collection with the results.
+        /// Displays notifications if no data is found or if an error occurs during the search.
+        /// </summary>
         public async void SearchTestResults()
         {
             CursorUtility.DisplayCursor(true);
@@ -85,18 +91,6 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
                 FusionFail = SelectedProduct.fusionFail;
 
                 var searchTestDate = TestDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-                //string testNumber = Default ? "1" :
-                //                 RS ? "2" :
-                //                 RRS ? "3" : "";
-
-                //string suffix = RS ? "RS" :
-                //                RRS ? "RRS" :
-                //                RT ? "RT" :
-                //                Remix ? "Remix" :
-                //                Min2 ? "2.00min" :
-                //                Min4 ? "4.00min" :
-                //                Cal ? "Cal" : null;
 
                 var batchTestResults = await _reportService.GetAllBatchTestResultsForMakingReport(SelectedProduct, FromBatch.ToUpper(), ToBatch.ToUpper(), searchTestDate, TestNumber, Suffix);
 
@@ -131,6 +125,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Populates the Standards combo box with standard batch names (e.g., "STD1", "STD2", ...)
+        /// based on the number of batch test results of type "STD" found in the provided list.
+        /// Clears the existing Standards list before adding new entries.
+        /// </summary>
         private void PopulateStdComboBox(List<BatchTestResult> batchTestResults)
         {
             var stdBatchTestResults = batchTestResults.Where(results => results.testResult.testType == "STD").ToList();
@@ -144,6 +143,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Populates the BatchTestResults collection with unique BatchTestResult items from the provided list.
+        /// Ensures that no duplicate BatchTestResult (by id) is added to the collection.
+        /// </summary>
         private void PopulateDataToBatchTestResults(List<BatchTestResult> batchTestResults)
         {
             foreach (var batchTestResult in batchTestResults)
@@ -155,6 +158,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Recalculates the torque and fusion differences for all batch test results of type "BCH" 
+        /// based on the currently selected standard batch (SelectedSTD). 
+        /// Updates each batch's standard reference, torqueDiff, fusionDiff, and result properties.
+        /// </summary>
         public void OnStdChangedCalculateTorAndFus()
         {
             var standardResult = BatchTestResults.FirstOrDefault(btr => btr.batch.batchName == SelectedSTD);
@@ -180,6 +188,11 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Opens the Make Report window if there are batch test results and a standard is selected.
+        /// Checks and updates evaluation results using the report service, then displays the Make Report view.
+        /// Shows a warning notification if no test results are found or no standard is selected.
+        /// </summary>
         public async void PopupMakeReportWindow()
         {
             if (BatchTestResults.Count > 0 && !string.IsNullOrWhiteSpace(SelectedSTD))
@@ -195,6 +208,10 @@ namespace ChemsonLabApp.MVVM.ViewModels.ReportVM
             }
         }
 
+        /// <summary>
+        /// Removes the specified BatchTestResult from the BatchTestResults collection.
+        /// Iterates through the collection and removes the first occurrence that matches the provided batchTestResult reference.
+        /// </summary>
         public void RemoveBatchTestResult(BatchTestResult batchTestResult)
         {
             for (int i = 0; i < BatchTestResults.Count; i++)

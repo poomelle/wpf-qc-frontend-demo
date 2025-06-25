@@ -30,8 +30,12 @@ namespace ChemsonLabApp.MVVM.ViewModels.InstrumentVM
             DeleteInstrumentCommand = new DeleteInstrumentCommand(this);
         }
 
+        /// <summary>
+        /// Deletes the specified instrument after confirming the delete action.
+        /// If the deletion is successful, a success notification is shown.
+        /// </summary>
         public async void DeleteInstrument()
-        { 
+        {
             var deletedInstrument = await _instrumentService.DeleteInstrumentAsync(Instrument, DeleteConfirm);
 
             if (deletedInstrument != null)
