@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChemsonLabApp.Services.IService
+namespace ChemsonLabApp.Services.COAService
 {
     public interface ICoaService
     {

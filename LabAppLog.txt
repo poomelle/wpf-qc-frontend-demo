@@ -190,3 +190,102 @@ Parameter name: index
    at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
 2025-06-25 7:51:54 AM: Object reference not set to an instance of an object.
    at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 36
+2025-06-28 3:16:08 AM: API Error
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 40
+2025-06-28 3:20:26 AM: API Error
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 40
+2025-06-28 5:08:49 AM: General error
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.CoaService.<GetProductTestResultReportsWithBatchRange>d__4.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 81
+2025-06-28 5:08:49 AM: API Error
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 41
+2025-06-28 5:38:30 AM: API Error for first report
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.COAService.MakeCoaService.<CreateCOAFromTestResultReportAsync>d__4.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\MakeCoaService.cs:line 49
+2025-06-28 5:38:30 AM: Creation failed for first COA
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.COAService.MakeCoaService.<CreateCOAFromTestResultReportAsync>d__4.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\MakeCoaService.cs:line 59
+2025-06-28 6:27:04 AM: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at ChemsonLabApp.Services.DailyQcService.<>c.<GetLastCoaBatchName>b__12_1(Coa coa) in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DailyQcService\DailyQcService.cs:line 167
+   at System.Linq.EnumerableSorter`2.ComputeKeys(TElement[] elements, Int32 count)
+   at System.Linq.EnumerableSorter`1.Sort(TElement[] elements, Int32 count)
+   at System.Linq.OrderedEnumerable`1.<GetEnumerator>d__1.MoveNext()
+   at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source)
+   at ChemsonLabApp.Services.DailyQcService.<GetLastCoaBatchName>d__12.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DailyQcService\DailyQcService.cs:line 166
+2025-06-28 6:53:27 AM: Test exception
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<IsExistingBCHExisted>d__54.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 1355
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<IsBCHBatchNameVerified>d__53.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 1327
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<BatchNameVerification>d__51.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 1285
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<SavingDataLoader>d__37.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 828
+2025-06-29 6:17:01 AM: API Error
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.CoaService.<CreateCOAFromTestResultReportAsync>d__3.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 41
+2025-06-29 6:17:01 AM: General error
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.CoaService.<GetProductTestResultReportsWithBatchRange>d__4.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\CoaService.cs:line 81
+2025-06-29 6:17:04 AM: Creation failed for first COA
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.COAService.MakeCoaService.<CreateCOAFromTestResultReportAsync>d__4.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\MakeCoaService.cs:line 59
+2025-06-29 6:17:04 AM: API Error for first report
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.COAService.MakeCoaService.<CreateCOAFromTestResultReportAsync>d__4.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\COAService\MakeCoaService.cs:line 49
+2025-06-29 6:17:05 AM: Test exception
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<IsExistingBCHExisted>d__54.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 1355
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<IsBCHBatchNameVerified>d__53.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 1327
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<BatchNameVerification>d__51.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 1285
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ChemsonLabApp.Services.DataLoaderService.DataLoaderService.<SavingDataLoader>d__37.MoveNext() in D:\Projects\ChemsonQC\Frontend_WPF\ChemsonLabApp\Services\DataLoaderService\DataLoaderService.cs:line 828

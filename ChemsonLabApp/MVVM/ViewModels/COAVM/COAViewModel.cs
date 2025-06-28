@@ -12,6 +12,7 @@ using ChemsonLabApp.MVVM.ViewModels.COAVM.Commands;
 using ChemsonLabApp.MVVM.ViewModels.QCLabelVM;
 using ChemsonLabApp.MVVM.Views.COA;
 using ChemsonLabApp.RestAPI;
+using ChemsonLabApp.Services.COAService;
 using ChemsonLabApp.Services.DialogService;
 using ChemsonLabApp.Services.IService;
 using ChemsonLabApp.Utilities;

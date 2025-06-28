@@ -68,7 +68,19 @@
   <ItemGroup>
     <Compile Include="ServiceTests\CoaServiceTests\CoaServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceTests\CustomerServiceTests\CustomerOrderServiceTests.cs" />
     <Compile Include="ServiceTests\CoaServiceTests\MakeCoaServiceTests.cs" />
+    <Compile Include="ServiceTests\CustomerServiceTests\CustomerViewServiceTests.cs" />
+    <Compile Include="ServiceTests\DailyQcServiceTests\DailyQcServiceTests.cs" />
+    <Compile Include="ServiceTests\DataLoaderServiceTests\DataLoaderServiceTests.cs" />
+    <Compile Include="ServiceTests\DataLoaderServiceTests\DeleteDataLoaderServiceTests.cs" />
+    <Compile Include="ServiceTests\DataLoaderServiceTests\EditDataLoaderServiceTests.cs" />
+    <Compile Include="ServiceTests\DataLoaderServiceTests\SerchDataLoaderServiceTests.cs" />
+    <Compile Include="ServiceTests\InstrumentServiceTests\InstrumentServiceTests.cs" />
+    <Compile Include="ServiceTests\ProductServiceTests\ProductServiceTests.cs" />
+    <Compile Include="ServiceTests\QcLabelServiceTests\QcLabelServiceTests.cs" />
+    <Compile Include="ServiceTests\ReportServiceTests\ReportServiceTests.cs" />
+    <Compile Include="ServiceTests\SpecificationServiceTests\SpecificationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -79,6 +91,7 @@
       <Name>ChemsonLabApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

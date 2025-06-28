@@ -1,5 +1,6 @@
 ﻿using ChemsonLabApp.MVVM.Models;
 using ChemsonLabApp.RestAPI.IRestAPI;
+using ChemsonLabApp.Services.COAService;
 using ChemsonLabApp.Services.IService;
 using ChemsonLabApp.Utilities;
 using System;
