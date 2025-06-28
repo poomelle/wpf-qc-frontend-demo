@@ -3,7 +3,9 @@
 A comprehensive laboratory management system built with WPF (.NET Framework 4.7.2) using MVVM architecture for chemical analysis and quality control operations.
 
 📋 Overview
+
 ChemsonLabApp is designed for chemical laboratory operations, providing tools for:
+
 •	Quality Control (QC) label management
 •	Certificate of Analysis (COA) generation
 •	Batch testing and data loading
